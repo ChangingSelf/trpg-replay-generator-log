@@ -1,8 +1,8 @@
 {
     "name": "trpg-replay-generator-log",
     "displayName": "TRPG Replay Generator Log",
-    "description": "Syntax highlighting for TRPG-Replay-Generator-Log language",
-    "version": "0.0.1",
+    "description": "Syntax highlighting and code snippets for TRPG-Replay-Generator-Log language",
+    "version": "0.1.0",
     "engines": {
         "vscode": "^1.67.0"
     },
