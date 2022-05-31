@@ -2,11 +2,12 @@
     "name": "trpg-replay-generator-log",
     "displayName": "TRPG Replay Generator Log",
     "description": "Syntax highlighting and code snippets for TRPG-Replay-Generator-Log language",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "engines": {
         "vscode": "^1.67.0"
     },
     "publisher": "yxChangingSelf",
+    "repository": {"url": "https://gitee.com/ChangingSelf/trpg-replay-generator-log"},
     "categories": [
         "Programming Languages","Themes","Snippets"
     ],
