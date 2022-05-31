@@ -5,6 +5,7 @@
 		{"include": "#comments"}
 		,{"include": "#dialog"}
 		,{"include": "#command"}
+		,{"include": "#error"}
 	],
 	"repository": {
 		"comments":{
@@ -43,10 +44,13 @@
 		},
 		"command":{
 			"patterns": [{
-				"name": "keyword.control",
-				"begin": "^<(set:[^>]+|background|dice|hitpoint)>",
+				"name": "entity.name.function",
+				"begin": "(?=^<(set:[^>]+|background|dice|hitpoint)>)",
 				"end":"\n",
 				"patterns": [{
+					"name": "keyword.control",
+					"match": "^<(set:[^>]+|background|dice|hitpoint)>"
+				},{
 					"name": "punctuation.colon",
 					"match": "\\B:"
 				}
@@ -63,10 +67,16 @@
 					"match": "<\\w+(\\=\\d+)?>"
 				}
 				,{
-					"name": "string.quoted.double",
+					"name": "variable.parameter",
 					"match": "\\((.+?),(\\d+),([\\d]+|NA),(\\d+)\\)"
 				}
 			]
+			}]
+		},
+		"error":{
+			"patterns": [{
+				"name": "invalid.illegal",
+				"match": "^[\\t\\ ]+$"
 			}]
 		}
 	},
