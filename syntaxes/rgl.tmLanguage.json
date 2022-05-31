@@ -43,24 +43,28 @@
 		},
 		"command":{
 			"patterns": [{
-				"name": "entity.name.type",
+				"name": "keyword.control",
 				"begin": "^<(set:[^>]+|background|dice|hitpoint)>",
 				"end":"\n",
 				"patterns": [{
-					"name": "constant.numeric.value",
-					"match": "\\b(-)?\\d+$\\b"
-				}
-				,{
-					"name": "keyword.control",
+					"name": "punctuation.colon",
 					"match": "\\B:"
 				}
 				,{
 					"name": "constant.numeric",
+					"match": "\\b(-)?\\d+$\\b"
+				}
+				,{
+					"name": "keyword.declaration.function",
+					"match": "(linear|quadratic|quadraticR|sigmoid|right|left|sincurve)"
+				}
+				,{
+					"name": "storage.type",
 					"match": "<\\w+(\\=\\d+)?>"
 				}
 				,{
 					"name": "string.quoted.double",
-					"match": "({.+})?$"
+					"match": "\\((.+?),(\\d+),([\\d]+|NA),(\\d+)\\)"
 				}
 			]
 			}]
