@@ -1,0 +1,144 @@
+{
+	"audio":{
+		"prefix": ["audio"],
+		"body": "{${1|媒体对象,\"./audio/1.ogg\",NA|};*${时间}}",
+		"description": "音效（file_or_obj）可以指定一个Audio对象，或者一个文件的路径，或者使用NA表示缺省；延迟时间（time）指这个音效相对于本小节第一帧所延迟的帧数；一个对话行可以有多个音效框；若在音效框的time数值前添加星号 * ，则本小节的总时长将受到星标时间的控制。总时长 = time + asterisk_pause。"
+	}
+
+	,"one Dice":{
+		"prefix": ["dice"],
+		"body": "<dice>:(${1:骰子描述},${2|骰子面数,100,20,10,6,4,2|},${3|检定值,NA|},${4:骰子出目})",
+		"description": "一组参数的骰子动画行"
+	}
+	,"two Dice":{
+		"prefix": ["dice2"],
+		"body": "<dice>:(${1:骰子描述},${2|骰子面数,100,20,10,6,4,2|},${3|检定值,NA|},${4:骰子出目}),(${5:骰子描述},${6|骰子面数,100,20,10,6,4,2|},${7|检定值,NA|},${8:骰子出目})",
+		"description": "两组参数的骰子动画行"
+	}
+	,"three Dice":{
+		"prefix": ["dice3"],
+		"body": "<dice>:(${1:骰子描述},${2|骰子面数,100,20,10,6,4,2|},${3|检定值,NA|},${4:骰子出目}),(${5:骰子描述},${6|骰子面数,100,20,10,6,4,2|},${7|检定值,NA|},${8:骰子出目}),(${9:骰子描述},${10|骰子面数,100,20,10,6,4,2|},${11|检定值,NA|},${12:骰子出目})",
+		"description": "三组参数的骰子动画行"
+	}
+	,"four Dice":{
+		"prefix": ["dice4"],
+		"body": "<dice>:(${1:骰子描述},${2|骰子面数,100,20,10,6,4,2|},${3|检定值,NA|},${4:骰子出目}),(${5:骰子描述},${6|骰子面数,100,20,10,6,4,2|},${7|检定值,NA|},${8:骰子出目}),(${9:骰子描述},${10|骰子面数,100,20,10,6,4,2|},${11|检定值,NA|},${12:骰子出目}),(${13:骰子描述},${14|骰子面数,100,20,10,6,4,2|},${15|检定值,NA|},${16:骰子出目})",
+		"description": "四组参数的骰子动画行"
+	}
+
+
+	,"hit point":{
+		"prefix": ["hp","hitpoint"],
+		"body": "<hitpoint>:(${1:显示的文字},${2:HP上限},${3:变化前的生命值},${4:变化后的生命值})",
+		"description": "<hitpoint>:(显示的文字,总生命值,变化前的生命值,变化后的生命值)"
+	}
+
+
+
+	
+	,"background cross":{
+		"prefix": ["bgcr","background black"],
+		"body": "<background><cross=30>:${1|背景媒体,white,black|}",
+		"description": "交叉溶解，新的背景会逐渐覆盖原背景，参数是整个渐变的时长，单位为帧"
+	}
+	,"background black":{
+		"prefix": ["bgb","background black"],
+		"body": "<background><black=30>:${1|背景媒体,white,black|}",
+		"description": "黑场，原背景先隐入黑场，然后新背景再逐渐出现，参数是整个渐变的时长，单位为帧"
+	}
+	,"background white":{
+		"prefix": ["bgw","background white"],
+		"body": "<background><white=30>:${1|背景媒体,white,black|}",
+		"description": "白场，原背景先隐入白场，然后新背景再逐渐出现，参数是整个渐变的时长，单位为帧"
+	}
+	,"background replace":{
+		"prefix": ["bgr","background replace"],
+		"body": "<background><replace=0>:${1|背景媒体,white,black|}",
+		"description": "替换，瞬间替换，参数是替换发生后的停顿时间。参数是整个渐变的时长，单位为帧，默认值是replace=0"
+	}
+	,"background delay":{
+		"prefix": ["bgd","background delay"],
+		"body": "<background><delay=0>:${1|背景媒体,white,black|}",
+		"description": "延时，延后替换，参数是替换发生前的延迟时间，单位为帧"
+	}
+	,"background push":{
+		"prefix": ["bgp","background push"],
+		"body": "<background><push=0>:${1|背景媒体,white,black|}",
+		"description": "推，新立绘从右侧进入画面，将旧立绘推出画面，参数是整个动画的持续时间，单位为帧"
+	}
+	,"background cover":{
+		"prefix": ["bgcv","background cover"],
+		"body": "<background><cover=0>:${1|背景媒体,white,black|}",
+		"description": "覆盖，新立绘从右侧进入画面，覆盖在旧立绘上层，参数是整个动画的持续时间，单位为帧"
+	}
+
+
+
+
+	,"set am_method_default":{
+		"prefix": ["set am_method_default"],
+		"body": "<set:am_method_default>:<${1|透明度变化，分别对应：瞬间出现（默认值），延后出现，淡入淡出；,replace,delay,black,切换动态，分别对应：静止（默认值），跳起，通过，圆周运动（实验功能）；,static,leap,pass,circular,切入角度，分别对应：上（默认值），下，左，右，指定角度（12点方向的逆时针角度）；,up,down,left,right,DG[int],运动尺度，分别对应：长距离（默认值），短距离，全屏水平，指定长度（像素）；,major,minor,entire,[int],效果应用于，分别对应：双端（默认值），仅切入，仅切出。,both,in,out|}=${2:0}>",
+		"description": "立绘的默认切换方法，初始值是：`<replace=0>`。当对话行中缺省 *切换效果修饰符* 时，则使用该默认值；"
+	}
+	,"set am_dur_default":{
+		"prefix": ["set am_dur_default"],
+		"body": "<set:am_dur_default>:${1:10}",
+		"description": "立绘的默认切换时间，初始值是：10，单位是帧。当对话行的 *切换效果修饰符* 中未指定时间，则使用该默认值；"
+	}
+	,"set bb_method_default":{
+		"prefix": ["set bb_method_default"],
+		"body": "<set:bb_method_default>:<${1|透明度变化，分别对应：瞬间出现（默认值），延后出现，淡入淡出；,replace,delay,black,切换动态，分别对应：静止（默认值），跳起，通过，圆周运动（实验功能）；,static,leap,pass,circular,切入角度，分别对应：上（默认值），下，左，右，指定角度（12点方向的逆时针角度）；,up,down,left,right,DG[int],运动尺度，分别对应：长距离（默认值），短距离，全屏水平，指定长度（像素）；,major,minor,entire,[int],效果应用于，分别对应：双端（默认值），仅切入，仅切出。,both,in,out|}=${2:0}>",
+		"description": "气泡的默认切换方法，初始值是：`<replace=0>`。当对话行中缺省 *切换效果修饰符* 时，则使用该默认值；"
+	}
+	,"set bb_dur_default":{
+		"prefix": ["set bb_dur_default"],
+		"body": "<set:bb_dur_default>:${1:10}",
+		"description": "气泡的默认切换时间，初始值是：10，单位是帧。当对话行的 *切换效果修饰符* 中未指定时间，则使用该默认值；例如 `<replace>`，等价于`<replace=10>`"
+	}
+	,"set bg_method_default":{
+		"prefix": ["set bg_method_default"],
+		"body": "<set:bg_method_default>:<${1|replace,cross,black,white,delay,push,cover|}=${2:0}>",
+		"description": "背景的默认展示方法，初始值是：`<replace=0>`。当背景行中缺省 *切换效果修饰符* 时，则使用该默认值；"
+	}
+	,"set bg_dur_default":{
+		"prefix": ["set bg_dur_default"],
+		"body": "<set:bg_dur_default>:${1:10}",
+		"description": "背景默认展示时间，初始值是：10，单位是帧。当背景行的 *切换效果修饰符* 中未指定时间，则使用该默认值。例如 `<replace>`，等价于`<replace=10>`"
+	}
+	,"set tx_method_default":{
+		"prefix": ["set tx_method_default"],
+		"body": "<set:tx_method_default>:<${1|all,w2w,l2l|}=${2:1}>",
+		"description": "默认文本展示方法，初始值是：`<all=1>`。当对话行中缺省 *文本效果修饰符* 时，使用该默认值。可选的选项有 `all、w2w、l2l`；例如 `[name]:talk` ，等价于 `[name]<replace=0>:talk<all=1>`"
+	}
+	,"set tx_dur_default":{
+		"prefix": ["set tx_dur_default"],
+		"body": "<set:tx_dur_default>:${1:5}",
+		"description": "默认文本展示时间，初始值是：5，单位是帧。当对话行的`<文本效果修饰符>`中未指定时间，则使用该默认值；例如 `<l2l>`，等价于 `<l2l=8>`。"
+	}
+	,"set speech_speed":{
+		"prefix": ["set speech_speed"],
+		"body": "<set:speech_speed>:${1:220}",
+		"description": "语速，初始值是：220，单位是 words/min。语速将影响每个小节的持续时间，当小节没有指定星标音频的时候。"
+	}
+	,"set asterisk_pause":{
+		"prefix": ["set asterisk_pause"],
+		"body": "<set:asterisk_pause>:${1:20}",
+		"description": "星标音频的间隔时间，初始值是：20，单位是帧。asterisk_pause 仅能通过 *设置行* 进行设置，会应用于之后所有的星标音频。"
+	}
+	,"set secondary_alpha":{
+		"prefix": ["set secondary_alpha"],
+		"body": "<set:secondary_alpha>:${1:60}",
+		"description": "次要立绘的透明度，初始值是：60，单位是百分之。当对话行的角色框里未给角色指定透明度，则除了第一立绘以外，剩余角色立绘使用该默认值作为透明度。"
+	}
+	,"set BGM":{
+		"prefix": ["set BGM"],
+		"body": "<set:BGM>:${1|BGM媒体,'./BGM/test.ogg',stop|}",
+		"description": "背景音乐。使用`<set:BGM>`: 设置背景音乐时，需要指定一个BGM对象，或一个.ogg音频文件的路径；`<set:BGM>:stop` 可以终止背景音乐的播放。背景音乐的设置在下一个 *对话行* 或 *内建动画行* 的第一帧生效。"
+	}
+	,"set formula":{
+		"prefix": ["set formula"],
+		"body": "<set:formula>:${1|linear,quadratic,quadraticR,sigmoid,sincurve,left,right|}",
+		"description": "切换效果的曲线函数，初始值是：linear，即线性。目前可用的formula包括 `linear(线性)、quadratic(二次)、quadraticR(二次反向)、sigmoid(S型)、sincurve(正弦)、left(左锋)和right(右峰)`；formula可以接受 lambda函数 形式定义的自定义函数，自定义函数需要以 `(begin,end,duration)` 为参数；formula仅能通过 *设置行* 进行设置，会应用于之后所有的切换效果。"
+	}
+
+}
