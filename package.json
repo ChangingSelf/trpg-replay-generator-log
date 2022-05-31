@@ -1,0 +1,32 @@
+{
+    "name": "trpg-replay-generator-log",
+    "displayName": "TRPG Replay Generator Log",
+    "description": "Syntax highlighting for TRPG-Replay-Generator-Log language",
+    "version": "0.0.1",
+    "engines": {
+        "vscode": "^1.67.0"
+    },
+    "categories": [
+        "Programming Languages","Themes"
+    ],
+    "contributes": {
+        "languages": [{
+            "id": "rgl",
+            "aliases": ["rgl", "rgl"],
+            "extensions": [".rgl"],
+            "configuration": "./language-configuration.json"
+        }],
+        "grammars": [{
+            "language": "rgl",
+            "scopeName": "source.rgl",
+            "path": "./syntaxes/rgl.tmLanguage.json"
+        }],
+        "themes": [
+            {
+                "label": "rgl theme",
+                "uiTheme": "vs-dark",
+                "path": "./themes/rgl theme-color-theme.json"
+            }
+        ]
+    }
+}

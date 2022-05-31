@@ -1,0 +1,71 @@
+{
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"name": "rgl",
+	"patterns": [
+		{"include": "#comments"}
+		,{"include": "#dialog"}
+		,{"include": "#command"}
+	],
+	"repository": {
+		"comments":{
+			"patterns": [{
+				"name": "comment.line.rgl",
+				"match": "^#.+$"
+			}]
+		},
+		"dialog":{
+			"patterns": [{
+				"name": "variable.other.rgl",
+				"begin": "^\\[([\\ \\w\\.\\;\\(\\)\\,]+)\\]",
+				"end":"\n",
+				"patterns": [{
+					"name": "keyword.control.rgl",
+					"match": "\\B:"
+				}
+				,{
+					"name": "invalid.deprecated.rgl",
+					"match": "(\\^|#)"
+				}
+				,{
+					"name": "constant.numeric.rgl",
+					"match": "<\\w+(\\=\\d+)?>"
+				}
+				,{
+					"name": "string.quoted.double.rgl",
+					"match": "({.+})?$"
+				}
+				,{
+					"name": "variable.parameter.rgl",
+					"match": "^\\[([\\ \\w\\.\\;\\(\\)\\,]+)\\]"
+				}
+			]
+			}]
+		},
+		"command":{
+			"patterns": [{
+				"name": "entity.name.type.rgl",
+				"begin": "^<(set:[^>]+|background|dice|hitpoint)>",
+				"end":"\n",
+				"patterns": [{
+					"name": "constant.numeric.value.rgl",
+					"match": "\\b(-)?\\d+$\\b"
+				}
+				,{
+					"name": "keyword.control.rgl",
+					"match": "\\B:"
+				}
+				,{
+					"name": "constant.numeric.rgl",
+					"match": "<\\w+(\\=\\d+)?>"
+				}
+				,{
+					"name": "string.quoted.double.rgl",
+					"match": "({.+})?$"
+				}
+			]
+			}]
+		}
+	},
+	
+	"scopeName": "source.rgl"
+}
