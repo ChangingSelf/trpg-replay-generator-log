@@ -9,57 +9,57 @@
 	"repository": {
 		"comments":{
 			"patterns": [{
-				"name": "comment.line.rgl",
+				"name": "comment.line",
 				"match": "^#.+$"
 			}]
 		},
 		"dialog":{
 			"patterns": [{
-				"name": "variable.other.rgl",
-				"begin": "^\\[([\\ \\w\\.\\;\\(\\)\\,]+)\\]",
+				"name": "entity.name.function",
+				"begin": "(?=^\\[)",
 				"end":"\n",
 				"patterns": [{
-					"name": "keyword.control.rgl",
+					"name": "variable.parameter",
+					"match": "^\\[([\\ \\w\\.\\;\\(\\)\\,]+)\\]"
+				}
+				,{
+					"name": "punctuation.colon",
 					"match": "\\B:"
 				}
 				,{
-					"name": "invalid.deprecated.rgl",
+					"name": "keyword.operator",
 					"match": "(\\^|#)"
 				}
 				,{
-					"name": "constant.numeric.rgl",
+					"name": "storage.type",
 					"match": "<\\w+(\\=\\d+)?>"
 				}
 				,{
-					"name": "string.quoted.double.rgl",
+					"name": "string.quoted.double",
 					"match": "({.+})?$"
-				}
-				,{
-					"name": "variable.parameter.rgl",
-					"match": "^\\[([\\ \\w\\.\\;\\(\\)\\,]+)\\]"
 				}
 			]
 			}]
 		},
 		"command":{
 			"patterns": [{
-				"name": "entity.name.type.rgl",
+				"name": "entity.name.type",
 				"begin": "^<(set:[^>]+|background|dice|hitpoint)>",
 				"end":"\n",
 				"patterns": [{
-					"name": "constant.numeric.value.rgl",
+					"name": "constant.numeric.value",
 					"match": "\\b(-)?\\d+$\\b"
 				}
 				,{
-					"name": "keyword.control.rgl",
+					"name": "keyword.control",
 					"match": "\\B:"
 				}
 				,{
-					"name": "constant.numeric.rgl",
+					"name": "constant.numeric",
 					"match": "<\\w+(\\=\\d+)?>"
 				}
 				,{
-					"name": "string.quoted.double.rgl",
+					"name": "string.quoted.double",
 					"match": "({.+})?$"
 				}
 			]
