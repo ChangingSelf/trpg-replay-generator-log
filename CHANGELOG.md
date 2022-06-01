@@ -4,6 +4,10 @@ All notable changes to the "trpg-replay-generator-log" extension will be documen
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## 0.1.2
+
+- 添加了插件的图标
+
 ## 0.1.1
 
 - 修复代码片段“audio”占位符的错误
