@@ -1,12 +1,12 @@
 {
 	"audio":{
-		"prefix": ["audio"],
+		"prefix": ["audio","aa"],
 		"body": "{${1|媒体对象,\"./audio/1.ogg\",NA|};*${2:时间}}",
 		"description": "音效（file_or_obj）可以指定一个Audio对象，或者一个文件的路径，或者使用NA表示缺省；延迟时间（time）指这个音效相对于本小节第一帧所延迟的帧数；一个对话行可以有多个音效框；若在音效框的time数值前添加星号 * ，则本小节的总时长将受到星标时间的控制。总时长 = time + asterisk_pause。"
 	}
 
 	,"one Dice":{
-		"prefix": ["dice"],
+		"prefix": ["dice","dice1"],
 		"body": "<dice>:(${1:骰子描述},${2|骰子面数,100,20,10,6,4,2|},${3|检定值,NA|},${4:骰子出目})",
 		"description": "一组参数的骰子动画行"
 	}
@@ -37,38 +37,38 @@
 
 	
 	,"background cross":{
-		"prefix": ["bgcr","background black"],
-		"body": "<background><cross=30>:${1|背景媒体,white,black|}",
+		"prefix": ["bgcr","background cross"],
+		"body": "<background><cross=${1:30}>:${2|背景媒体,white,black|}",
 		"description": "交叉溶解，新的背景会逐渐覆盖原背景，参数是整个渐变的时长，单位为帧"
 	}
 	,"background black":{
 		"prefix": ["bgb","background black"],
-		"body": "<background><black=30>:${1|背景媒体,white,black|}",
+		"body": "<background><black=${1:30}>:${2|背景媒体,white,black|}",
 		"description": "黑场，原背景先隐入黑场，然后新背景再逐渐出现，参数是整个渐变的时长，单位为帧"
 	}
 	,"background white":{
 		"prefix": ["bgw","background white"],
-		"body": "<background><white=30>:${1|背景媒体,white,black|}",
+		"body": "<background><white=${1:30}>:${2|背景媒体,white,black|}",
 		"description": "白场，原背景先隐入白场，然后新背景再逐渐出现，参数是整个渐变的时长，单位为帧"
 	}
 	,"background replace":{
 		"prefix": ["bgr","background replace"],
-		"body": "<background><replace=0>:${1|背景媒体,white,black|}",
+		"body": "<background><replace=${1:0}>:${2|背景媒体,white,black|}",
 		"description": "替换，瞬间替换，参数是替换发生后的停顿时间。参数是整个渐变的时长，单位为帧，默认值是replace=0"
 	}
 	,"background delay":{
 		"prefix": ["bgd","background delay"],
-		"body": "<background><delay=0>:${1|背景媒体,white,black|}",
+		"body": "<background><delay=${1:0}>:${2|背景媒体,white,black|}",
 		"description": "延时，延后替换，参数是替换发生前的延迟时间，单位为帧"
 	}
 	,"background push":{
 		"prefix": ["bgp","background push"],
-		"body": "<background><push=0>:${1|背景媒体,white,black|}",
+		"body": "<background><push=${1:0}>:${2|背景媒体,white,black|}",
 		"description": "推，新立绘从右侧进入画面，将旧立绘推出画面，参数是整个动画的持续时间，单位为帧"
 	}
 	,"background cover":{
 		"prefix": ["bgcv","background cover"],
-		"body": "<background><cover=0>:${1|背景媒体,white,black|}",
+		"body": "<background><cover=${1:0}>:${2|背景媒体,white,black|}",
 		"description": "覆盖，新立绘从右侧进入画面，覆盖在旧立绘上层，参数是整个动画的持续时间，单位为帧"
 	}
 
