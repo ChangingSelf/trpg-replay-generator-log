@@ -1,41 +1,40 @@
 {
-    "name": "trpg-replay-generator-log",
-    "displayName": "TRPG Replay Generator Log",
-    "description": "Syntax highlighting and code snippets for TRPG-Replay-Generator-Log language",
-    "version": "0.2.2",
-    "engines": {
-        "vscode": "^1.67.0"
-    },
-    "publisher": "yxChangingSelf",
-    "repository": {"url": "https://gitee.com/ChangingSelf/trpg-replay-generator-log"},
-    "categories": [
-        "Programming Languages","Themes","Snippets"
-    ],
-    "icon": "images/icon.png",
-    "contributes": {
-        "languages": [{
-            "id": "rgl",
-            "aliases": ["rgl", "rgl"],
-            "extensions": [".rgl"],
-            "configuration": "./language-configuration.json"
-        }]
-        ,"grammars": [{
-            "language": "rgl",
-            "scopeName": "source.rgl",
-            "path": "./syntaxes/rgl.tmLanguage.json"
-        }]
-        ,"themes": [
-            {
-                "label": "rgl theme",
-                "uiTheme": "vs-dark",
-                "path": "./themes/rgl theme-color-theme.json"
-            }
-        ]
-        ,"snippets": [
-            {
-              "language": "rgl",
-              "path": "./snippets.json"
-            }
-          ]
+  "name": "trpg-replay-generator-log",
+	"displayName": "TRPG Replay Generator Log",
+	"description": "Syntax highlighting and code snippets for TRPG-Replay-Generator-Log language",
+	"version": "0.0.1",
+	"engines": {
+		"vscode": "^1.67.0"
+	},
+	"categories": [
+		"Other"
+	],
+	"activationEvents": [
+        "onCommand:trpg-replay-generator-log.helloWorld"
+	],
+	"main": "./extension.js",
+	"contributes": {
+		"commands": [{
+            "command": "trpg-replay-generator-log.helloWorld",
+            "title": "Hello World"
+
+		}]
+	},
+	"scripts": {
+		"lint": "eslint .",
+		"pretest": "npm run lint",
+		"test": "node ./test/runTest.js"
+	},
+	"devDependencies": {
+        "@types/vscode": "^1.67.0",
+        "@types/glob": "^7.2.0",
+        "@types/mocha": "^9.1.1",
+        "@types/node": "16.x",
+        "eslint": "^8.16.0",
+        "glob": "^8.0.3",
+        "mocha": "^10.0.0",
+        "typescript": "^4.7.2",
+        "@vscode/test-electron": "^2.1.3"
     }
+
 }
