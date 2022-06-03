@@ -5,6 +5,11 @@
 格式基于[维护更新日志（Keep a Changelog）](https://keepachangelog.com/en/1.0.0/)，
 并且该项目遵循 [语义版本控制（Semantic Versioning）](https://semver.org/spec/v2.0.0.html)。
 
+## [0.2.2] - 2022-06-03
+
+- 对话行语法的检测更加严格，超过三个PC名或者将透明度括号写在差分后面的情况现在会标红
+
+
 ## [0.2.1] - 2022-06-01
 
 - 修复rgl主题的白色过于晃眼的bug，改为了灰色
