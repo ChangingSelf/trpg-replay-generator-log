@@ -141,4 +141,35 @@
 		"description": "切换效果的曲线函数，初始值是：linear，即线性。目前可用的formula包括 `linear(线性)、quadratic(二次)、quadraticR(二次反向)、sigmoid(S型)、sincurve(正弦)、left(左锋)和right(右峰)`；formula可以接受 lambda函数 形式定义的自定义函数，自定义函数需要以 `(begin,end,duration)` 为参数；formula仅能通过 *设置行* 进行设置，会应用于之后所有的切换效果。"
 	}
 
+
+
+	,"regex angle brackets":{
+		"prefix": ["regex angle brackets"],
+		"body": [
+			"查找：<(.*?)>",
+			"替换：[\\$1]:",
+			"Ctrl+H调出替换面板，Alt+R打开正则表达式开关（如果已经开了就不用再开一次），把查找和替换的内容分别复制进去，接着替换。替换完删除自动添加的这几行即可。"
+		],
+		"description": "将跑团记录着色器得到的尖括号替换为方括号与冒号，例如“<KP>”替换为“[KP]:”。"
+	}
+	,"regex pending asterisk marks":{
+		"prefix": ["regex pending asterisk marks"],
+		"body": [
+			"查找：(\\[.*?\\].*?)\\n",
+			"替换：\\$1{*}\\n",
+			"Ctrl+H调出替换面板，Alt+R打开正则表达式开关（如果已经开了就不用再开一次），把查找和替换的内容分别复制进去，接着替换。替换完删除自动添加的这几行即可。"
+		],
+		"description": "批量给对话行末尾添加待处理星标“{*}”。"
+	}
+	,"regex sound effect":{
+		"prefix": ["regex sound effect"],
+		"body": [
+			"查找：(\\[骰娘\\]:.*?)\\n",
+			"替换：\\$1{掷骰音效}\\n",
+			"Ctrl+H调出替换面板，Alt+R打开正则表达式开关（如果已经开了就不用再开一次），把查找和替换的内容分别复制进去，接着替换。替换完删除自动添加的这几行即可。"
+		],
+		"description": "给某个特定角色对话行末尾加特定音效。示例当中的“骰娘”和“掷骰音效”可改为你自己的角色和音效名。"
+	}
+	
+
 }
