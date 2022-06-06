@@ -8,7 +8,7 @@ function estimateDuration(text){
 	if(!text) return 0;
 	const FRAME_PER_SECOND = 30;//每秒多少帧
 	const DICE_ANIMATION_DUR = 5;//骰子动画时长，单位：秒
-	const HP_ANIMATION_DUR = 5;//HP动画时长，单位：秒
+	const HP_ANIMATION_DUR = 4;//HP动画时长，单位：秒
 	let speechSpeed = 220;//语速，初始值是：220，单位是 words/min。当对话行中没有指定星标音频的时候，语速将影响该小节的总时长，总时长 = 发言文本长度 / speech_speed。
 	let asteriskPause = 20/FRAME_PER_SECOND;
 	
@@ -145,7 +145,7 @@ function rglCount(){
 	
 	vscode.window.showInformationMessage(`角色(${pc.size})：${[...pc].join(",")}`);
 	vscode.window.showInformationMessage(`背景(${bg.size})：${[...bg].join(",")}`);
-	vscode.window.showInformationMessage(`对话行：${dialogLineCount}，预计视频时长：${minute}分${second}秒`);
+	vscode.window.showInformationMessage(`对话行行数：${dialogLineCount}，预计视频时长：${minute}分${second}秒`);
 	
 }
 
