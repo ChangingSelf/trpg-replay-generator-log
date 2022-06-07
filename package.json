@@ -1,5 +1,5 @@
 {
-	"name": "trpg-replay-generator-log",
+  "name": "trpg-replay-generator-log",
 	"displayName": "TRPG Replay Generator Log",
 	"description": "Syntax highlighting and code snippets for TRPG-Replay-Generator-Log language",
 	"version": "0.4.1",
@@ -14,59 +14,70 @@
 	"icon": "images/icon.png",
 	"activationEvents": [
         "onCommand:trpg-replay-generator-log.helloWorld"
-        ,"onCommand:trpg-replay-generator-log.count"
+		,"onCommand:trpg-replay-generator-log.count"
 	],
-	"main": "./src/extension.js",
+	"main": "./dist/extension.js",
 	"contributes": {
-		"commands": [{
-            "command": "trpg-replay-generator-log.helloWorld",
-            "title": "Hello World"
-		}
-        ,{
-            "command": "trpg-replay-generator-log.count",
-            "title": "RGL Count"
-        }
-        ]
-		,"languages": [{
-            "id": "rgl",
-            "aliases": ["rgl", "rgl"],
-            "extensions": [".rgl"],
-            "configuration": "./language-configuration.json"
-        }]
-        ,"grammars": [{
-            "language": "rgl",
-            "scopeName": "source.rgl",
-            "path": "./syntaxes/rgl.tmLanguage.json"
-        }]
-        ,"themes": [
-            {
-                "label": "rgl theme",
-                "uiTheme": "vs-dark",
-                "path": "./themes/rgl theme-color-theme.json"
-            }
-        ]
-        ,"snippets": [
-            {
-              "language": "rgl",
-              "path": "./snippets.json"
-            }
-          ]
+		"commands": [
+			{
+				"command": "trpg-replay-generator-log.helloWorld",
+				"title": "Hello World"
+			}
+			,{
+				"command": "trpg-replay-generator-log.count",
+				"title": "RGL Count"
+			}
+			]
+			,"languages": [{
+				"id": "rgl",
+				"aliases": ["rgl", "rgl"],
+				"extensions": [".rgl"],
+				"configuration": "./language-configuration.json"
+			}]
+			,"grammars": [{
+				"language": "rgl",
+				"scopeName": "source.rgl",
+				"path": "./syntaxes/rgl.tmLanguage.json"
+			}]
+			,"themes": [
+				{
+					"label": "rgl theme",
+					"uiTheme": "vs-dark",
+					"path": "./themes/rgl theme-color-theme.json"
+				}
+			]
+			,"snippets": [
+				{
+				  "language": "rgl",
+				  "path": "./snippets.json"
+				}
+		]
 	},
 	"scripts": {
-		"lint": "eslint .",
-		"pretest": "npm run lint",
-		"test": "node ./test/runTest.js"
+		"vscode:prepublish": "npm run package",
+		"compile": "webpack",
+		"watch": "webpack --watch",
+		"package": "webpack --mode production --devtool hidden-source-map",
+		"compile-tests": "tsc -p . --outDir out",
+		"watch-tests": "tsc -p . -w --outDir out",
+		"pretest": "npm run compile-tests && npm run compile && npm run lint",
+		"lint": "eslint src --ext ts",
+		"test": "node ./out/test/runTest.js"
 	},
 	"devDependencies": {
-        "@types/vscode": "^1.67.0",
-        "@types/glob": "^7.2.0",
-        "@types/mocha": "^9.1.1",
-        "@types/node": "16.x",
-        "eslint": "^8.16.0",
-        "glob": "^8.0.3",
-        "mocha": "^10.0.0",
-        "typescript": "^4.7.2",
-        "@vscode/test-electron": "^2.1.3"
-    }
-
+		"@types/vscode": "^1.67.0",
+		"@types/glob": "^7.2.0",
+		"@types/mocha": "^9.1.1",
+		"@types/node": "16.x",
+		"@typescript-eslint/eslint-plugin": "^5.27.0",
+		"@typescript-eslint/parser": "^5.27.0",
+		"eslint": "^8.16.0",
+		"glob": "^8.0.3",
+		"mocha": "^10.0.0",
+		"typescript": "^4.7.2",
+		"ts-loader": "^9.3.0",
+		"webpack": "^5.72.1",
+		"webpack-cli": "^4.9.2",
+		"@vscode/test-electron": "^2.1.3"
+	}
 }
