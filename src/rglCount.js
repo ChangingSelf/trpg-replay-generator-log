@@ -4,7 +4,7 @@ const { Console } = require('console');
 const vscode = require('vscode');
 
 //预估生成的视频的时长，单位：秒
-function estimateDuration(text){
+export function estimateDuration(text){
 	if(!text) return 0;
 	const FRAME_PER_SECOND = 30;//每秒多少帧
 	const DICE_ANIMATION_DUR = 5;//骰子动画时长，单位：秒
@@ -80,7 +80,7 @@ function estimateDuration(text){
 
 
 //统计
-function rglCount(){
+export function rglCount(){
 	let editor = vscode.window.activeTextEditor;
 	if(!editor) {
 		vscode.window.showInformationMessage('请选中某个文件');
@@ -150,40 +150,3 @@ function rglCount(){
 }
 
 
-// this method is called when your extension is activated
-// your extension is activated the very first time the command is executed
-
-/**
- * @param {vscode.ExtensionContext} context
- */
-function activate(context) {
-
-	// Use the console to output diagnostic information (console.log) and errors (console.error)
-	// This line of code will only be executed once when your extension is activated
-	console.log('Congratulations, your extension "trpg-replay-generator-log" is now active!');
-
-	// The command has been defined in the package.json file
-	// Now provide the implementation of the command with  registerCommand
-	// The commandId parameter must match the command field in package.json
-	let disposable = vscode.commands.registerCommand('trpg-replay-generator-log.helloWorld',function () {
-		// The code you place here will be executed every time your command is executed
-		
-		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello World from TRPG Replay Generator Log!');
-	});
-
-	let count = vscode.commands.registerCommand('trpg-replay-generator-log.count',rglCount);
-
-
-
-	context.subscriptions.push(disposable);
-	context.subscriptions.push(count);
-}
-
-// this method is called when your extension is deactivated
-function deactivate() {}
-
-module.exports = {
-	activate,
-	deactivate
-}
