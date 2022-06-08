@@ -2,7 +2,7 @@
   "name": "trpg-replay-generator-log",
 	"displayName": "TRPG Replay Generator Log",
 	"description": "Syntax highlighting and code snippets for TRPG-Replay-Generator-Log language",
-	"version": "0.6.0",
+	"version": "0.7.0",
 	"engines": {
 		"vscode": "^1.67.0"
 	},
@@ -18,6 +18,7 @@
 		,"onCommand:trpg-replay-generator-log.replaceAngleBrackets"
 		,"onCommand:trpg-replay-generator-log.addAsteriskMarks"
 		,"onCommand:trpg-replay-generator-log.addSoundEffectsInBatches"
+		,"onCommand:trpg-replay-generator-log.playVideo"
 	],
 	"main": "./dist/extension.js",
 	"contributes": {
@@ -41,6 +42,10 @@
 			,{
 				"command": "trpg-replay-generator-log.addSoundEffectsInBatches",
 				"title": "TRGL: Add Sound Effects In Batches"
+			}
+			,{
+				"command": "trpg-replay-generator-log.playVideo",
+				"title": "TRGL: Play Video"
 			}
 			]
 			,"languages": [{
@@ -66,7 +71,111 @@
 					"language": "rgl",
 					"path": "./snippets.json"
 				}
-		]
+			]
+			,"configuration": {
+				"type": "object",
+				"title": "回声工坊插件配置",
+				"properties": {
+					"trpg-replay-generator-log.RplGenCorePath": {
+						"type": "string",
+						"default": "D:/TRPG-Replay-Generator/RplGenCore.exe",
+						"description": "回声工坊的RplGenCore.exe文件所在路径（包含文件名）"
+					}
+					,"trpg-replay-generator-log.MediaObjDefineFilePath": {
+						"type": "string",
+						"default": "F:/TRPG-Replay-Project/ModName/media.txt",
+						"description": "媒体定义文件所在路径（包含文件名）"
+					}
+					,"trpg-replay-generator-log.CharacterTableFilePath": {
+						"type": "string",
+						"default": "F:/TRPG-Replay-Project/ModName/role.tsv",
+						"description": "角色配置文件所在路径（包含文件名）"
+					}
+					,"trpg-replay-generator-log.LogFilePath": {
+						"type": "string",
+						"default": "F:/TRPG-Replay-Project/ModName/role.tsv",
+						"description": "跑团日志文件所在路径（包含文件名）"
+					}
+					,"trpg-replay-generator-log.OutputPath": {
+						"type": "string",
+						"default": "F:/TRPG-Replay-Project/ModName/output/",
+						"description": "输出路径"
+					}
+					,"trpg-replay-generator-log.FramePerSecond": {
+						"type": "number",
+						"default": 30,
+						"description": "播放的帧率，单位是fps；默认值是30fps"
+					}
+					,"trpg-replay-generator-log.WindowWidth": {
+						"type": "number",
+						"default": 1920,
+						"description": "窗体的宽，默认值是1920"
+					}
+					,"trpg-replay-generator-log.WindowHeight": {
+						"type": "number",
+						"default": 1080,
+						"description": "窗体的高，默认值是1080"
+					}
+					,"trpg-replay-generator-log.Zorder": {
+						"type": "string",
+						"default": "BG3,BG2,BG1,Am3,Am2,Am1,Bb",
+						"description": "修改图层顺序参数，可以改变各个图层的重叠关系。默认的图层顺序为`-Z 'BG3,BG2,BG1,Am3,Am2,Am1,Bb'`，顺序为从下到上，即*背景*在最下层，*气泡*在最上层，*立绘*在中间，其中主立绘在其他立绘上层。主要的修改需求可能是要求立绘覆盖在气泡的上层，因此，可以将 *--Zorder* 参数设置为 `'-Z BG3,BG2,BG1,Bb,Am3,Am2,Am1'`"
+					}
+					,"trpg-replay-generator-log.AccessKey": {
+						"type": "string",
+						"default": "your_AccessKey",
+						"description": "阿里云账号的AccessKey ID，使用阿里云音源执行语音合成时所需要的"
+					}
+					,"trpg-replay-generator-log.AccessKeySecret": {
+						"type": "string",
+						"default": "your_AccessKeySecret",
+						"description": "阿里云账号的AccessKeySecret 密钥，使用阿里云音源执行语音合成时所需要的"
+					}
+					,"trpg-replay-generator-log.Appkey": {
+						"type": "string",
+						"default": "your_Appkey",
+						"description": "阿里云语音合成应用的Appkey，使用阿里云音源执行语音合成时所需要的"
+					}
+					,"trpg-replay-generator-log.Azurekey": {
+						"type": "string",
+						"default": "your_Azurekey",
+						"description": "微软Azure认知语音服务的Key，使用Azure音源执行语音合成时所需要的"
+					}
+					,"trpg-replay-generator-log.ServRegion": {
+						"type": "string",
+						"default": "eastasia",
+						"description": "微软Azure认知语音服务的服务地区，使用Azure音源执行语音合成时所需要的；默认是东亚地区"
+					}
+					,"trpg-replay-generator-log.Quality": {
+						"type": "number",
+						"default": 24,
+						"description": "导出为mp4视频时的质量，即ffmpeg程序的crf值；取值范围为0-51，越小对应越高的视频质量，通常合理范围为18-28；默认值是24"
+					}
+					,"trpg-replay-generator-log.ExportXML": {
+						"type": "boolean",
+						"default": false,
+						"description": "可选标志，如果使用该标志，会输出一个能导入到PR的XML文件，以及其引用的一系列PNG图片到输出目录。"
+					}
+					,"trpg-replay-generator-log.ExportVideo": {
+						"type": "boolean",
+						"default": false,
+						"description": "可选标志，如果使用该标志，会导出一个和窗口中播放的内容完全一致的MP4视频。使用该标志则会跳过窗口播放"
+					}
+					,"trpg-replay-generator-log.SynthesisAnyway": {
+						"type": "boolean",
+						"default": false,
+						"description": "可选标志，如果使用该标志，会对log文件中尚未处理的星标行进行语音合成；一系列WAV音频到会输出到输出目录。"
+					}
+					,"trpg-replay-generator-log.FixScreenZoom": {
+						"type": "boolean",
+						"default": true,
+						"description": "可选参数，仅在windows系统上生效。使用该标志以消除由于windows系统缩放倍率，而导致的窗体尺寸异常。"
+					}
+
+
+				}
+			}
+			
 	},
 	"scripts": {
 		"vscode:prepublish": "npm run package",

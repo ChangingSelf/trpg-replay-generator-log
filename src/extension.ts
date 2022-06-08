@@ -4,6 +4,7 @@ import * as vscode from 'vscode';
 import * as rglCount from './rglCount';
 import * as defineMedia from './defineMedia';
 import * as regexReplace from './regexReplace';
+import * as replayGenerator from './replayGenerator';
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -27,6 +28,9 @@ export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(vscode.commands.registerCommand('trpg-replay-generator-log.replaceAngleBrackets',regexReplace.replaceAngleBrackets));
 	context.subscriptions.push(vscode.commands.registerCommand('trpg-replay-generator-log.addAsteriskMarks',regexReplace.addAsteriskMarks));
 	context.subscriptions.push(vscode.commands.registerCommand('trpg-replay-generator-log.addSoundEffectsInBatches',regexReplace.addSoundEffectsInBatches));
+	
+	//播放视频
+	context.subscriptions.push(vscode.commands.registerCommand('trpg-replay-generator-log.playVideo',replayGenerator.playVideo));
 	
 }
 
