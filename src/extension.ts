@@ -1,7 +1,8 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
-import * as rglCount from './rglCount.js';
+import * as rglCount from './rglCount';
+import * as defineMedia from './defineMedia'
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -23,6 +24,9 @@ export function activate(context: vscode.ExtensionContext) {
 
 	//统计rgl文件的数据
 	context.subscriptions.push(vscode.commands.registerCommand('trpg-replay-generator-log.count',rglCount.rglCount));
+	
+	//利用现有的素材文件夹生成媒体定义文件
+	context.subscriptions.push(vscode.commands.registerCommand('trpg-replay-generator-log.defineMedia',defineMedia.defineMedia));
 }
 
 // this method is called when your extension is deactivated

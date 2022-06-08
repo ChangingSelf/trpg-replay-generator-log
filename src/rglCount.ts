@@ -1,10 +1,8 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
 const { Console } = require('console');
 const vscode = require('vscode');
 
 //预估生成的视频的时长，单位：秒
-export function estimateDuration(text){
+export function estimateDuration(text:string){
 	if(!text) return 0;
 	const FRAME_PER_SECOND = 30;//每秒多少帧
 	const DICE_ANIMATION_DUR = 5;//骰子动画时长，单位：秒
