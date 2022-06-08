@@ -34,6 +34,11 @@
 
 可以统计对话行和骰子行的行数，并将rgl文件中提到的所有角色和背景不重复地列出，方便填写角色配置表和定义背景媒体，同时可以估算生成的视频的时间。
 
+### `TRGL: Check Dialog Line Length`
+
+找出超出指定字数的对话行
+
+
 ### `TRGL: Replace Angle Brackets`
 
 将[QQ跑团记录着色器](https://logpainter.kokona.tech/)得到的尖括号替换为方括号与冒号
@@ -118,6 +123,6 @@
 
 当然，如果大家都不喜欢自动生成的注释，我下个版本会取消保留注释。
 
-### TRGL: Play Video `
+### `TRGL: Play Video `
 
 现在可以在vscode里面用“TRGL: Play Video”命令播放当前rgl文件了，只要你在设置内（ctrl+逗号，调出设置面板，找到“回声工坊插件设置”）配置好媒体定义文件路径、角色表文件路径，其他的可以用默认值。

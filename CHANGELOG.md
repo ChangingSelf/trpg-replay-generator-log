@@ -5,6 +5,10 @@
 格式基于[维护更新日志（Keep a Changelog）](https://keepachangelog.com/en/1.0.0/)，
 并且该项目遵循 [语义版本控制（Semantic Versioning）](https://semver.org/spec/v2.0.0.html)。
 
+## [0.8.0] - 2022-06-08
+
+- 新增命令 `TRGL: Check Dialog Line Length`：找出超出指定字数的对话行
+
 ## [0.7.0] - 2022-06-08
 
 - 现在可以在vscode里面用“TRGL: Play Video”命令播放当前rgl文件了，只要你在设置内（ctrl+逗号，调出设置面板，找到“回声工坊插件设置”）配置好媒体定义文件路径、角色表文件路径，其他的可以用默认值。

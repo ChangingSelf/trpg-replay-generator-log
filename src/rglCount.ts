@@ -85,6 +85,7 @@ export function estimateDuration(text:string){
 
 //统计
 export function rglCount(){
+	outputChannel.clear();
 	let editor = vscode.window.activeTextEditor;
 	if(!editor) {
 		vscode.window.showInformationMessage('请选中某个文件');
@@ -162,4 +163,40 @@ export function rglCount(){
 
 }
 
+//检验每行字数是否超出指定值
+export function checkDialogLineLength(){
+	vscode.window.showInputBox({
+		placeHolder:"请输入一个整数，代表每个对话行字数上限",
+		prompt:"检查对话行的字数是否超出指定的字数"
+	}).then(inputText=>{
+		outputChannel.clear();
+		let threshold = inputText ? parseInt(inputText):0;
 
+		let editor = vscode.window.activeTextEditor;
+		if(!editor) {
+			vscode.window.showInformationMessage('请选中某个文件');
+			return;
+		}
+		if(editor.document.languageId != 'rgl'){
+			vscode.window.showInformationMessage('请选中某个rgl文件');
+			return;
+		}
+		let text = editor.document.getText();
+		let textList = text.split("\n");
+		
+		let reg = /^\[.*?\](<.*?>)?:(.*?)(<.*?>)?(\{.*?\})?$/m;
+		outputChannel.appendLine(`字数超过${threshold}的行如下（方括号内为行号，圆括号内为那一行的字数）：`)
+		let i = 0;
+		textList?.forEach((line,index) => {
+			let result = line.match(reg);
+			let dialogLine:RegExpMatchArray = result ?? [];
+			let dialog = dialogLine[2] ?? "";
+			if(dialog.length > threshold){
+				outputChannel.appendLine(`[${index+1}](${dialog.length})${dialog.slice(0,25)}……`);
+				i++;
+			}
+		});
+		outputChannel.appendLine(`总共${i}行超出字数限制`);
+		outputChannel.show();
+	});
+}

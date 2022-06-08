@@ -2,7 +2,7 @@
   "name": "trpg-replay-generator-log",
 	"displayName": "TRPG Replay Generator Log",
 	"description": "Syntax highlighting and code snippets for TRPG-Replay-Generator-Log language",
-	"version": "0.7.0",
+	"version": "0.8.0",
 	"engines": {
 		"vscode": "^1.67.0"
 	},
@@ -14,6 +14,7 @@
 	"icon": "images/icon.png",
 	"activationEvents": [
 		"onCommand:trpg-replay-generator-log.count"
+		,"onCommand:trpg-replay-generator-log.checkDialogLineLength"
 		,"onCommand:trpg-replay-generator-log.defineMedia"
 		,"onCommand:trpg-replay-generator-log.replaceAngleBrackets"
 		,"onCommand:trpg-replay-generator-log.addAsteriskMarks"
@@ -26,6 +27,10 @@
 			{
 				"command": "trpg-replay-generator-log.count",
 				"title": "TRGL: Count"
+			}
+			,{
+				"command": "trpg-replay-generator-log.checkDialogLineLength",
+				"title": "TRGL: Check Dialog Line Length"
 			}
 			,{
 				"command": "trpg-replay-generator-log.defineMedia",

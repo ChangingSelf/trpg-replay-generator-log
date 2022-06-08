@@ -32,6 +32,9 @@ export function activate(context: vscode.ExtensionContext) {
 	//播放视频
 	context.subscriptions.push(vscode.commands.registerCommand('trpg-replay-generator-log.playVideo',replayGenerator.playVideo));
 	
+	//确定对话行长度
+	context.subscriptions.push(vscode.commands.registerCommand('trpg-replay-generator-log.checkDialogLineLength',rglCount.checkDialogLineLength));
+	
 }
 
 // this method is called when your extension is deactivated
