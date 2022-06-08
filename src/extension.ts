@@ -2,7 +2,8 @@
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
 import * as rglCount from './rglCount';
-import * as defineMedia from './defineMedia'
+import * as defineMedia from './defineMedia';
+import * as regexReplace from './regexReplace';
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -21,6 +22,12 @@ export function activate(context: vscode.ExtensionContext) {
 	
 	//利用现有的素材文件夹生成媒体定义文件
 	context.subscriptions.push(vscode.commands.registerCommand('trpg-replay-generator-log.defineMedia',defineMedia.defineMedia));
+
+	//正则替换
+	context.subscriptions.push(vscode.commands.registerCommand('trpg-replay-generator-log.replaceAngleBrackets',regexReplace.replaceAngleBrackets));
+	context.subscriptions.push(vscode.commands.registerCommand('trpg-replay-generator-log.addAsteriskMarks',regexReplace.addAsteriskMarks));
+	context.subscriptions.push(vscode.commands.registerCommand('trpg-replay-generator-log.addSoundEffectsInBatches',regexReplace.addSoundEffectsInBatches));
+	
 }
 
 // this method is called when your extension is deactivated

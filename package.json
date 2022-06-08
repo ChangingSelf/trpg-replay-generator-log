@@ -2,7 +2,7 @@
   "name": "trpg-replay-generator-log",
 	"displayName": "TRPG Replay Generator Log",
 	"description": "Syntax highlighting and code snippets for TRPG-Replay-Generator-Log language",
-	"version": "0.5.1",
+	"version": "0.6.0",
 	"engines": {
 		"vscode": "^1.67.0"
 	},
@@ -15,17 +15,32 @@
 	"activationEvents": [
 		"onCommand:trpg-replay-generator-log.count"
 		,"onCommand:trpg-replay-generator-log.defineMedia"
+		,"onCommand:trpg-replay-generator-log.replaceAngleBrackets"
+		,"onCommand:trpg-replay-generator-log.addAsteriskMarks"
+		,"onCommand:trpg-replay-generator-log.addSoundEffectsInBatches"
 	],
 	"main": "./dist/extension.js",
 	"contributes": {
 		"commands": [
 			{
 				"command": "trpg-replay-generator-log.count",
-				"title": "RGL Count"
+				"title": "TRGL: Count"
 			}
 			,{
 				"command": "trpg-replay-generator-log.defineMedia",
-				"title": "Define Media"
+				"title": "TRGL: Define Media"
+			}
+			,{
+				"command": "trpg-replay-generator-log.replaceAngleBrackets",
+				"title": "TRGL: Replace Angle Brackets"
+			}
+			,{
+				"command": "trpg-replay-generator-log.addAsteriskMarks",
+				"title": "TRGL: Add Asterisk Marks"
+			}
+			,{
+				"command": "trpg-replay-generator-log.addSoundEffectsInBatches",
+				"title": "TRGL: Add Sound Effects In Batches"
 			}
 			]
 			,"languages": [{

@@ -31,11 +31,23 @@
 命令的使用方法是：ctrl+alt+p唤出命令面板，输入命令名字，enter键确认
 
 
-### `RGL Count`
+### `TRGL: Count`
 
 可以统计对话行和骰子行的行数，并将rgl文件中提到的所有角色和背景不重复地列出，方便填写角色配置表和定义背景媒体，同时可以估算生成的视频的时间。
 
-### `Define Media`
+### `TRGL: Replace Angle Brackets`
+
+将[QQ跑团记录着色器](https://logpainter.kokona.tech/)得到的尖括号替换为方括号与冒号
+
+### `TRGL: Add Asterisk Marks`
+
+批量给对话行末尾添加待处理星标“{*}”
+
+### `TRGL: Add Sound Effects In Batches`
+
+为指定角色批量添加指定音效
+
+### `TRGL: Define Media`
 
 根据指定路径内的媒体素材生成媒体定义文件。
 

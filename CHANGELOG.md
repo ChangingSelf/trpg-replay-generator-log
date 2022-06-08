@@ -5,6 +5,13 @@
 格式基于[维护更新日志（Keep a Changelog）](https://keepachangelog.com/en/1.0.0/)，
 并且该项目遵循 [语义版本控制（Semantic Versioning）](https://semver.org/spec/v2.0.0.html)。
 
+## [0.6.0] - 2022-06-08
+
+- 新增了三个正则表达式替换的命令。“TRGL: Replace Angle Brackets”、“TRGL: Add Asterisk Marks”、“TRGL: Add Sound Effects In Batches”
+- 规范了命令的格式，统一加上了前缀“TRGL:”
+- 添加“TRGL: Count”命令的详细输出内容
+
+
 ## [0.5.1] - 2022-06-08
 
 - 添加“Define Media”命令的输出内容，会将因为媒体名称不合法而跳过的文件列出来。

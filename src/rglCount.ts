@@ -1,5 +1,8 @@
-const { Console } = require('console');
-const vscode = require('vscode');
+import * as vscode from 'vscode';
+
+
+let outputChannel = vscode.window.createOutputChannel('统计结果');
+
 
 //预估生成的视频的时长，单位：秒
 export function estimateDuration(text:string){
@@ -19,14 +22,13 @@ export function estimateDuration(text:string){
 	let diceLineRegex = /^<dice>:(.*?)$/m;
 	let hpLineRegex = /^<hitpoint>:(.*?)$/m;
 	let dialogLineRegex = /^\[.*?\](<.*?>)?:(.*?)(<.*?>)?(\{.*?(;(.*?))?\})?$/m;
-	let i=0;
-	textList?.forEach(line => {
-		i++;
+	textList?.forEach((line,index) => {
 		//语速设置行
 		let setterLine = line.match(speechSpeedSetterLineRegex);
 		if(setterLine){
 			// console.log(setterLine);
 			speechSpeed = parseFloat(setterLine[1]);
+			outputChannel.appendLine(`[设置][${index+1}]语速设置为${speechSpeed}word/min`);
 			return;
 		}
 		//背景行
@@ -36,17 +38,20 @@ export function estimateDuration(text:string){
 			let bgDelay = setterLine[2];
 			if(!bgDelay) return;
 			totalSeconds += parseFloat(bgDelay)/FRAME_PER_SECOND;
+			outputChannel.appendLine(`[背景][${index+1}]背景延时：${parseFloat(bgDelay)/FRAME_PER_SECOND}秒`);
 		}
 		//骰子行
 		setterLine = line.match(diceLineRegex);
 		if(setterLine){
 			totalSeconds += DICE_ANIMATION_DUR;
+			outputChannel.appendLine(`[动画][${index+1}]骰子动画：${DICE_ANIMATION_DUR}秒`);
 			return;
 		}
 		//HP动画行
 		setterLine = line.match(hpLineRegex);
 		if(setterLine){
 			totalSeconds += HP_ANIMATION_DUR;
+			outputChannel.appendLine(`[动画][${index+1}]血条动画：${HP_ANIMATION_DUR}秒`);
 			return;
 		}
 
@@ -57,13 +62,14 @@ export function estimateDuration(text:string){
 			if(dialogLine[6] && dialogLine[6][0]=="*"){
 				//如果指定了时长
 				let time = dialogLine[6];
-				time = time.substr(1,time.length-1)
+				time = time.substring(1);
 				totalSeconds += parseFloat(time) + asteriskPause;
+				outputChannel.appendLine(`[对话][${index+1}](${(parseFloat(time) + asteriskPause).toFixed(2)}秒)|${dialogLine[0].slice(0,25)}……`)
 			}else{
 				//未指定时长则按照语速计算
 				let dialog = dialogLine[2];
 				totalSeconds += (dialog.length/speechSpeed)*60;
-
+				outputChannel.appendLine(`[对话][${index+1}](${((dialog.length/speechSpeed)*60).toFixed(2)}秒)|${dialogLine[0].slice(0,25)}……`)
 			}
 			// totalSeconds += 10/FRAME_PER_SECOND;//默认气泡切换时间
 		}
@@ -92,9 +98,10 @@ export function rglCount(){
 
 	//计数
 	let reg = /^\[([^,\.\(\)]*?(\(\d+\))?(\.[^,\.\(\)]*?)?)(,[^,\.\(\)]*?(\(\d+\))?(\.[^,\.\(\)]*?)?)?(,[^,\.\(\)]*?(\(\d+\))?(\.[^,\.\(\)]*?)?)?\]/mg;
-	let dialogLine = text.match(reg);
-	let dialogLineCount = dialogLine?.length??0;
-	
+	let result = text.match(reg);
+	let dialogLine = result ?? [];
+	let dialogLineCount = dialogLine.length;
+
 
 	reg = /^<dice>/mg;
 	let diceLine = text.match(reg);
@@ -103,11 +110,13 @@ export function rglCount(){
 
 	//统计背景
 	reg = /^<background>(<.*?>)?:(.*)/mg;
-	let backgroundLine = text.match(reg);
+	result = text.match(reg);
 	// console.log(backgroundLine);
 
+	let backgroundLine = result ?? [];
+
 	let bg = new Set();
-	for (let i = 0; i < backgroundLine?.length??0; i++) {
+	for (let i = 0; i < backgroundLine.length; i++) {
 		const background = backgroundLine[i];
 		bg.add(background.split(":")[1]);
 	}
@@ -145,6 +154,12 @@ export function rglCount(){
 	vscode.window.showInformationMessage(`背景(${bg.size})：${[...bg].join(",")}`);
 	vscode.window.showInformationMessage(`对话行行数：${dialogLineCount}，预计视频时长：${minute}分${second}秒`);
 	
+	outputChannel.appendLine(`角色(${pc.size})：${[...pc].join(",")}`);
+	outputChannel.appendLine(`背景(${bg.size})：${[...bg].join(",")}`);
+	outputChannel.appendLine(`对话行行数：${dialogLineCount}，预计视频时长：${minute}分${second}秒`);
+	
+	outputChannel.show();
+
 }
 
 
