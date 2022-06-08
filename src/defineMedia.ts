@@ -10,6 +10,7 @@ function islegal(name:string){
     return /^[a-zA-Z_\u4E00-\u9FA5][\u4E00-\u9FA5\w]*$/m.test(name) && !occupiedVariableName.includes(name)
 }
 
+let outputChannel = vscode.window.createOutputChannel('生成结果');
 
 function defineMediaInFolder(mediaType:string,folder:fs.Dirent,parent:string,mediaFile:string,prefix:string,level:number){
     let folderPath = path.join(parent,folder.name);//获取当前文件夹路径
@@ -26,6 +27,7 @@ function defineMediaInFolder(mediaType:string,folder:fs.Dirent,parent:string,med
         let mediumName = `${prefix && level!=1?prefix+"_":""}${level!=1?folder.name+"_":""}${medium.name.substring(0,medium.name.indexOf('.'))}`;//TODO:进行合法性检验
         if(!islegal(mediumName) && !islegal(prefix + mediumName)) {
             console.log(`"${mediumName}"不是合法的媒体变量名`);
+            outputChannel.appendLine(`错误：[${mediumName}]不是合法的媒体变量名，已跳过`);
             return;
         }else if(islegal(prefix + mediumName)){
             mediumName = prefix + mediumName;
@@ -54,6 +56,7 @@ function defineMediaInFolder(mediaType:string,folder:fs.Dirent,parent:string,med
                 break;
         }
         fs.appendFileSync(mediaFile,`${mediumItem}\n`);
+        outputChannel.appendLine(`已添加${mediaType}媒体[${mediumName}]`);
     });
 
     //对下一级目录进行媒体定义
@@ -95,6 +98,7 @@ export function defineMedia(){
                 //遍历根目录下每一个媒体文件夹
                 folders.forEach(folder=>defineMediaInFolder(folder.name,folder,root,mediaFile,"",1));
                 vscode.window.showInformationMessage(`媒体定义文件已输出为：${mediaFile}`);
+                outputChannel.show();
     
                 //打开媒体定义文件
                 // 获取TextDocument对象

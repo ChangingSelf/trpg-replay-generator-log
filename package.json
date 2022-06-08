@@ -13,18 +13,13 @@
 	],
 	"icon": "images/icon.png",
 	"activationEvents": [
-        "onCommand:trpg-replay-generator-log.helloWorld"
-		,"onCommand:trpg-replay-generator-log.count"
+		"onCommand:trpg-replay-generator-log.count"
 		,"onCommand:trpg-replay-generator-log.defineMedia"
 	],
 	"main": "./dist/extension.js",
 	"contributes": {
 		"commands": [
 			{
-				"command": "trpg-replay-generator-log.helloWorld",
-				"title": "Hello World"
-			}
-			,{
 				"command": "trpg-replay-generator-log.count",
 				"title": "RGL Count"
 			}
@@ -53,8 +48,8 @@
 			]
 			,"snippets": [
 				{
-				  "language": "rgl",
-				  "path": "./snippets.json"
+					"language": "rgl",
+					"path": "./snippets.json"
 				}
 		]
 	},

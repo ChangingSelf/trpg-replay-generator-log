@@ -5,6 +5,11 @@
 格式基于[维护更新日志（Keep a Changelog）](https://keepachangelog.com/en/1.0.0/)，
 并且该项目遵循 [语义版本控制（Semantic Versioning）](https://semver.org/spec/v2.0.0.html)。
 
+## [0.5.1] - 2022-06-08
+
+- 添加“Define Media”命令的输出内容，会将因为媒体名称不合法而跳过的文件列出来。
+- 删除了“Hello World”命令
+
 ## [0.5.0] - 2022-06-08
 
 - 新增“Define Media”命令，根据指定路径内的媒体素材生成媒体定义文件
