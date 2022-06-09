@@ -5,6 +5,16 @@
 格式基于[维护更新日志（Keep a Changelog）](https://keepachangelog.com/en/1.0.0/)，
 并且该项目遵循 [语义版本控制（Semantic Versioning）](https://semver.org/spec/v2.0.0.html)。
 
+## [1.0.0] - 2022-06-09
+
+- 新增命令 `TRGL: Define Character`，可以根据已有的log文件自动生成角色配置表
+- 至此，本插件已经基本完善，实现了一开始想要完成的所有功能，正式改版本号为 `1.0.0`
+
+## [0.9.0] - 2022-06-09
+
+- 新增命令：`TRGL: Export Video`,`TRGL: Synthesized Speech`,`TRGL: Export XML`
+- 新增配置项：“先执行语音合成”、“导出XML”、“timeline文件路径”
+
 ## [0.8.1] - 2022-06-09
 
 - `TRGL: Play Video`命令现在可以从当前文件中读取配置了，若找不到对应的配置项，则使用全局配置。

@@ -5,6 +5,7 @@ import * as rglCount from './rglCount';
 import * as defineMedia from './defineMedia';
 import * as regexReplace from './regexReplace';
 import * as replayGenerator from './replayGenerator';
+import * as defineCharacter from './defineCharacter';
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -23,6 +24,8 @@ export function activate(context: vscode.ExtensionContext) {
 	
 	//利用现有的素材文件夹生成媒体定义文件
 	context.subscriptions.push(vscode.commands.registerCommand('trpg-replay-generator-log.defineMedia',defineMedia.defineMedia));
+	//利用现有的日志文件生成角色配置文件
+	context.subscriptions.push(vscode.commands.registerCommand('trpg-replay-generator-log.defineCharacter',defineCharacter.defineCharacter));
 
 	//正则替换
 	context.subscriptions.push(vscode.commands.registerCommand('trpg-replay-generator-log.replaceAngleBrackets',regexReplace.replaceAngleBrackets));

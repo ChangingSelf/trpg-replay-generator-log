@@ -33,7 +33,7 @@
 以下配置可以写在rgl文件中作为局部配置，存在多条配置时，会使用第一个。
 
 - 若不存在局部配置，则使用全局配置。
-- `#md`和 `#MediaDefinition`两种写法都可以，且不区分大小写。
+- `#md`和 `#MediaDefinition`两种写法都可以，且**不区分大小写**。
 - 优先使用当前文件作为log文件，若未打开文件，则使用全局配置的log文件路径。
 
 ```rgl
@@ -69,6 +69,10 @@
 ### `TRGL: Add Sound Effects In Batches`
 
 为指定角色批量添加指定音效
+
+### `TRGL: Define Character`
+
+根据已有的log文件自动生成tsv角色配置表
 
 ### `TRGL: Define Media`
 

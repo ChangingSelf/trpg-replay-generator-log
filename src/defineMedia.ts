@@ -107,10 +107,10 @@ export function defineMedia(){
                     // 在VSCode编辑窗口展示读取到的文本
                     vscode.window.showTextDocument(doc);
                 }, err => {
-                    console.log(`daka ${mediaFile} error, ${err}.`);
+                    console.log(`Open ${mediaFile} error, ${err}.`);
                 }).then(undefined, err => {
                     console.log(`Open ${mediaFile} error, ${err}.`);
-                })
+                });
                 
             } catch (error) {
                 let err:Error = error as Error;
