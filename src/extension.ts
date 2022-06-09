@@ -31,6 +31,12 @@ export function activate(context: vscode.ExtensionContext) {
 	
 	//播放视频
 	context.subscriptions.push(vscode.commands.registerCommand('trpg-replay-generator-log.playVideo',replayGenerator.playVideo));
+	//导出视频
+	context.subscriptions.push(vscode.commands.registerCommand('trpg-replay-generator-log.exportVideo',replayGenerator.exportVideo));
+	//合成语音
+	context.subscriptions.push(vscode.commands.registerCommand('trpg-replay-generator-log.synthesizedSpeech',replayGenerator.synthesizedSpeech));
+	//导出XML
+	context.subscriptions.push(vscode.commands.registerCommand('trpg-replay-generator-log.exportXML',replayGenerator.exportXML));
 	
 	//确定对话行长度
 	context.subscriptions.push(vscode.commands.registerCommand('trpg-replay-generator-log.checkDialogLineLength',rglCount.checkDialogLineLength));

@@ -5,6 +5,11 @@
 格式基于[维护更新日志（Keep a Changelog）](https://keepachangelog.com/en/1.0.0/)，
 并且该项目遵循 [语义版本控制（Semantic Versioning）](https://semver.org/spec/v2.0.0.html)。
 
+## [0.8.1] - 2022-06-09
+
+- `TRGL: Play Video`命令现在可以从当前文件中读取配置了，若找不到对应的配置项，则使用全局配置。
+- 优化配置项的文本描述以及分类
+
 ## [0.8.0] - 2022-06-08
 
 - 新增命令 `TRGL: Check Dialog Line Length`：找出超出指定字数的对话行
