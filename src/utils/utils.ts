@@ -1,12 +1,12 @@
 import * as vscode from 'vscode';
-
+import * as outputUtils from './OutputUtils';
 
 /**
  * 读取当前文件内的配置，未定义的配置从vscode的设置中读取
  */
 export function loadSettings(){
     let configuration = vscode.workspace.getConfiguration();
-    let outputChannel = vscode.window.createOutputChannel("配置读取结果");
+    let outputChannel = outputUtils.OutputUtils.getInstance();
     // outputChannel.show();
     const settings = {
         "mediaObjDefine":`${configuration.get('trpg-replay-generator-log.path.MediaObjDefineFilePath') as string}`
@@ -77,8 +77,11 @@ export function loadSettings(){
         }
         outputChannel.appendLine("配置读取完毕");
         outputChannel.appendLine("（如果需要查看控制台显示的信息，点击旁边的“终端”或者“TERMINAL”选项卡），或者使用“ctrl+`(反引号，tab上面那个按键)”");
-        vscode.window.showInformationMessage("配置读取完毕，如需查看，可点击旁边的“输出”或者“OUTPUT”选项卡，或者使用“ctrl+shift+U”");
+        vscode.window.showInformationMessage("配置读取完毕，如需查看，可点击旁边的“输出”或者“OUTPUT”选项卡，或者使用“ctrl+shift+U”","打开输出面板").then(s=>{
+            outputChannel.show();
+        });
     }
 
     return settings;
 }
+

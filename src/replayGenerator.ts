@@ -1,9 +1,10 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
-import * as utils from './utils';
+import * as utils from './utils/utils';
+import * as terminalUtils from './utils/TerminalUtils';
 
 
-
+let terminal = terminalUtils.TerminalUtils.getInstance();
 
 /**
  * 播放视频
@@ -12,12 +13,16 @@ export function playVideo(){
     let s = utils.loadSettings();
 
     //运行
-    let terminal = vscode.window.createTerminal("回声工坊运行终端");
     let rplGenCorePathDir = path.dirname(s["rplGenCorePath"]);
     
+    let cmd = `${s["rplGenCorePath"]} --Modules replay_generator --LogFile ${s["logFile"]} --MediaObjDefine ${s["mediaObjDefine"]} --CharacterTable ${s["characterTable"]} --FramePerSecond ${s["framePerSecond"]} --Width ${s["width"]} --Height ${s["height"]} --Zorder ${s["zorder"]} --OutputPath ${s["outputPath"]} ${/^true$/i.test(s["fixScreenZoom"])?"--FixScreenZoom":""}`;
+
+    let synthesis = /^true$/i.test(s["synthesisAnyway"])?` --SynthesisAnyway --AccessKey ${s["accessKey"]} --AccessKeySecret ${s["accessKeySecret"]} --Appkey ${s["appkey"]} --Azurekey ${s["azurekey"]} --ServRegion ${s["servRegion"]}`:"";
+
+    cmd += synthesis;
     
     terminal.sendText(`cd ${rplGenCorePathDir}`);
-    terminal.sendText(`${s["rplGenCorePath"]} --Modules replay_generator --LogFile ${s["logFile"]} --MediaObjDefine ${s["mediaObjDefine"]} --CharacterTable ${s["characterTable"]} --FramePerSecond ${s["framePerSecond"]} --Width ${s["width"]} --Height ${s["height"]} --Zorder ${s["zorder"]} --OutputPath ${s["outputPath"]} ${s["fixScreenZoom"]?"--FixScreenZoom":""}`+s["synthesisAnyway"]?` --SynthesisAnyway --AccessKey ${s["accessKey"]} --AccessKeySecret ${s["accessKeySecret"]} --Appkey ${s["appkey"]} --Azurekey ${s["azurekey"]} --ServRegion ${s["servRegion"]}`:"");
+    terminal.sendText(cmd);
     terminal.show();
 }
 
@@ -29,14 +34,17 @@ export function exportVideo(){
     let s = utils.loadSettings();
 
     //运行
-    let terminal = vscode.window.createTerminal("回声工坊运行终端");
     let rplGenCorePathDir = path.dirname(s["rplGenCorePath"]);
+
+
+    let cmd = `${s["rplGenCorePath"]} --Modules replay_generator --LogFile ${s["logFile"]} --MediaObjDefine ${s["mediaObjDefine"]} --CharacterTable ${s["characterTable"]} --FramePerSecond ${s["framePerSecond"]} --Width ${s["width"]} --Height ${s["height"]} --Zorder ${s["zorder"]} --OutputPath ${s["outputPath"]} --Quality ${s["quality"]} ${/^true$/i.test(s["fixScreenZoom"])?"--FixScreenZoom":""} --ExportVideo `;
     
+    let synthesis = /^true$/i.test(s["synthesisAnyway"])?(` --SynthesisAnyway --AccessKey ${s["accessKey"]} --AccessKeySecret ${s["accessKeySecret"]} --Appkey ${s["appkey"]} --Azurekey ${s["azurekey"]} --ServRegion ${s["servRegion"]}`):"";
+
+    cmd += synthesis;
     
     terminal.sendText(`cd ${rplGenCorePathDir}`);
-    terminal.sendText(`${s["rplGenCorePath"]} --Modules replay_generator --LogFile ${s["logFile"]} --MediaObjDefine ${s["mediaObjDefine"]} --CharacterTable ${s["characterTable"]} --FramePerSecond ${s["framePerSecond"]} --Width ${s["width"]} --Height ${s["height"]} --Zorder ${s["zorder"]} --OutputPath ${s["outputPath"]} --Quality ${s["quality"]} ${s["fixScreenZoom"]?"--FixScreenZoom":""} --ExportVideo ` + 
-    
-    s["synthesisAnyway"]?` --SynthesisAnyway --AccessKey ${s["accessKey"]} --AccessKeySecret ${s["accessKeySecret"]} --Appkey ${s["appkey"]} --Azurekey ${s["azurekey"]} --ServRegion ${s["servRegion"]}`:"");
+    terminal.sendText(cmd);
     terminal.show();
 }
 
@@ -48,13 +56,24 @@ export function synthesizedSpeech(){
     let s = utils.loadSettings();
 
     //运行
-    let terminal = vscode.window.createTerminal("回声工坊运行终端");
+    
     let rplGenCorePathDir = path.dirname(s["rplGenCorePath"]);
     
     
     terminal.sendText(`cd ${rplGenCorePathDir}`);
     terminal.sendText(`${s["rplGenCorePath"]} --Modules speech_synthesizer --LogFile ${s["logFile"]} --MediaObjDefine ${s["mediaObjDefine"]} --CharacterTable ${s["characterTable"]} --OutputPath ${s["outputPath"]} --AccessKey ${s["accessKey"]} --AccessKeySecret ${s["accessKeySecret"]} --Appkey ${s["appkey"]} --Azurekey ${s["azurekey"]} --ServRegion ${s["servRegion"]}`);
     terminal.show();
+    vscode.window.showInformationMessage(`合成程序结束后，点击按钮可以打开处理后的log（先点一下这个消息框避免它自动消失）`,"打开AsteriskMarkedLogFile").then(selection=>{
+        vscode.workspace.openTextDocument(path.join(s["outputPath"],"AsteriskMarkedLogFile.txt"))
+        .then(doc => {
+            vscode.window.showTextDocument(doc);
+        }, err => {
+            vscode.window.showErrorMessage(err);
+        }).then(undefined, err => {
+            vscode.window.showErrorMessage(err);
+        });
+    });
+
 }
 
 /**
@@ -65,7 +84,7 @@ export function synthesizedSpeech(){
     let s = utils.loadSettings();
 
     //运行
-    let terminal = vscode.window.createTerminal("回声工坊运行终端");
+    
     let rplGenCorePathDir = path.dirname(s["rplGenCorePath"]);
     
     

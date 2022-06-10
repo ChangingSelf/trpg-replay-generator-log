@@ -1,8 +1,7 @@
 import * as vscode from 'vscode';
+import * as outputUtils from './utils/OutputUtils';
 
-
-let outputChannel = vscode.window.createOutputChannel('统计结果');
-
+let outputChannel = outputUtils.OutputUtils.getInstance();
 
 //预估生成的视频的时长，单位：秒
 export function estimateDuration(text:string){

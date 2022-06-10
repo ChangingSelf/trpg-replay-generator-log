@@ -1,9 +1,10 @@
 import * as vscode from 'vscode';
 import * as fs from 'fs';
 import * as path from 'path';
+import * as outputUtils from './utils/OutputUtils';
 
 export function defineCharacter(){
-    let outputChannel = vscode.window.createOutputChannel("角色表生成结果");
+    let outputChannel = outputUtils.OutputUtils.getInstance();
     let editor = vscode.window.activeTextEditor;
 	if(!editor) {
 		vscode.window.showInformationMessage('请选中某个文件');
