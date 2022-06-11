@@ -95,6 +95,8 @@ export function rglCount(){
 		return;
 	}
 	let text = editor.document.getText();
+	let selectionText = editor.document.getText(editor.selection);
+	if(selectionText) {text = selectionText;}
 
 	//计数
 	let reg = /^\[([^,\.\(\)]*?(\(\d+\))?(\.[^,\.\(\)]*?)?)(,[^,\.\(\)]*?(\(\d+\))?(\.[^,\.\(\)]*?)?)?(,[^,\.\(\)]*?(\(\d+\))?(\.[^,\.\(\)]*?)?)?\]/mg;
