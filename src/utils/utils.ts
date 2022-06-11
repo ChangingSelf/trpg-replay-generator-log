@@ -75,10 +75,23 @@ export function loadSettings(){
         }else{
             outputChannel.appendLine(`[outputPath](default) ${settings["outputPath"]}`);
         }
+        
+        reg = /^#(tl|Timeline) (.*)$/im;
+        result = text.match(reg);
+        if(result){
+            settings["outputPath"] = result[2];
+            outputChannel.appendLine(`[Timeline] ${settings["timeLine"]}`);
+        }else{
+            outputChannel.appendLine(`[Timeline](default) ${settings["timeLine"]}`);
+        }
+
+
         outputChannel.appendLine("配置读取完毕");
         outputChannel.appendLine("（如果需要查看控制台显示的信息，点击旁边的“终端”或者“TERMINAL”选项卡），或者使用“ctrl+`(反引号，tab上面那个按键)”");
         vscode.window.showInformationMessage("配置读取完毕，如需查看，可点击旁边的“输出”或者“OUTPUT”选项卡，或者使用“ctrl+shift+U”","打开输出面板").then(s=>{
-            outputChannel.show();
+            if(s === "打开输出面板") {
+                outputChannel.show();
+            }
         });
     }
 

@@ -63,8 +63,8 @@ export function synthesizedSpeech(){
     terminal.sendText(`cd ${rplGenCorePathDir}`);
     terminal.sendText(`${s["rplGenCorePath"]} --Modules speech_synthesizer --LogFile ${s["logFile"]} --MediaObjDefine ${s["mediaObjDefine"]} --CharacterTable ${s["characterTable"]} --OutputPath ${s["outputPath"]} --AccessKey ${s["accessKey"]} --AccessKeySecret ${s["accessKeySecret"]} --Appkey ${s["appkey"]} --Azurekey ${s["azurekey"]} --ServRegion ${s["servRegion"]}`);
     terminal.show();
-    vscode.window.showInformationMessage(`合成程序结束后，点击按钮可以打开处理后的log（先点一下这个消息框避免它自动消失）`,"打开AsteriskMarkedLogFile").then(selection=>{
-        vscode.workspace.openTextDocument(path.join(s["outputPath"],"AsteriskMarkedLogFile.txt"))
+    vscode.window.showInformationMessage(`合成程序结束后，点击按钮可以打开处理后的log（先点一下这个消息框避免它自动消失）`,"打开AsteriskMarkedLogFile.rgl").then(selection=>{
+        vscode.workspace.openTextDocument(path.join(s["outputPath"],"AsteriskMarkedLogFile.rgl"))
         .then(doc => {
             vscode.window.showTextDocument(doc);
         }, err => {

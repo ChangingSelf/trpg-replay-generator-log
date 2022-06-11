@@ -2,7 +2,7 @@
   "name": "trpg-replay-generator-log",
 	"displayName": "TRPG Replay Generator Log",
 	"description": "Syntax highlighting and code snippets for TRPG-Replay-Generator-Log language",
-	"version": "1.0.3",
+	"version": "1.0.4",
 	"engines": {
 		"vscode": "^1.67.0"
 	},
@@ -104,32 +104,32 @@
 					"trpg-replay-generator-log.path.RplGenCorePath": {
 						"order": 0,
 						"type": "string",
-						"default": "D:/TRPG-Replay-Generator/RplGenCore.exe",
-						"description": "回声工坊的RplGenCore.exe文件所在路径（包含文件名）"
+						"default": "",
+						"description": "回声工坊的RplGenCore.exe文件所在路径（包含文件名），例如：D:/TRPG-Replay-Generator/RplGenCore.exe"
 					}
 					,"trpg-replay-generator-log.path.MediaObjDefineFilePath": {
 						"order": 1,
 						"type": "string",
-						"default": "F:/TRPG-Replay-Project/ModName/media.txt",
-						"description": "媒体定义文件所在路径（包含文件名）"
+						"default": "",
+						"description": "媒体定义文件所在路径（包含文件名），例如：F:/TRPG-Replay-Project/ModName/media.txt"
 					}
 					,"trpg-replay-generator-log.path.CharacterTableFilePath": {
 						"order": 2,
 						"type": "string",
-						"default": "F:/TRPG-Replay-Project/ModName/role.tsv",
-						"description": "角色配置文件所在路径（包含文件名）"
+						"default": "",
+						"description": "角色配置文件所在路径（包含文件名），例如：F:/TRPG-Replay-Project/ModName/characterTable.tsv"
 					}
 					,"trpg-replay-generator-log.path.LogFilePath": {
 						"order": 3,
 						"type": "string",
-						"default": "F:/TRPG-Replay-Project/ModName/role.tsv",
-						"description": "跑团日志文件所在路径（包含文件名）"
+						"default": "",
+						"description": "跑团日志文件所在路径（包含文件名），例如：F:/TRPG-Replay-Project/ModName/log.rgl"
 					}
 					,"trpg-replay-generator-log.path.OutputPath": {
 						"order": 4,
 						"type": "string",
-						"default": "F:/TRPG-Replay-Project/ModName/output/",
-						"description": "输出路径"
+						"default": "",
+						"description": "输出路径，例如：F:/TRPG-Replay-Project/ModName/output/"
 					}
 					,"trpg-replay-generator-log.path.TimeLine": {
 						"order": 5,

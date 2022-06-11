@@ -8,7 +8,7 @@
 
 ## 使用方法
 
-详细使用方法可见视频：[适用于回声工坊的vscode扩展插件介绍](https://www.bilibili.com/video/BV1yt4y1p7xa/)
+详细使用方法可见视频：[【回声工坊】插件：跑团replay视频制作程序的vscode辅助扩展，让效率再上一层楼！](https://www.bilibili.com/video/BV1Xv4y1u7RC/)
 
 - 安装该扩展之后在弹窗中使用该扩展提供的“rgl theme”（不用自带主题的话可能高亮起来怪怪的，当然，可以切换其他主题，同样有语法高亮）
 - 将要高亮的文件的扩展名改为.rgl，txt文件是不会高亮的
@@ -19,7 +19,7 @@
 - 设置行：输入set可以在弹出的列表中选择需要输入的设置
 - 背景行：输入background + 切换方式的名称或者bg+切换方式开头字母就可以快速输入背景行。例如 `bgr`或 `background replace`为 `<background><replace=0>:背景媒体`
 - 音效框：输入audio可以快速输入音效框，即 `{音效;*时间}`
-- 便于复制使用的常用正则表达式片段：触发词前缀是regex。分别是“将跑团记录着色器得到的尖括号替换为方括号与冒号”，“批量给对话行末尾添加待处理星标“{*}”。”，“给某个特定角色对话行末尾加特定音效。”（现在推荐直接使用对应的命令`TRGL: Replace Angle Brackets`、`TRGL: Add Asterisk Marks`、`TRGL: Add Sound Effects In Batches`、 ）
+- 便于复制使用的常用正则表达式片段：触发词前缀是regex。分别是“将跑团记录着色器得到的尖括号替换为方括号与冒号”，“批量给对话行末尾添加待处理星标“{*}”。”，“给某个特定角色对话行末尾加特定音效。”（现在推荐直接使用对应的命令 `TRGL: Replace Angle Brackets`、`TRGL: Add Asterisk Marks`、`TRGL: Add Sound Effects In Batches`、 ）
 - `fold mark`:快速输入折叠标记
 - `current directory`:快速输入当前文档所在目录，便于进行局部配置
 
@@ -46,6 +46,8 @@
 #CharacterTable 角色配置表路径
 #op 输出路径
 #Output 输出路径
+#tl 导出XML时的时间轴文件的路径
+#TimeLine 导出XML时的时间轴文件的路径
 ```
 
 ## 命令

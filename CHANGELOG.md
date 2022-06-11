@@ -5,6 +5,15 @@
 格式基于[维护更新日志（Keep a Changelog）](https://keepachangelog.com/en/1.0.0/)，
 并且该项目遵循 [语义版本控制（Semantic Versioning）](https://semver.org/spec/v2.0.0.html)。
 
+## [1.0.4] - 2022-06-11
+
+- 设置面板中的路径统一将默认值设置为空字符串，避免不存在的路径对用户造成干扰
+- 修复读取剧本配置时关掉消息框而非点击“打开输出面板”也会打开输出面板的bug
+- 现在可以在剧本配置中用“#tl”或者“timeline”（不区分大小写）来配置导出xml时的timeline文件的路径了
+- 昨天合成语音时发现生成的是rgl文件而非txt文件，修复了一下，现在大概可以打开处理后的文件了
+- 将文档里的介绍视频的链接改为了[【回声工坊】插件：跑团replay视频制作程序的vscode辅助扩展，让效率再上一层楼！](https://www.bilibili.com/video/BV1Xv4y1u7RC/)
+
+
 ## [1.0.3] - 2022-06-10
 
 - 添加了两个代码片段 `fold mark`和 `current directory`
