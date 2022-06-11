@@ -172,4 +172,22 @@
 	}
 	
 
+	,"fold mark":{
+		"prefix":["fold mark"],
+		"body":[
+			"#s $1",
+			"$2",
+			"#e $1"
+		],
+		"description":"快速输入折叠标记"
+	}
+	,"current directory":{
+		"prefix":["current directory"],
+		"body":[
+			"${TM_DIRECTORY}"
+		],
+		"description":"快速输入当前文档所在目录，便于进行局部配置"
+	}
+
+
 }

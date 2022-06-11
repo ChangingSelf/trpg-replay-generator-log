@@ -5,6 +5,9 @@
 格式基于[维护更新日志（Keep a Changelog）](https://keepachangelog.com/en/1.0.0/)，
 并且该项目遵循 [语义版本控制（Semantic Versioning）](https://semver.org/spec/v2.0.0.html)。
 
+## [1.0.3] - 2022-06-10
+
+- 添加了两个代码片段 `fold mark`和 `current directory`
 
 ## [1.0.2] - 2022-06-10
 
@@ -15,7 +18,7 @@
 - 修复 `TRGL: Play Video`以及 `TRGL: Export Video`命令的bug（这个bug很怪，目前还没想出来是怎么回事，改了之后怎么就可以运行了，It just work！）
 - 修复了会出现多个输出框的bug
 - 修复了会出现多个终端的bug
-- 在 `TRGL: Synthesized Speech`命令中添加了一个按钮消息弹框，语音合成完毕后可以手动打开合成好的`AsteriskMarkedLogFile.txt`（找不到监听终端运行结束指令的替代方案）
+- 在 `TRGL: Synthesized Speech`命令中添加了一个按钮消息弹框，语音合成完毕后可以手动打开合成好的 `AsteriskMarkedLogFile.txt`（找不到监听终端运行结束指令的替代方案）
 
 ## [1.0.0] - 2022-06-09
 
