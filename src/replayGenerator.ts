@@ -10,14 +10,14 @@ let terminal = terminalUtils.TerminalUtils.getInstance();
  * 播放视频
  */
 export function playVideo(){
-    let s = utils.loadSettings();
+    let s = utils.loadSettings(true);
 
     //运行
     let rplGenCorePathDir = path.dirname(s["rplGenCorePath"]);
     
-    let cmd = `${s["rplGenCorePath"]} --Modules replay_generator --LogFile ${s["logFile"]} --MediaObjDefine ${s["mediaObjDefine"]} --CharacterTable ${s["characterTable"]} --FramePerSecond ${s["framePerSecond"]} --Width ${s["width"]} --Height ${s["height"]} --Zorder ${s["zorder"]} --OutputPath ${s["outputPath"]} ${/^true$/i.test(s["fixScreenZoom"])?"--FixScreenZoom":""}`;
+    let cmd = `${s["rplGenCorePath"]} --Modules replay_generator --LogFile ${s["logFile"]} --MediaObjDefine ${s["mediaObjDefine"]} --CharacterTable ${s["characterTable"]} --FramePerSecond ${s["framePerSecond"]} --Width ${s["width"]} --Height ${s["height"]} --Zorder ${s["zorder"]} --OutputPath ${s["outputPath"]} ${s["fixScreenZoom"]?"--FixScreenZoom":""}`;
 
-    let synthesis = /^true$/i.test(s["synthesisAnyway"])?` --SynthesisAnyway --AccessKey ${s["accessKey"]} --AccessKeySecret ${s["accessKeySecret"]} --Appkey ${s["appkey"]} --Azurekey ${s["azurekey"]} --ServRegion ${s["servRegion"]}`:"";
+    let synthesis = s["synthesisAnyway"]?` --SynthesisAnyway --AccessKey ${s["accessKey"]} --AccessKeySecret ${s["accessKeySecret"]} --Appkey ${s["appkey"]} --Azurekey ${s["azurekey"]} --ServRegion ${s["servRegion"]}`:"";
 
     cmd += synthesis;
     
@@ -31,15 +31,15 @@ export function playVideo(){
  */
 export function exportVideo(){
 
-    let s = utils.loadSettings();
+    let s = utils.loadSettings(true);
 
     //运行
     let rplGenCorePathDir = path.dirname(s["rplGenCorePath"]);
 
 
-    let cmd = `${s["rplGenCorePath"]} --Modules replay_generator --LogFile ${s["logFile"]} --MediaObjDefine ${s["mediaObjDefine"]} --CharacterTable ${s["characterTable"]} --FramePerSecond ${s["framePerSecond"]} --Width ${s["width"]} --Height ${s["height"]} --Zorder ${s["zorder"]} --OutputPath ${s["outputPath"]} --Quality ${s["quality"]} ${/^true$/i.test(s["fixScreenZoom"])?"--FixScreenZoom":""} --ExportVideo `;
+    let cmd = `${s["rplGenCorePath"]} --Modules replay_generator --LogFile ${s["logFile"]} --MediaObjDefine ${s["mediaObjDefine"]} --CharacterTable ${s["characterTable"]} --FramePerSecond ${s["framePerSecond"]} --Width ${s["width"]} --Height ${s["height"]} --Zorder ${s["zorder"]} --OutputPath ${s["outputPath"]} --Quality ${s["quality"]} ${s["fixScreenZoom"]?"--FixScreenZoom":""} --ExportVideo `;
     
-    let synthesis = /^true$/i.test(s["synthesisAnyway"])?(` --SynthesisAnyway --AccessKey ${s["accessKey"]} --AccessKeySecret ${s["accessKeySecret"]} --Appkey ${s["appkey"]} --Azurekey ${s["azurekey"]} --ServRegion ${s["servRegion"]}`):"";
+    let synthesis = s["synthesisAnyway"]?(` --SynthesisAnyway --AccessKey ${s["accessKey"]} --AccessKeySecret ${s["accessKeySecret"]} --Appkey ${s["appkey"]} --Azurekey ${s["azurekey"]} --ServRegion ${s["servRegion"]}`):"";
 
     cmd += synthesis;
     
@@ -53,7 +53,7 @@ export function exportVideo(){
  */
 export function synthesizedSpeech(){
 
-    let s = utils.loadSettings();
+    let s = utils.loadSettings(true);
 
     //运行
     
@@ -81,7 +81,7 @@ export function synthesizedSpeech(){
  */
  export function exportXML(){
 
-    let s = utils.loadSettings();
+    let s = utils.loadSettings(true);
 
     //运行
     

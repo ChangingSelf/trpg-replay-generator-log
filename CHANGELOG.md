@@ -5,6 +5,12 @@
 格式基于[维护更新日志（Keep a Changelog）](https://keepachangelog.com/en/1.0.0/)，
 并且该项目遵循 [语义版本控制（Semantic Versioning）](https://semver.org/spec/v2.0.0.html)。
 
+## [1.1.0] - 2022-06-12
+
+- 新增悬停提示功能，默认开启，可以在设置中关掉
+- 新增命令`TRGL: Open Document`，可以快速打开配置的回声工坊软件路径下的`README.md`文件
+
+
 ## [1.0.5] - 2022-06-11
 
 - `TRGL: Count`命令现在可以只统计选中部分的内容了，当未选中任何文本时，统计整个文件

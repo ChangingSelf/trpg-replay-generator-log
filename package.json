@@ -2,7 +2,7 @@
   "name": "trpg-replay-generator-log",
 	"displayName": "TRPG Replay Generator Log",
 	"description": "Syntax highlighting and code snippets for TRPG-Replay-Generator-Log language",
-	"version": "1.0.5",
+	"version": "1.1.0",
 	"engines": {
 		"vscode": "^1.67.0"
 	},
@@ -13,7 +13,9 @@
 	],
 	"icon": "images/icon.png",
 	"activationEvents": [
-		"onCommand:trpg-replay-generator-log.count"
+		"onLanguage:rgl"
+		,"onCommand:trpg-replay-generator-log.openDocument"
+		,"onCommand:trpg-replay-generator-log.count"
 		,"onCommand:trpg-replay-generator-log.checkDialogLineLength"
 		,"onCommand:trpg-replay-generator-log.defineMedia"
 		,"onCommand:trpg-replay-generator-log.defineCharacter"
@@ -31,6 +33,10 @@
 			{
 				"command": "trpg-replay-generator-log.count",
 				"title": "TRGL: Count"
+			}
+			,{
+				"command": "trpg-replay-generator-log.openDocument",
+				"title": "TRGL: Open Document"
 			}
 			,{
 				"command": "trpg-replay-generator-log.checkDialogLineLength",
@@ -232,6 +238,42 @@
 						"type": "boolean",
 						"default": false,
 						"description": "导出XML。若勾选了该选项，则执行导出视频命令不导出视频，而是会导出为可以导入PR的XML"
+					}
+				}
+			}
+			,{
+				"order": 4,
+				"title": "悬停提示",
+				"properties": {
+					"trpg-replay-generator-log.hover.Enable": {
+						"order": 0,
+						"type": "boolean",
+						"default": true,
+						"description": "悬停提示总开关。关闭后其他悬停提示设置不再启用"
+					}
+					,"trpg-replay-generator-log.hover.EnableDialogLine": {
+						"order": 1,
+						"type": "boolean",
+						"default": true,
+						"description": "对话行悬停提示的开关。"
+					}
+					,"trpg-replay-generator-log.hover.EnableConfigLine": {
+						"order": 2,
+						"type": "boolean",
+						"default": true,
+						"description": "设置行悬停提示的开关。"
+					}
+					,"trpg-replay-generator-log.hover.EnableBackgroundLine": {
+						"order": 3,
+						"type": "boolean",
+						"default": true,
+						"description": "背景行悬停提示的开关。"
+					}
+					,"trpg-replay-generator-log.hover.EnableAnimationLine": {
+						"order": 4,
+						"type": "boolean",
+						"default": true,
+						"description": "动画行悬停提示的开关。"
 					}
 				}
 			}

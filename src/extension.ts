@@ -6,6 +6,9 @@ import * as defineMedia from './defineMedia';
 import * as regexReplace from './regexReplace';
 import * as replayGenerator from './replayGenerator';
 import * as defineCharacter from './defineCharacter';
+import * as hoverProvider from './providers/HoverProvider';
+import * as utils from './utils/utils';
+import * as path from 'path';
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -43,6 +46,26 @@ export function activate(context: vscode.ExtensionContext) {
 	
 	//确定对话行长度
 	context.subscriptions.push(vscode.commands.registerCommand('trpg-replay-generator-log.checkDialogLineLength',rglCount.checkDialogLineLength));
+	
+	//快速打开readme
+	context.subscriptions.push(vscode.commands.registerCommand('trpg-replay-generator-log.openDocument',()=>{
+		let settings =  utils.loadSettings();
+		vscode.workspace.openTextDocument(path.join(path.dirname(settings.rplGenCorePath),"README.md"))
+		.then(doc => {
+			// 在VSCode编辑窗口展示读取到的文本
+			vscode.window.showTextDocument(doc);
+		}, err => {
+			vscode.window.showErrorMessage(`Open error, ${err}.`);
+		}).then(undefined, err => {
+			vscode.window.showErrorMessage(`Open error, ${err}.`);
+		});
+	}));
+	
+
+	//悬停提示
+	context.subscriptions.push(vscode.languages.registerHoverProvider('rgl',new hoverProvider.HoverProvider()));
+
+	
 	
 }
 
