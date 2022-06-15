@@ -37,15 +37,19 @@ import * as vscode from 'vscode';
     /**
      * append
      */
-    public append(value:string) {
-        this.outputChannel.append(value);
+    public append(value:string,flag:boolean=true) {
+        if(flag){
+            this.outputChannel.append(value);
+        }
     }
 
     /**
      * appendLine
      */
-    public appendLine(value:string) {
-        this.outputChannel.appendLine(value);
+    public appendLine(value:string,flag:boolean=true) {
+        if(flag){
+            this.outputChannel.appendLine(value);
+        }
     }
 
     /**

@@ -2,24 +2,34 @@
 	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
 	"name": "rgl",
 	"patterns": [
-		{"include": "#comments"}
+		{"include": "#error"}
+		,{"include": "#comments"}
 		,{"include": "#dialog"}
 		,{"include": "#command"}
-		,{"include": "#error"}
 	],
 	"repository": {
 		"comments":{
 			"patterns": [{
+				"name": "comment.block.documentation",
+				"match": "^#\\S+ .+$"
+			},
+			{
 				"name": "comment.line",
 				"match": "^#.+$"
-			}]
+			}
+			]
 		},
 		"dialog":{
 			"patterns": [{
 				"name": "entity.name.function",
 				"begin": "(?=^\\[)",
 				"end":"\n",
-				"patterns": [{
+				"patterns": [
+					{
+						"name": "invalid.illegal",
+						"match": "\\B："
+					},					
+					{
 					"name": "variable.parameter",
 					"match":"^\\[([^,\\.\\(\\)]*?(\\(\\d+\\))?(\\.[^,\\.\\(\\)]*?)?)(,[^,\\.\\(\\)]*?(\\(\\d+\\))?(\\.[^,\\.\\(\\)]*?)?)?(,[^,\\.\\(\\)]*?(\\(\\d+\\))?(\\.[^,\\.\\(\\)]*?)?)?\\]"
 				}
@@ -51,7 +61,12 @@
 				"name": "entity.name.function",
 				"begin": "(?=^<(set:[^>]+|background|dice|hitpoint)>)",
 				"end":"\n",
-				"patterns": [{
+				"patterns": [
+					{
+						"name": "invalid.illegal",
+						"match": "\\B："
+					},	
+				{
 					"name": "keyword.control",
 					"match": "^<(set:[^>]+|background|dice|hitpoint)>"
 				},{
@@ -81,7 +96,10 @@
 			"patterns": [{
 				"name": "invalid.illegal",
 				"match": "^[\\t\\ ]+$"
-			}]
+			}
+			
+			
+		]
 		}
 	},
 	

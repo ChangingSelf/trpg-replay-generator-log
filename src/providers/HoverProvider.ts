@@ -103,7 +103,7 @@ export class HoverProvider implements vscode.HoverProvider{
 		
 		//根据行的类型显示相应的悬停提示
 		if(settings.enableDialogLineHover && dialogLineRegex.test(line)){
-			// console.log(line.match(dialogLineRegex));
+			console.log(line.match(dialogLineRegex));
 			let dialogLine = line.match(dialogLineRegex) as RegExpMatchArray;
 			let pcList = [
 				{"name":dialogLine[2],"alpha":dialogLine[4],"subtype":dialogLine[6]}
@@ -127,18 +127,31 @@ export class HoverProvider implements vscode.HoverProvider{
 			
 			
 
-			let lines = content.split("#");
-			let lineCount = lines.length;
-			let maxLen = 0;
-			lines.forEach(line=>{
-				if(line.length > maxLen){
-					maxLen = line.length;
+			
+			let isManualNewLine = /#/m.test(content);//是否手动换行
+			let processedLines:string[] = [];
+			if(isManualNewLine){
+				//手动换行
+				let lines = content.split("#");
+				lines.forEach(line=>{
+					processedLines.push(`[${line.length}]\t\t${line.replace("^","")}`);
+				});
+			}else{
+				//自动换行
+				let lineLenMax = settings.lineLength;
+				let len = content.length;
+				while(content.length > lineLenMax){
+					let line = content.substring(0,lineLenMax);
+					processedLines.push(`[${line.length}]\t\t${line}`);
+					content = content.substring(lineLenMax,len);
 				}
-			});
-			console.log(settings.enableDialogLineHover);
+				processedLines.push(`[${content.length}]\t\t${content}`);
+			}
+			
+
 			
 			mdStr.appendMarkdown(
-				`【内容字数】${content.length}\n\n【角色】（${pcCount}）${pcStr}\n\n【行数】${lineCount}\n\n【最长行字数】${maxLen}`
+				`「${pcStr}」${isManualNewLine?"(手动换行模式)":""}\n\n${processedLines.join("\n\n")}`
 			);
 		}else if(settings.enableConfigLineHover && configLineRegex.test(line)){
 			let configLine = line.match(configLineRegex) as RegExpMatchArray;
@@ -220,7 +233,7 @@ export class HoverProvider implements vscode.HoverProvider{
 			let diceList = diceLine.split(":")[1].slice(1,-1).split("),(");
 			console.log(diceList);
 			diceList.forEach((x,i)=>{
-				let dice = x.split(",")
+				let dice = x.split(",");
 				console.log(dice);
 				let desc = dice[0];
 				let faceNum = dice[1];

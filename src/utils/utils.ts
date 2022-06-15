@@ -48,6 +48,9 @@ export function loadSettings(isShowInfo:boolean=false){
         ,"enableConfigLineHover":parseBoolean(configuration.get('trpg-replay-generator-log.hover.EnableConfigLine') as string)
         ,"enableBackgroundLineHover":parseBoolean(configuration.get('trpg-replay-generator-log.hover.EnableBackgroundLine') as string)
         ,"enableAnimationLineHover":parseBoolean(configuration.get('trpg-replay-generator-log.hover.EnableAnimationLine') as string)
+
+        //其他配置
+        ,"lineLength":Number.POSITIVE_INFINITY
     };
 
     let editor = vscode.window.activeTextEditor;
@@ -60,50 +63,59 @@ export function loadSettings(isShowInfo:boolean=false){
         let result = text.match(reg);
         if(result) {
             settings["rplGenCorePath"] = result[1];
-            outputChannel.appendLine(`[rplGenCorePath] ${settings["rplGenCorePath"]}`);
+            outputChannel.appendLine(`[rplGenCorePath] ${settings["rplGenCorePath"]}`,isShowInfo);
         }else{
-            outputChannel.appendLine(`[rplGenCorePath](default) ${settings["rplGenCorePath"]}`);
+            outputChannel.appendLine(`[rplGenCorePath](default) ${settings["rplGenCorePath"]}`,isShowInfo);
         }
 
         reg = /^#(md|MediaDefinition) (.*)$/im;
         result = text.match(reg);
         if(result){
             settings["mediaObjDefine"] = result[2];
-            outputChannel.appendLine(`[mediaObjDefine] ${settings["mediaObjDefine"]}`);
+            outputChannel.appendLine(`[mediaObjDefine] ${settings["mediaObjDefine"]}`,isShowInfo);
         }else{
-            outputChannel.appendLine(`[mediaObjDefine](default) ${settings["mediaObjDefine"]}`);
+            outputChannel.appendLine(`[mediaObjDefine](default) ${settings["mediaObjDefine"]}`,isShowInfo);
         }
         
         reg = /^#(ct|CharacterTable) (.*)$/im;
         result = text.match(reg);
         if(result){
             settings["characterTable"] = result[2];
-            outputChannel.appendLine(`[characterTable] ${settings["characterTable"]}`);
+            outputChannel.appendLine(`[characterTable] ${settings["characterTable"]}`,isShowInfo);
         }else{
-            outputChannel.appendLine(`[characterTable](default) ${settings["characterTable"]}`);
+            outputChannel.appendLine(`[characterTable](default) ${settings["characterTable"]}`,isShowInfo);
         }
         
         reg = /^#(op|Output) (.*)$/im;
         result = text.match(reg);
         if(result){
             settings["outputPath"] = result[2];
-            outputChannel.appendLine(`[outputPath] ${settings["outputPath"]}`);
+            outputChannel.appendLine(`[outputPath] ${settings["outputPath"]}`,isShowInfo);
         }else{
-            outputChannel.appendLine(`[outputPath](default) ${settings["outputPath"]}`);
+            outputChannel.appendLine(`[outputPath](default) ${settings["outputPath"]}`,isShowInfo);
         }
         
         reg = /^#(tl|Timeline) (.*)$/im;
         result = text.match(reg);
         if(result){
             settings["outputPath"] = result[2];
-            outputChannel.appendLine(`[Timeline] ${settings["timeLine"]}`);
+            outputChannel.appendLine(`[Timeline] ${settings["timeLine"]}`,isShowInfo);
         }else{
-            outputChannel.appendLine(`[Timeline](default) ${settings["timeLine"]}`);
+            outputChannel.appendLine(`[Timeline](default) ${settings["timeLine"]}`,isShowInfo);
         }
 
+        reg = /^#(ll|LineLength) (.*)$/im;
+        result = text.match(reg);
+        if(result){
+            settings["lineLength"] = parseInt(result[2]);
+            outputChannel.appendLine(`[LineLength] ${settings["lineLength"]}`,isShowInfo);
+        }else{
+            outputChannel.appendLine(`[LineLength](default) ${settings["lineLength"]}`,isShowInfo);
+        }
 
-        outputChannel.appendLine("配置读取完毕");
-        outputChannel.appendLine("（如果需要查看控制台显示的信息，点击旁边的“终端”或者“TERMINAL”选项卡），或者使用“ctrl+`(反引号，tab上面那个按键)”");
+        outputChannel.appendLine("配置读取完毕",isShowInfo);
+        outputChannel.appendLine("（如果需要查看控制台显示的信息，点击旁边的“终端”或者“TERMINAL”选项卡），或者使用“ctrl+`(反引号，tab上面那个按键)”",isShowInfo);
+        
         if(isShowInfo){
             vscode.window.showInformationMessage("配置读取完毕，如需查看，可点击旁边的“输出”或者“OUTPUT”选项卡，或者使用“ctrl+shift+U”","打开输出面板").then(s=>{
                 if(s === "打开输出面板") {

@@ -19,6 +19,17 @@
 			}
 		},
 		{
+			"name": "Comment Document",
+			"scope": [
+				"comment.block.documentation",
+				"punctuation.definition.comment"
+			],
+			"settings": {
+				"fontStyle": "italic",
+				"foreground": "#c4c3c3"
+			}
+		},
+		{
 			"name": "Variables",
 			"scope": [
 				"variable",
@@ -76,6 +87,15 @@
 			],
 			"settings": {
 				"foreground": "#94B25C"
+			}
+		},
+		{
+			"name": "Operator",
+			"scope": [
+				"keyword.operator",
+			],
+			"settings": {
+				"foreground": "#a2f900"
 			}
 		},
 		{
