@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="./layui/css/layui.css" rel="stylesheet">
+    <script src="./layui/layui.js"></script>
+    <title>Document</title>
+</head>
+<body style="background-color:white;">
+    <fieldset class="layui-elem-field layui-field-title">
+        <legend>媒体定义</legend>
+      </fieldset>
+    媒体定义文件路径：<span id="filePath"></span>
+    <div id="test"></div>
+    <table id="demo"></table>
+    <script>
+        const filePathSpan = document.getElementById("filePath");
+        window.addEventListener('message', event => {
+            const message = event.data;
+            console.log('Webview接收到的消息：', message.data);
+            filePathSpan.innerHTML = message.filePath;
+
+            
+            //数据表格
+            layui.use('table', function(){
+                var table = layui.table;
+                
+                //展示已知数据
+                table.render({
+                    elem: '#demo'
+                    ,cellMinWidth: 200
+                    ,even:true
+                    ,cols: [[ //标题栏
+                    {type:'checkbox'}
+                    ,{field: 'mediumName', title: '媒体名称', sort: true}
+                    ,{field: 'mediumType', title: '媒体类型', sort: true}
+                    ]]
+                    ,data:message.data
+                    ,page:true
+                    
+                });
+            });
+        })
+
+    </script>
+</body>
+</html>

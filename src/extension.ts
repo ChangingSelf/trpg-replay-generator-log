@@ -9,10 +9,30 @@ import * as defineCharacter from './defineCharacter';
 import * as hoverProvider from './providers/HoverProvider';
 import * as utils from './utils/utils';
 import * as path from 'path';
+import * as fs from 'fs';
+
+/**
+ * 从某个HTML文件读取能被Webview加载的HTML内容
+ * @param {*} context 上下文
+ * @param {*} templatePath 相对于插件根目录的html文件相对路径
+ */
+ function getWebViewContent(context:vscode.ExtensionContext, templatePath:string) {
+    const resourcePath = path.join(context.extensionPath, templatePath);
+    const dirPath = path.dirname(resourcePath);
+    let html = fs.readFileSync(resourcePath, 'utf-8');
+    // vscode不支持直接加载本地资源，需要替换成其专有路径格式，这里只是简单的将样式和JS的路径替换
+    html = html.replace(/(<link.+?href="|<script.+?src="|<img.+?src=")(.+?)"/g, (m, $1, $2) => {
+        return $1 + vscode.Uri.file(path.resolve(dirPath, $2)).with({ scheme: 'vscode-resource' }).toString() + '"';
+    });
+    return html;
+}
+
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
+
+	let currentPanel:vscode.WebviewPanel | undefined = undefined;
 	
 	// Use the console to output diagnostic information (console.log) and errors (console.error)
 	// This line of code will only be executed once when your extension is activated
@@ -65,7 +85,40 @@ export function activate(context: vscode.ExtensionContext) {
 	//悬停提示
 	context.subscriptions.push(vscode.languages.registerHoverProvider('rgl',new hoverProvider.HoverProvider()));
 
-	
+	//webview
+	context.subscriptions.push(vscode.commands.registerCommand('trpg-replay-generator-log.openMediaView', function (uri) {
+		// 创建webview
+		if (currentPanel) {
+			currentPanel.reveal(vscode.ViewColumn.One);
+		} else {
+			currentPanel = vscode.window.createWebviewPanel(
+				'MediaView', // viewType
+				"媒体定义视图", // 视图标题
+				vscode.ViewColumn.One, // 显示在编辑器的哪个部位
+				{
+					enableScripts: true, // 启用JS，默认禁用
+					retainContextWhenHidden: true, // webview被隐藏时保持状态，避免被重置
+				}
+			);
+			currentPanel.webview.html = getWebViewContent(context,"web/mediaEditor.html");
+			currentPanel.onDidDispose(
+				() => {
+				  currentPanel = undefined;
+				},
+				undefined,
+				context.subscriptions
+			  );
+		}
+		//将当前文件内容传给WebView
+		let text = vscode.window.activeTextEditor?.document.getText() ?? "";
+		let mediaListObj = defineMedia.mediaDef2Obj(text);
+		console.log(mediaListObj);
+		currentPanel.webview.postMessage({
+			data: mediaListObj,
+			filePath:vscode.window.activeTextEditor?.document.uri.fsPath ?? ""
+		});
+
+	}));	
 	
 }
 

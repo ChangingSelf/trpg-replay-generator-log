@@ -2,7 +2,7 @@
   "name": "trpg-replay-generator-log",
 	"displayName": "TRPG Replay Generator Log",
 	"description": "Syntax highlighting and code snippets for TRPG-Replay-Generator-Log language",
-	"version": "1.1.1",
+	"version": "1.2.0",
 	"engines": {
 		"vscode": "^1.67.0"
 	},
@@ -26,6 +26,7 @@
 		,"onCommand:trpg-replay-generator-log.exportVideo"
 		,"onCommand:trpg-replay-generator-log.synthesizedSpeech"
 		,"onCommand:trpg-replay-generator-log.exportXML"
+		,"onCommand:trpg-replay-generator-log.openMediaView"
 	],
 	"main": "./dist/extension.js",
 	"contributes": {
@@ -78,6 +79,10 @@
 				"command": "trpg-replay-generator-log.exportXML",
 				"title": "TRGL: Export XML"
 			}
+			,{
+				"command": "trpg-replay-generator-log.openMediaView",
+				"title": "TRGL: Open Media View"
+			}
 			]
 			,"languages": [{
 				"id": "rgl",
@@ -94,7 +99,12 @@
 				{
 					"label": "rgl theme",
 					"uiTheme": "vs-dark",
-					"path": "./themes/rgl theme-color-theme.json"
+					"path": "./themes/rgl-theme-color-theme.json"
+				}
+				,{
+					"label": "rgl light theme",
+					"uiTheme": "vs",
+					"path": "./themes/rgl-light-theme-color-theme.json"
 				}
 			]
 			,"snippets": [
