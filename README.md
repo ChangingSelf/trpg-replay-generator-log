@@ -22,6 +22,7 @@
 - 便于复制使用的常用正则表达式片段：触发词前缀是regex。分别是“将跑团记录着色器得到的尖括号替换为方括号与冒号”，“批量给对话行末尾添加待处理星标“{*}”。”，“给某个特定角色对话行末尾加特定音效。”（现在推荐直接使用对应的命令 `TRGL: Replace Angle Brackets`、`TRGL: Add Asterisk Marks`、`TRGL: Add Sound Effects In Batches`、 ）
 - `fold mark`:快速输入折叠标记
 - `current directory`:快速输入当前文档所在目录，便于进行局部配置
+- `quickly configurate`:快速在本文件中配置与本文件同目录下的媒体定义文件media.txt和角色配置表characters.tsv
 
 ## 代码折叠
 

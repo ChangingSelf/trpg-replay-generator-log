@@ -5,6 +5,10 @@
 格式基于[维护更新日志（Keep a Changelog）](https://keepachangelog.com/en/1.0.0/)，
 并且该项目遵循 [语义版本控制（Semantic Versioning）](https://semver.org/spec/v2.0.0.html)。
 
+## [1.2.1] - 2022-06-19
+
+- 新增代码片段“quickly configurate”，快速在本文件中配置与本文件同目录下的媒体定义文件media.txt和角色配置表characters.tsv
+
 ## [1.2.0] - 2022-06-18
 
 - 新增亮色主题“rgl light theme”
