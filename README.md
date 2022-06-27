@@ -93,6 +93,10 @@
 
 为指定角色批量添加指定音效
 
+### `TRGL: Adjust Sound Effects Time In Batches`
+
+批量调整合成语音的时间，输入角色名以及时间差，就可以给合成的语音框后的时间批量加上这个时间差，用于调整微软音源的音频空白问题
+
 ### `TRGL: Define Character`
 
 根据已有的log文件自动生成tsv角色配置表

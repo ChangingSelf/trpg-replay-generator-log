@@ -55,6 +55,9 @@ export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(vscode.commands.registerCommand('trpg-replay-generator-log.addAsteriskMarks',regexReplace.addAsteriskMarks));
 	context.subscriptions.push(vscode.commands.registerCommand('trpg-replay-generator-log.addSoundEffectsInBatches',regexReplace.addSoundEffectsInBatches));
 	
+	//语音时间批量增减
+	context.subscriptions.push(vscode.commands.registerCommand('trpg-replay-generator-log.adjustSoundEffectsTimeInBatches',regexReplace.adjustSoundEffectsTimeInBatches));
+	
 	//播放视频
 	context.subscriptions.push(vscode.commands.registerCommand('trpg-replay-generator-log.playVideo',replayGenerator.playVideo));
 	//导出视频

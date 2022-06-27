@@ -2,7 +2,7 @@
   "name": "trpg-replay-generator-log",
 	"displayName": "TRPG Replay Generator Log",
 	"description": "Syntax highlighting and code snippets for TRPG-Replay-Generator-Log language",
-	"version": "1.2.2",
+	"version": "1.3.0",
 	"engines": {
 		"vscode": "^1.67.0"
 	},
@@ -22,6 +22,7 @@
 		,"onCommand:trpg-replay-generator-log.replaceAngleBrackets"
 		,"onCommand:trpg-replay-generator-log.addAsteriskMarks"
 		,"onCommand:trpg-replay-generator-log.addSoundEffectsInBatches"
+		,"onCommand:trpg-replay-generator-log.adjustSoundEffectsTimeInBatches"
 		,"onCommand:trpg-replay-generator-log.playVideo"
 		,"onCommand:trpg-replay-generator-log.exportVideo"
 		,"onCommand:trpg-replay-generator-log.synthesizedSpeech"
@@ -62,6 +63,10 @@
 			,{
 				"command": "trpg-replay-generator-log.addSoundEffectsInBatches",
 				"title": "TRGL: Add Sound Effects In Batches"
+			}
+			,{
+				"command": "trpg-replay-generator-log.adjustSoundEffectsTimeInBatches",
+				"title": "TRGL: Adjust Sound Effects Time In Batches"
 			}
 			,{
 				"command": "trpg-replay-generator-log.playVideo",

@@ -65,3 +65,52 @@ export function addSoundEffectsInBatches(){
 
     });
 }
+
+
+export function adjustSoundEffectsTimeInBatches(){
+    vscode.window.showInputBox({
+        placeHolder:"角色名称",
+        prompt:"要为哪个角色批量调整音效时间？（不输入直接Enter为全部）"
+    }).then(inputText1=>{
+        vscode.window.showInputBox({
+            placeHolder:"增加的时间，单位：秒",
+            prompt:`要为${inputText1??"全部角色"}的音效增加多少秒？（默认为0.5秒）`
+        }).then(inputText2=>{
+            let characterName = inputText1 ?? "";
+            let deltaTime = parseFloat(inputText2 || "0.5");
+            if(!vscode.window.activeTextEditor) {
+                vscode.window.showErrorMessage(`请打开要操作的文件`);
+                return;
+            }
+            try {
+                let editor = vscode.window.activeTextEditor as vscode.TextEditor;
+                let doc = editor.document;
+                let text = doc.getText();
+                let lines = text.split("\n");
+                console.log(lines);
+                let regex = /^\[(.*?)\]:(.*?)\{(.*?);\*([\d.]*?)\}$/m;
+                let processedLines = lines.map((line,index)=>{
+                    let result = line.match(regex);
+                    if(!result) {return line;}
+                    let dialogLine = result as RegExpMatchArray;
+                    let pc = dialogLine[1];
+                    let content = dialogLine[2];
+                    let soundEffects = dialogLine[3];
+                    let time = parseFloat(dialogLine[4]) + deltaTime;
+                    if(characterName && pc !== characterName) {return line;}
+                    return `[${pc}]:${content}\{${soundEffects};*${time}\}`;
+                });
+                let processedText = processedLines.join("\n");
+                regexReplace(text,processedText);
+        
+            } catch (error) {
+                let err:Error = error as Error;
+                vscode.window.showErrorMessage(`[${err.name}]${err.message}`);
+            }
+            
+
+
+        });
+
+    });
+}

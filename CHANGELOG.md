@@ -5,6 +5,11 @@
 格式基于[维护更新日志（Keep a Changelog）](https://keepachangelog.com/en/1.0.0/)，
 并且该项目遵循 [语义版本控制（Semantic Versioning）](https://semver.org/spec/v2.0.0.html)。
 
+## [1.3.0] - 2022-06-27
+
+- 新增命令“TRGL: Adjust Sound Effects Time In Batches”。批量调整合成语音的时间，输入角色名以及时间差，就可以给合成的语音框后的时间批量加上这个时间差，用于调整微软音源的音频空白问题
+
+
 ## [1.2.2] - 2022-06-19
 
 - 修复文档中错误的唤出命令面板的快捷键
