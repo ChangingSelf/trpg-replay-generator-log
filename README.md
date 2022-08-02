@@ -10,6 +10,8 @@
 
 详细使用方法可见视频：[【回声工坊】插件：跑团replay视频制作程序的vscode辅助扩展，让效率再上一层楼！](https://www.bilibili.com/video/BV1Xv4y1u7RC/)
 
+或者带有动画演示的图文教程：[插件TRGL帮助文档（详细介绍版）](https://www.wolai.com/oPvjzFX3gQDZjV5JLAxpuR)
+
 - 安装该扩展之后在弹窗中使用该扩展提供的“rgl theme”（不用自带主题的话可能高亮起来怪怪的，当然，可以切换其他主题，同样有语法高亮）
 - 将要高亮的文件的扩展名改为.rgl，txt文件是不会高亮的
 

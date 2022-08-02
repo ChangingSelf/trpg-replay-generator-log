@@ -46,7 +46,23 @@ export function replaceAngleBrackets(){
 }
 
 export function addAsteriskMarks(){
-    regexReplace(/^(\[.*?\].*?)$/mg,"$1{*}");
+    let optAll = "给全部对话行添加待处理星标";
+    let optNotAE = "只给无音效框的行添加待处理星标";
+    let optList:string[] = [optAll,optNotAE];
+    vscode.window.showQuickPick(optList,{
+        placeHolder:"请选择替换模式"
+    }).then(item=>{
+        switch (item) {
+            case optAll:
+                regexReplace(/^(\[.*?\].*?)$/mg,"$1{*}");
+                break;
+            case optNotAE:
+                regexReplace(/^(\[.*?\][^\{\}]*?)$/mg,"$1{*}");
+                break;
+            default:
+                break;
+        }
+    });
 }
 
 export function addSoundEffectsInBatches(){
