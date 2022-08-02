@@ -48,7 +48,8 @@ export function replaceAngleBrackets(){
 export function addAsteriskMarks(){
     let optAll = "给全部对话行添加待处理星标";
     let optNotAE = "只给无音效框的行添加待处理星标";
-    let optList:string[] = [optAll,optNotAE];
+    let optNotPurePunctuation = "去掉纯标点符号行的待处理星标";
+    let optList:string[] = [optAll,optNotAE,optNotPurePunctuation];
     vscode.window.showQuickPick(optList,{
         placeHolder:"请选择替换模式"
     }).then(item=>{
@@ -58,6 +59,10 @@ export function addAsteriskMarks(){
                 break;
             case optNotAE:
                 regexReplace(/^(\[.*?\][^\{\}]*?)$/mg,"$1{*}");
+                break;
+            case optNotPurePunctuation:
+                //将纯符号的行的待处理星标去掉
+                regexReplace(/^(\[.*?\]:([。]|[^a-zA-Z0-9\u2E80-\u9FFF])*)({\*})$/mg,"$1");
                 break;
             default:
                 break;

@@ -2,7 +2,7 @@
   "name": "trpg-replay-generator-log",
 	"displayName": "TRPG Replay Generator Log",
 	"description": "Syntax highlighting and code snippets for TRPG-Replay-Generator-Log language",
-	"version": "1.3.1",
+	"version": "1.3.2",
 	"engines": {
 		"vscode": "^1.67.0"
 	},
