@@ -7,6 +7,7 @@ import * as regexReplace from './regexReplace';
 import * as replayGenerator from './replayGenerator';
 import * as defineCharacter from './defineCharacter';
 import * as hoverProvider from './providers/HoverProvider';
+import * as rglStatusBar from './rglStatusBar';
 import * as utils from './utils/utils';
 import * as path from 'path';
 import * as fs from 'fs';
@@ -41,6 +42,11 @@ export function activate(context: vscode.ExtensionContext) {
 	// The command has been defined in the package.json file
 	// Now provide the implementation of the command with registerCommand
 	// The commandId parameter must match the command field in package.json
+
+	//状态栏
+	let statusBar = new rglStatusBar.rglStatusBar();
+	statusBar.updateRglStatus();
+	context.subscriptions.push(statusBar);
 
 	//统计rgl文件的数据
 	context.subscriptions.push(vscode.commands.registerCommand('trpg-replay-generator-log.count',rglCount.rglCount));

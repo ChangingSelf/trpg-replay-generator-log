@@ -4,7 +4,7 @@ import * as outputUtils from './utils/OutputUtils';
 let outputChannel = outputUtils.OutputUtils.getInstance();
 
 //预估生成的视频的时长，单位：秒
-export function estimateDuration(text:string){
+export function estimateDuration(text:string,flag:boolean=true){
 	if(!text) return 0;
 	const FRAME_PER_SECOND = 30;//每秒多少帧
 	const DICE_ANIMATION_DUR = 5;//骰子动画时长，单位：秒
@@ -27,7 +27,7 @@ export function estimateDuration(text:string){
 		if(setterLine){
 			// console.log(setterLine);
 			speechSpeed = parseFloat(setterLine[1]);
-			outputChannel.appendLine(`[设置][${index+1}]语速设置为${speechSpeed}word/min`);
+			outputChannel.appendLine(`[设置][${index+1}]语速设置为${speechSpeed}word/min`,flag);
 			return;
 		}
 		//背景行
@@ -37,20 +37,20 @@ export function estimateDuration(text:string){
 			let bgDelay = setterLine[2];
 			if(!bgDelay) return;
 			totalSeconds += parseFloat(bgDelay)/FRAME_PER_SECOND;
-			outputChannel.appendLine(`[背景][${index+1}]背景延时：${parseFloat(bgDelay)/FRAME_PER_SECOND}秒`);
+			outputChannel.appendLine(`[背景][${index+1}]背景延时：${parseFloat(bgDelay)/FRAME_PER_SECOND}秒`,flag);
 		}
 		//骰子行
 		setterLine = line.match(diceLineRegex);
 		if(setterLine){
 			totalSeconds += DICE_ANIMATION_DUR;
-			outputChannel.appendLine(`[动画][${index+1}]骰子动画：${DICE_ANIMATION_DUR}秒`);
+			outputChannel.appendLine(`[动画][${index+1}]骰子动画：${DICE_ANIMATION_DUR}秒`,flag);
 			return;
 		}
 		//HP动画行
 		setterLine = line.match(hpLineRegex);
 		if(setterLine){
 			totalSeconds += HP_ANIMATION_DUR;
-			outputChannel.appendLine(`[动画][${index+1}]血条动画：${HP_ANIMATION_DUR}秒`);
+			outputChannel.appendLine(`[动画][${index+1}]血条动画：${HP_ANIMATION_DUR}秒`,flag);
 			return;
 		}
 
@@ -63,12 +63,12 @@ export function estimateDuration(text:string){
 				let time = dialogLine[6];
 				time = time.substring(1);
 				totalSeconds += parseFloat(time) + asteriskPause;
-				outputChannel.appendLine(`[对话][${index+1}](${(parseFloat(time) + asteriskPause).toFixed(2)}秒)|${dialogLine[0].slice(0,25)}……`)
+				outputChannel.appendLine(`[对话][${index+1}](${(parseFloat(time) + asteriskPause).toFixed(2)}秒)|${dialogLine[0].slice(0,25)}……`,flag);
 			}else{
 				//未指定时长则按照语速计算
 				let dialog = dialogLine[2];
 				totalSeconds += (dialog.length/speechSpeed)*60;
-				outputChannel.appendLine(`[对话][${index+1}](${((dialog.length/speechSpeed)*60).toFixed(2)}秒)|${dialogLine[0].slice(0,25)}……`)
+				outputChannel.appendLine(`[对话][${index+1}](${((dialog.length/speechSpeed)*60).toFixed(2)}秒)|${dialogLine[0].slice(0,25)}……`,flag);
 			}
 			// totalSeconds += 10/FRAME_PER_SECOND;//默认气泡切换时间
 		}
@@ -83,8 +83,8 @@ export function estimateDuration(text:string){
 
 
 //统计
-export function rglCount(){
-	outputChannel.clear();
+export function rglCount(flag:boolean=true){
+	if(flag) {outputChannel.clear();}
 	let editor = vscode.window.activeTextEditor;
 	if(!editor) {
 		vscode.window.showInformationMessage('请选中某个文件');
@@ -140,7 +140,7 @@ export function rglCount(){
 			character = character.replace(/(\(\d+\))/,"");
 			character = character.replace(/(\..*)/,"");
 			// console.log(character);
-			pc.add(character)
+			pc.add(character);
 		}
 
 	}
@@ -148,20 +148,29 @@ export function rglCount(){
 
 	//预计时长
 
-	let totalSeconds = estimateDuration(text);
+	let totalSeconds = estimateDuration(text,flag);
 	let minute = Math.trunc(totalSeconds/60);
 	let second = Math.trunc(totalSeconds%60);
 	
-	vscode.window.showInformationMessage(`角色(${pc.size})：${[...pc].join(",")}`);
-	vscode.window.showInformationMessage(`背景(${bg.size})：${[...bg].join(",")}`);
-	vscode.window.showInformationMessage(`对话行行数：${dialogLineCount}，预计视频时长：${minute}分${second}秒`);
+	if(flag){
+		vscode.window.showInformationMessage(`角色(${pc.size})：${[...pc].join(",")}`);
+		vscode.window.showInformationMessage(`背景(${bg.size})：${[...bg].join(",")}`);
+		vscode.window.showInformationMessage(`对话行行数：${dialogLineCount}，预计视频时长：${minute}分${second}秒`);
+		outputChannel.appendLine(`角色(${pc.size})：${[...pc].join(",")}`);
+		outputChannel.appendLine(`背景(${bg.size})：${[...bg].join(",")}`);
+		outputChannel.appendLine(`对话行行数：${dialogLineCount}，预计视频时长：${minute}分${second}秒`);
+		outputChannel.show();
 	
-	outputChannel.appendLine(`角色(${pc.size})：${[...pc].join(",")}`);
-	outputChannel.appendLine(`背景(${bg.size})：${[...bg].join(",")}`);
-	outputChannel.appendLine(`对话行行数：${dialogLineCount}，预计视频时长：${minute}分${second}秒`);
+	}
 	
-	outputChannel.show();
+	
 
+	return {
+		"dialogLineCount":dialogLineCount,
+		"totalSeconds":totalSeconds,
+		"pc":pc,
+		"bg":bg
+	};
 }
 
 //检验每行字数是否超出指定值

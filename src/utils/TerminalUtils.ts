@@ -33,6 +33,8 @@ import * as vscode from 'vscode';
     public show() {
         this.terminal.show();
     }
-
+    dispose() {
+		this.terminal?.dispose();
+	}
 
 }

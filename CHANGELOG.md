@@ -5,6 +5,10 @@
 格式基于[维护更新日志（Keep a Changelog）](https://keepachangelog.com/en/1.0.0/)，
 并且该项目遵循 [语义版本控制（Semantic Versioning）](https://semver.org/spec/v2.0.0.html)。
 
+## [1.4.0] - 2022-09-07
+
+- 新增状态栏信息，现在可以在状态栏看到预估视频时长等统计信息
+
 ## [1.3.3] - 2022-08-27
 
 - 给命令“TRGL: Add Asterisk Marks”新增“把某个角色已经合成的语音框替换为待合成星标以便重新合成”选项

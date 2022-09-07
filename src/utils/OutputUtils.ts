@@ -23,15 +23,15 @@ import * as vscode from 'vscode';
     /**
      * show
      */
-    public show() {
-        this.outputChannel.show();
+    public show(flag:boolean=true) {
+        if(flag) {this.outputChannel.show();}
     }
 
     /**
      * hide
      */
-    public hide() {
-        this.outputChannel.hide();
+    public hide(flag:boolean=true) {
+        if(flag) {this.outputChannel.hide();}
     }
 
     /**
