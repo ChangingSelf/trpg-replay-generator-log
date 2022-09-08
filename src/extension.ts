@@ -8,6 +8,7 @@ import * as replayGenerator from './replayGenerator';
 import * as defineCharacter from './defineCharacter';
 import * as hoverProvider from './providers/HoverProvider';
 import * as rglStatusBar from './rglStatusBar';
+import * as diceBot from './chatWithDiceBot';
 import * as utils from './utils/utils';
 import * as path from 'path';
 import * as fs from 'fs';
@@ -50,6 +51,9 @@ export function activate(context: vscode.ExtensionContext) {
 
 	//统计rgl文件的数据
 	context.subscriptions.push(vscode.commands.registerCommand('trpg-replay-generator-log.count',rglCount.rglCount));
+	
+	//与骰子机器人聊天
+	context.subscriptions.push(vscode.commands.registerCommand('trpg-replay-generator-log.chatWithDiceBot',diceBot.chatWithDiceBot));
 	
 	//利用现有的素材文件夹生成媒体定义文件
 	context.subscriptions.push(vscode.commands.registerCommand('trpg-replay-generator-log.defineMedia',defineMedia.defineMedia));
