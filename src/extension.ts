@@ -48,7 +48,9 @@ export function activate(context: vscode.ExtensionContext) {
 	let statusBar = new rglStatusBar.rglStatusBar();
 	statusBar.updateRglStatus();
 	context.subscriptions.push(statusBar);
-
+	
+	context.subscriptions.push(vscode.commands.registerCommand('trpg-replay-generator-log.testCommand',utils.testCommand));
+	
 	//统计rgl文件的数据
 	context.subscriptions.push(vscode.commands.registerCommand('trpg-replay-generator-log.count',rglCount.rglCount));
 	

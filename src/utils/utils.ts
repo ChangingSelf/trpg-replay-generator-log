@@ -1,10 +1,18 @@
 import * as vscode from 'vscode';
 import * as outputUtils from './OutputUtils';
+import * as audioLoader from 'audio-loader';
 
 function parseBoolean(str:string){
     return /^true$/i.test(str);
 }
 
+/**
+ * 这是用于测试的命令，没有实际功能
+ */
+export function testCommand(){
+    vscode.window.showInformationMessage("这是用于测试的命令，没有实际功能");
+
+}
 
 /**
  * 读取当前文件内的配置，未定义的配置从vscode的设置中读取
