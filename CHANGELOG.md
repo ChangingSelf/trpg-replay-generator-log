@@ -5,6 +5,10 @@
 格式基于[维护更新日志（Keep a Changelog）](https://keepachangelog.com/en/1.0.0/)，
 并且该项目遵循 [语义版本控制（Semantic Versioning）](https://semver.org/spec/v2.0.0.html)。
 
+## [1.5.1] - 2022-09-08
+
+- 答疑机器人的岗位由交流群的骰郎“伊可”接手！
+
 ## [1.5.0] - 2022-09-08
 
 - 作为测试功能，添加了“TRGL: Chat With DiceBot”命令，可以询问答疑机器人一些问题（条目在施工中），此功能可能会移除

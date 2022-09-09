@@ -10,8 +10,8 @@ let outputChannel = outputUtils.OutputUtils.getInstance();
 
 export function chatWithDiceBot(){
     vscode.window.showInputBox({ 
-        placeHolder:`可以输入你的问题，如果没有回应说明没有触发关键词`, 
-        prompt:'输入“##help”可以查看帮助'
+        placeHolder:`你好，我是伊可，有什么能帮到你的吗？如果没有回应说明我还不会，可以在交流群求助`, 
+        prompt:'可能无法查看图片，可以把同样的输入词发到交流群来查看图片'
     }).then(inputText=>{
 
         if(!inputText){
@@ -31,7 +31,7 @@ export function chatWithDiceBot(){
           }).then((response: any)=>{
             console.log(response);
             response.data.forEach((line: { message: any; }) => {
-                outputChannel.appendLine(`${new Date().toLocaleTimeString()} [DiceBot]:\n${line?.message}\n`);
+                outputChannel.appendLine(`${new Date().toLocaleTimeString()} [Exception]:\n${line?.message}\n`);
             });
             
             outputChannel.show();
