@@ -1,6 +1,5 @@
 import * as vscode from 'vscode';
 import * as outputUtils from './OutputUtils';
-import * as audioLoader from 'audio-loader';
 
 function parseBoolean(str:string){
     return /^true$/i.test(str);
