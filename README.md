@@ -12,12 +12,8 @@
 
 或者带有动画演示的图文教程：[插件TRGL帮助文档（详细介绍版）](https://www.wolai.com/oPvjzFX3gQDZjV5JLAxpuR)
 
-## 语法高亮
-
 - 安装该扩展之后在弹窗中使用该扩展提供的“rgl theme”（不用自带主题的话可能高亮起来怪怪的，当然，可以切换其他主题，同样有语法高亮）
 - 将要高亮的文件的扩展名改为.rgl，txt文件是不会高亮的
-
-![](images/syntaxHighlight.png)
 
 ## 支持的代码片段
 
@@ -30,14 +26,10 @@
 - `current directory`:快速输入当前文档所在目录，便于进行局部配置
 - `quickly configurate`:快速在本文件中配置与本文件同目录下的媒体定义文件media.txt和角色配置表characters.tsv
 
-![](images/snippetsUsage.gif)
-
 ## 代码折叠
 
 - 在想要折叠的起始行和末尾行分别加上 `#s`和 `#e`的注释，即可对中间的内容进行折叠
 - 可以嵌套，而且这两个边界标记后面可以加注释，例如 `#s 这是折叠的起始行，意思是start`，`#e 这是折叠的末尾行，意思是end`。
-
-![代码折叠](images/foldMark.gif)
 
 ## 悬停提示
 
@@ -45,19 +37,13 @@
 
 可以使用`#ll 50`或者`#lineLength 50`将每行字数限制设定为50，这里的数字可以改成其他整数
 
-![悬停提示](images/hovering.gif)
-
 ## 状态栏
 
 可以在状态栏里看到预估视频时长等统计信息
 
-![](images/StatusBar.png)
-
 ## 配置
 
 点击左下角的齿轮图标或者使用 `ctrl+,`快捷键可以打开设置面板，在搜索框中搜索本插件名称（或者在旁边的“Extensions”一栏中找这一项），里面有着相关配置。
-
-![](images/ChangeSettings.gif)
 
 以下配置可以写在rgl文件中作为局部配置，存在多条配置时，会使用第一个。
 
