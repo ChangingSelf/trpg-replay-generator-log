@@ -10,7 +10,7 @@ function parseBoolean(str:string){
  */
 export function testCommand(){
     vscode.window.showInformationMessage("这是用于测试的命令，没有实际功能");
-
+    
 }
 
 /**

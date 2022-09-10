@@ -5,6 +5,10 @@
 格式基于[维护更新日志（Keep a Changelog）](https://keepachangelog.com/en/1.0.0/)，
 并且该项目遵循 [语义版本控制（Semantic Versioning）](https://semver.org/spec/v2.0.0.html)。
 
+## [1.6.0] - 2022-09-10
+
+- 新增本插件的新手教程，安装后自动打开教程，使用“打开演练”或者“Open Walkthrough”命令可以手动打开。
+
 ## [1.5.1] - 2022-09-08
 
 - 答疑机器人的岗位由交流群的骰郎“伊可”接手！
