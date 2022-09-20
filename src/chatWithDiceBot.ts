@@ -5,7 +5,6 @@ import {settings} from './settings';
 
 
 const url = settings.url;
-const token = settings.token;
 let outputChannel = outputUtils.OutputUtils.getInstance();
 
 export function chatWithDiceBot(){
@@ -23,12 +22,10 @@ export function chatWithDiceBot(){
         outputChannel.appendLine(`${new Date().toLocaleTimeString()} [User]:\n${message}\n`);
 
         axios.post(url, {
-            "message":message
-          },{
-            "headers":{
-                "token":token
-            }
-          }).then((response: any)=>{
+            "message":message,
+            "user_id":"0"
+          }
+          ).then((response: any)=>{
             console.log(response);
             response.data.forEach((line: { message: any; }) => {
                 outputChannel.appendLine(`${new Date().toLocaleTimeString()} [Exception]:\n${line?.message}\n`);
