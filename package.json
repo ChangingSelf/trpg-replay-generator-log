@@ -2,7 +2,7 @@
   "name": "trpg-replay-generator-log",
   "displayName": "TRPG Replay Generator Log",
   "description": "Syntax highlighting and code snippets for TRPG-Replay-Generator-Log language",
-  "version": "1.7.0",
+  "version": "1.7.1",
   "engines": {
     "vscode": "^1.67.0"
   },
@@ -453,8 +453,8 @@
     },
     "viewsWelcome": [
       {
-        "view": "rgl-explorer",
-        "contents": "目前没有检测到回声工坊的log文件，请检查是否将后缀名从“.txt”改为了“.rgl”\n[打开文件](command:workbench.action.files.openFile)\n[打开文件夹](command:workbench.action.files.openFolder)",
+        "view": "rglCharacter",
+        "contents": "目前没有检测到回声工坊的log文件，请检查是否已经打开了文件或者文件夹，是否将剧本文件的后缀名从“.txt”改为了“.rgl”\n[打开文件](command:workbench.action.files.openFile)\n[打开文件夹](command:workbench.action.files.openFolder)",
         "when": "editorLangId != rgl"
       }
     ],
