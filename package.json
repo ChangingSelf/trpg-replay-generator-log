@@ -2,7 +2,7 @@
   "name": "trpg-replay-generator-log",
   "displayName": "TRPG Replay Generator Log",
   "description": "Syntax highlighting and code snippets for TRPG-Replay-Generator-Log language",
-  "version": "1.6.1",
+  "version": "1.7.0",
   "engines": {
     "vscode": "^1.67.0"
   },
@@ -33,7 +33,8 @@
     "onCommand:trpg-replay-generator-log.synthesizedSpeech",
     "onCommand:trpg-replay-generator-log.exportXML",
     "onCommand:trpg-replay-generator-log.openMediaView",
-    "onCommand:trpg-replay-generator-log.chatWithDiceBot"
+    "onCommand:trpg-replay-generator-log.chatWithDiceBot",
+    "onCommand:trpg-replay-generator-log.refreshTreeView"
   ],
   "main": "./dist/extension.js",
   "contributes": {
@@ -101,6 +102,14 @@
       {
         "command": "trpg-replay-generator-log.openMediaView",
         "title": "TRGL: Open Media View"
+      }
+      ,{
+        "command": "trpg-replay-generator-log.refreshTreeView",
+        "title": "TRGL: Refresh TreeView",
+        "icon":{
+          "light": "images/refresh.svg",
+          "dark": "images/refresh_dark.svg"
+        }
       }
     ],
     "languages": [
@@ -424,7 +433,40 @@
           
         ]
       }
-    ]
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "rgl-explorer",
+          "title": "回声工坊资源管理器",
+          "icon": "images/icon.png"
+        }
+      ]
+    },
+    "views": {
+      "rgl-explorer":[
+        {
+          "id": "rglCharacter",
+          "name": "角色"
+        }
+      ]
+    },
+    "viewsWelcome": [
+      {
+        "view": "rgl-explorer",
+        "contents": "目前没有检测到回声工坊的log文件，请检查是否将后缀名从“.txt”改为了“.rgl”\n[打开文件](command:workbench.action.files.openFile)\n[打开文件夹](command:workbench.action.files.openFolder)",
+        "when": "editorLangId != rgl"
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "trpg-replay-generator-log.refreshTreeView",
+          "when": "view == rglCharacter",
+          "group": "navigation"
+      }
+      ]
+    }
   },
   "scripts": {
     "vscode:prepublish": "npm run package",

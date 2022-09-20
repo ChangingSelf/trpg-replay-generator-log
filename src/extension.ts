@@ -12,6 +12,7 @@ import * as diceBot from './chatWithDiceBot';
 import * as utils from './utils/utils';
 import * as path from 'path';
 import * as fs from 'fs';
+import { CharacterNodeProvider } from './providers/CharacterNodeProvider';
 
 /**
  * 从某个HTML文件读取能被Webview加载的HTML内容
@@ -135,6 +136,10 @@ export function activate(context: vscode.ExtensionContext) {
 
 	}));	
 	
+	let characterNodeProvider = new CharacterNodeProvider();
+	//TreeView
+	vscode.window.registerTreeDataProvider('rglCharacter', characterNodeProvider);
+	context.subscriptions.push(vscode.commands.registerCommand('trpg-replay-generator-log.refreshTreeView', () =>characterNodeProvider.refresh()));
 }
 
 // this method is called when your extension is deactivated
