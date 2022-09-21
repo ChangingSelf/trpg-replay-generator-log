@@ -2,7 +2,7 @@
   "name": "trpg-replay-generator-log",
   "displayName": "TRPG Replay Generator Log",
   "description": "Syntax highlighting and code snippets for TRPG-Replay-Generator-Log language",
-  "version": "1.7.1",
+  "version": "1.7.2",
   "engines": {
     "vscode": "^1.67.0"
   },
@@ -439,7 +439,7 @@
         {
           "id": "rgl-explorer",
           "title": "回声工坊资源管理器",
-          "icon": "images/icon.png"
+          "icon": "images/icon2.png"
         }
       ]
     },

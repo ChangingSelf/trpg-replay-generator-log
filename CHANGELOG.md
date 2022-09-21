@@ -5,6 +5,10 @@
 格式基于[维护更新日志（Keep a Changelog）](https://keepachangelog.com/en/1.0.0/)，
 并且该项目遵循 [语义版本控制（Semantic Versioning）](https://semver.org/spec/v2.0.0.html)。
 
+## [1.7.2] - 2022-09-21
+
+- 修改了侧边栏图标
+
 ## [1.7.1] - 2022-09-20
 
 - 修复侧边栏无法显示欢迎页面的bug
