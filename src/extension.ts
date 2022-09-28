@@ -138,7 +138,10 @@ export function activate(context: vscode.ExtensionContext) {
 	
 	let characterNodeProvider = new CharacterNodeProvider();
 	//TreeView
-	vscode.window.registerTreeDataProvider('rglCharacter', characterNodeProvider);
+	vscode.window.createTreeView('rglCharacter', {
+		treeDataProvider: characterNodeProvider,
+		showCollapseAll : true,
+	  });
 	context.subscriptions.push(vscode.commands.registerCommand('trpg-replay-generator-log.refreshTreeView', () =>characterNodeProvider.refresh()));
 }
 
