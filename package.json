@@ -464,7 +464,7 @@
           "command": "trpg-replay-generator-log.refreshTreeView",
           "when": "view == rglCharacter",
           "group": "navigation"
-      }
+        }
       ]
     }
   },
