@@ -117,6 +117,10 @@
 
 一键替换骰娘文本为骰子动画行
 
+### `TRGL: Migrate Log`
+
+有损、不可逆的回声工坊和活字引擎log格式互相转换，使用前请做好备份
+
 ### `TRGL: Define Character`
 
 根据已有的log文件自动生成tsv角色配置表

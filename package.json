@@ -2,7 +2,7 @@
   "name": "trpg-replay-generator-log",
   "displayName": "TRPG Replay Generator Log",
   "description": "Syntax highlighting and code snippets for TRPG-Replay-Generator-Log language",
-  "version": "1.8.0",
+  "version": "1.9.0",
   "engines": {
     "vscode": "^1.67.0"
   },
@@ -29,6 +29,7 @@
     "onCommand:trpg-replay-generator-log.addSoundEffectsInBatches",
     "onCommand:trpg-replay-generator-log.adjustSoundEffectsTimeInBatches",
     "onCommand:trpg-replay-generator-log.replaceDiceMaidLine",
+    "onCommand:trpg-replay-generator-log.migrateLog",
     "onCommand:trpg-replay-generator-log.playVideo",
     "onCommand:trpg-replay-generator-log.exportVideo",
     "onCommand:trpg-replay-generator-log.synthesizedSpeech",
@@ -83,6 +84,10 @@
       {
         "command": "trpg-replay-generator-log.replaceDiceMaidLine",
         "title": "TRGL: Replace DiceMaid Line # 一键替换骰娘文本为骰子动画行"
+      },
+      {
+        "command": "trpg-replay-generator-log.migrateLog",
+        "title": "TRGL: Migrate Log # 有损、不可逆的回声工坊和活字引擎log格式互相转换"
       },
       {
         "command": "trpg-replay-generator-log.adjustSoundEffectsTimeInBatches",

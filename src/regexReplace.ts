@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 
-function regexReplace(searchValue:string | RegExp,replaceValue:string){
+function regexReplace(searchValue:string | RegExp,replaceValue:string,isShowMsg = true){
     if(!vscode.window.activeTextEditor) {
         vscode.window.showErrorMessage(`请打开要操作的文件`);
         return;
@@ -17,28 +17,79 @@ function regexReplace(searchValue:string | RegExp,replaceValue:string){
             let start = new vscode.Position(0,0);
             let end = start.translate(doc.lineCount,doc.getText().length);
             let allSelection = new vscode.Range(start,end);
-            editorEdit.replace(allSelection,text)  
+            editorEdit.replace(allSelection,text); 
         }).then(isSuccess => {
             if (isSuccess) {
                 console.log("Edit successed");
                 let len = doc.getText().length;
                 console.log(len); 
-                vscode.window.showInformationMessage("执行成功！");
+                if(isShowMsg) {vscode.window.showInformationMessage("执行成功！");}
             } else {
                 console.log("Edit failed");
-                vscode.window.showErrorMessage("执行失败！");
+                if(isShowMsg) {vscode.window.showErrorMessage("执行失败！");}
             }
         }, err => {
             console.error("Edit error, " + err);
-            vscode.window.showErrorMessage(err);
+            if(isShowMsg) {vscode.window.showErrorMessage(err);}
         });
 
 
     } catch (error) {
         let err:Error = error as Error;
-        vscode.window.showErrorMessage(`[${err.name}]${err.message}`);
+        if(isShowMsg) {vscode.window.showErrorMessage(`[${err.name}]${err.message}`);}
     }
     
+}
+
+function regexReplaceInBatch(regexList:[{searchValue:string | RegExp,replaceValue:string}],isShowMsg = true){
+    if(!vscode.window.activeTextEditor) {
+        vscode.window.showErrorMessage(`请打开要操作的文件`);
+        return;
+    }
+    
+    try {
+        let editor = vscode.window.activeTextEditor as vscode.TextEditor;
+        let doc = editor.document;
+        let text = doc.getText();
+
+        //进行替换
+        for(let item of regexList){
+            text = text.replace(item.searchValue,item.replaceValue);
+        }
+        
+        editor.edit(editorEdit => {
+            let start = new vscode.Position(0,0);
+            let end = start.translate(doc.lineCount,doc.getText().length);
+            let allSelection = new vscode.Range(start,end);
+            editorEdit.replace(allSelection,text); 
+        }).then(isSuccess => {
+            if (isSuccess) {
+                console.log("Edit successed");
+                let len = doc.getText().length;
+                console.log(len); 
+                if(isShowMsg) {vscode.window.showInformationMessage("执行成功！");}
+            } else {
+                console.log("Edit failed");
+                if(isShowMsg) {vscode.window.showErrorMessage("执行失败！");}
+            }
+        }, err => {
+            console.error("Edit error, " + err);
+            if(isShowMsg) {vscode.window.showErrorMessage(err);}
+        });
+
+
+    } catch (error) {
+        let err:Error = error as Error;
+        if(isShowMsg) {vscode.window.showErrorMessage(`[${err.name}]${err.message}`);}
+    }
+    
+}
+
+function pushToRegexList(regexList:[{searchValue:string | RegExp,replaceValue:string}],searchValue:string | RegExp,replaceValue:string){
+    regexList.push({
+        searchValue:searchValue,
+        replaceValue:replaceValue
+    });
 }
 
 export function replaceAngleBrackets(){
@@ -177,4 +228,105 @@ export function replaceDiceMaidLine(){
     });
 
     
+}
+
+/**
+ * 迁移log文件
+ * 目前支持活字引擎和回声工坊剧本文件互相转换
+ */
+export function migrateLog(){
+    let optYes = "我已备份好";
+    vscode.window.showWarningMessage("由于活字引擎和回声工坊的功能不完全重合，因此转换不可逆，请提前备份当前log文件",optYes,"取消")
+    .then(selection=>{
+        if(selection !== optYes){
+            return;
+        }
+
+        //开始转换
+        let optGenerater2Engine = "回声工坊 => 活字引擎";
+        let optEngine2Generater = "活字引擎 => 回声工坊";
+        let optList:string[] = [optGenerater2Engine,optEngine2Generater];
+        vscode.window.showQuickPick(optList,{
+            placeHolder:"请选择转换方向"
+        }).then(item=>{
+            switch (item) {
+                case optGenerater2Engine:
+                    convertGenerater2Engine();
+                    break;
+                case optEngine2Generater:
+                    convertEngine2Generater();
+                    break;
+                default:
+                    break;
+            }
+        });
+    });
+}
+
+function convertGenerater2Engine(){
+    // vscode.window.showInformationMessage("回声工坊 => 活字引擎");
+    let regexList: [{ searchValue: string | RegExp; replaceValue: string; }]=[{
+        searchValue:"",
+        replaceValue:""
+    }];
+
+    //其余行
+    pushToRegexList(regexList,/^(<set:.+)$/gm,"//$1");
+    pushToRegexList(regexList,/^(<hitpoint>:.+)$/gm,"//$1");
+
+    //转换对话行
+    pushToRegexList(regexList,/^\[(.+?)(\.(.+))?(,.+)?\]:(.+?)(\{.+\})?$/gm,"<$1（$3）>$5");
+    pushToRegexList(regexList,/^<(.+?)（）>/gm,"<$1>");
+
+    //转换背景行
+    pushToRegexList(regexList,/^<background>(<.+>)?:(.+)$/gm,"【背景】$2");
+
+    //BGM
+    pushToRegexList(regexList,/^<set:BGM>:(.+)$/gm,"【BGM】$1");
+    pushToRegexList(regexList,/^<set:BGM>:stop$/gm,"【停止BGM】");
+
+    //骰子
+    pushToRegexList(regexList,/^<dice>:\((.+?),(.+?),(.+?),(.+?)\)(,\((.+?),(.+?),(.+?),(.+?)\))?(,\((.+?),(.+?),(.+?),(.+?)\))?(,\((.+?),(.+?),(.+?),(.+?)\))?$/gm,"【骰子】（$1）D$2=$4/$3；（$6）D$7=$9/$8；（$11）D$12=$14/$13；（$16）D$17=$19/$18");
+    pushToRegexList(regexList,/；（）D=\//gm,"");
+    pushToRegexList(regexList,"/NA","");
+
+    //注释
+    pushToRegexList(regexList,/^#(.+)$/gm,"//$1");
+
+
+
+    regexReplaceInBatch(regexList);
+
+}
+
+function convertEngine2Generater(){
+    // vscode.window.showInformationMessage("活字引擎 => 回声工坊 目前还未完成");
+    let regexList: [{ searchValue: string | RegExp; replaceValue: string; }]=[{
+        searchValue:"",
+        replaceValue:""
+    }];
+
+    //转换对话行
+    pushToRegexList(regexList,/^<(.+?)(（(.+)）)?>(.+)(\n【读作】(.+))?/gm,"[$1.$3]:$4{*$6}");
+    pushToRegexList(regexList,/^\[(.+)\.\]:/gm,"[$1]:");
+
+    //转换背景行
+    pushToRegexList(regexList,/^【背景】(.+)$/gm,"<background>:$1");
+    //BGM
+    pushToRegexList(regexList,/^【BGM】(.+)$/gm,"<set:BGM>:$1");
+    pushToRegexList(regexList,/^【停止BGM】(.+)?$/gm,"<set:BGM>:stop");
+
+    
+    //骰子
+    pushToRegexList(regexList,/^【骰子】（(.+?)）D(\d+)=(\d+)(\/(\d+))?(；（(.+?)）D(\d+)=(\d+)(\/(\d+))?)?(；（(.+?)）D(\d+)=(\d+)(\/(\d+))?)?(；（(.+?)）D(\d+)=(\d+)(\/(\d+))?)?$/gm,"<dice>:($1,$2,$5,$3),($7,$8,$11,$9),($13,$14,$17,$15),($19,$20,$23,$21)");
+    pushToRegexList(regexList,/,\(,,,\)/gm,"");
+    pushToRegexList(regexList,/\((.+?),(\d+?),,(\d+?)\)/gm,"($1,$2,NA,$3)");
+
+    //注释
+    pushToRegexList(regexList,/^\/\/(.+)$/gm,"#$1");
+
+    //其余行
+    pushToRegexList(regexList,/(^【.+$)/gm,"#$1");
+
+    regexReplaceInBatch(regexList);
 }
