@@ -145,3 +145,36 @@ export function adjustSoundEffectsTimeInBatches(){
 
     });
 }
+
+/**
+ * 一键替换骰娘文本为骰子行
+ */
+export function replaceDiceMaidLine(){
+    let optDefault = "[骰娘]:掷骰描述在最后一个中文或英文冒号前面：d100=1/50 被无视的骰娘个性化文本";
+    let optDoubleQuote = "[骰娘]:掷骰描述在“中文或英文双引号里面”：d100=1/50 被无视的骰娘个性化文本";
+
+    let optList:string[] = [optDefault,optDoubleQuote];
+
+    vscode.window.showInputBox({
+        placeHolder:"请输入你的骰娘角色名称",
+        prompt:"默认为“骰娘”"
+    }).then(inputText1=>{
+        let characterName = inputText1 || "骰娘";
+        vscode.window.showQuickPick(optList,{
+            placeHolder:"请选择替换模式"
+        }).then(item=>{
+            switch (item) {
+                case optDefault:default:
+                    regexReplace(new RegExp(`^\\[${characterName}\\]:(.*)[:：]\\s*[Dd](\\d*)\\s*=\\s*(\\d*)\\/(\\d*).*$`,"gm"),
+                    "<dice>:($1,$2,$4,$3)\n#$&");
+                    break;
+                case optDoubleQuote:
+                    regexReplace(new RegExp(`^\\[${characterName}\\]:.*["“](.*)["”].*[:：]\\s*[Dd](\\d*)\\s*=\\s*(\\d*)\\/(\\d*).*$`,"gm"),
+                    "<dice>:($1,$2,$4,$3)\n#$&");
+                    break;
+            }
+        });
+    });
+
+    
+}

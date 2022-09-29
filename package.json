@@ -2,7 +2,7 @@
   "name": "trpg-replay-generator-log",
   "displayName": "TRPG Replay Generator Log",
   "description": "Syntax highlighting and code snippets for TRPG-Replay-Generator-Log language",
-  "version": "1.7.2",
+  "version": "1.8.0",
   "engines": {
     "vscode": "^1.67.0"
   },
@@ -28,6 +28,7 @@
     "onCommand:trpg-replay-generator-log.addAsteriskMarks",
     "onCommand:trpg-replay-generator-log.addSoundEffectsInBatches",
     "onCommand:trpg-replay-generator-log.adjustSoundEffectsTimeInBatches",
+    "onCommand:trpg-replay-generator-log.replaceDiceMaidLine",
     "onCommand:trpg-replay-generator-log.playVideo",
     "onCommand:trpg-replay-generator-log.exportVideo",
     "onCommand:trpg-replay-generator-log.synthesizedSpeech",
@@ -41,71 +42,75 @@
     "commands": [
       {
         "command": "trpg-replay-generator-log.testCommand",
-        "title": "TRGL: Test Command"
+        "title": "TRGL: Test Command # 用户可以无视的测试命令"
       },
       {
         "command": "trpg-replay-generator-log.count",
-        "title": "TRGL: Count"
+        "title": "TRGL: Count # 统计剧本文件信息"
       },
       {
         "command": "trpg-replay-generator-log.openDocument",
-        "title": "TRGL: Open Document"
+        "title": "TRGL: Open Document # 打开回声工坊文档（前提是配置好了回声工坊路径）"
       },
       {
         "command": "trpg-replay-generator-log.chatWithDiceBot",
-        "title": "TRGL: Chat With DiceBot"
+        "title": "TRGL: Chat With DiceBot # 询问答疑骰郎问题"
       },
       {
         "command": "trpg-replay-generator-log.checkDialogLineLength",
-        "title": "TRGL: Check Dialog Line Length"
+        "title": "TRGL: Check Dialog Line Length # 找出超出字数的行"
       },
       {
         "command": "trpg-replay-generator-log.defineMedia",
-        "title": "TRGL: Define Media"
+        "title": "TRGL: Define Media # 一键生成媒体定义文件"
       },
       {
         "command": "trpg-replay-generator-log.defineCharacter",
-        "title": "TRGL: Define Character"
+        "title": "TRGL: Define Character # 一键生成角色配置文件"
       },
       {
         "command": "trpg-replay-generator-log.replaceAngleBrackets",
-        "title": "TRGL: Replace Angle Brackets"
+        "title": "TRGL: Replace Angle Brackets # 替换尖括号为方括号"
       },
       {
         "command": "trpg-replay-generator-log.addAsteriskMarks",
-        "title": "TRGL: Add Asterisk Marks"
+        "title": "TRGL: Add Asterisk Marks # 批量添加语音待处理星标{*}"     
       },
       {
         "command": "trpg-replay-generator-log.addSoundEffectsInBatches",
-        "title": "TRGL: Add Sound Effects In Batches"
+        "title": "TRGL: Add Sound Effects In Batches # 批量添加音效"
+      },
+      {
+        "command": "trpg-replay-generator-log.replaceDiceMaidLine",
+        "title": "TRGL: Replace DiceMaid Line # 一键替换骰娘文本为骰子动画行"
       },
       {
         "command": "trpg-replay-generator-log.adjustSoundEffectsTimeInBatches",
-        "title": "TRGL: Adjust Sound Effects Time In Batches"
+        "title": "TRGL: Adjust Sound Effects Time In Batches # 批量调整音效时长"
       },
       {
         "command": "trpg-replay-generator-log.playVideo",
-        "title": "TRGL: Play Video"
+        "title": "TRGL: Play Video # 播放预览视频"
       },
       {
         "command": "trpg-replay-generator-log.exportVideo",
-        "title": "TRGL: Export Video"
+        "title": "TRGL: Export Video # 导出视频"
       },
       {
         "command": "trpg-replay-generator-log.synthesizedSpeech",
-        "title": "TRGL: Synthesized Speech"
+        "title": "TRGL: Synthesized Speech # 合成语音"
       },
       {
         "command": "trpg-replay-generator-log.exportXML",
-        "title": "TRGL: Export XML"
+        "title": "TRGL: Export XML # 导出XML文件"
       },
       {
         "command": "trpg-replay-generator-log.openMediaView",
-        "title": "TRGL: Open Media View"
+        "title": "TRGL: Open Media View # 打开媒体视图（待实装）"
       }
       ,{
         "command": "trpg-replay-generator-log.refreshTreeView",
-        "title": "TRGL: Refresh TreeView",
+        "title": "TRGL: Refresh TreeView # 刷新侧边栏树视图",
         "icon":{
           "light": "images/refresh.svg",
           "dark": "images/refresh_dark.svg"

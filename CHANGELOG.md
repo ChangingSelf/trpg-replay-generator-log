@@ -5,6 +5,14 @@
 格式基于[维护更新日志（Keep a Changelog）](https://keepachangelog.com/en/1.0.0/)，
 并且该项目遵循 [语义版本控制（Semantic Versioning）](https://semver.org/spec/v2.0.0.html)。
 
+## [1.8.0] - 2022-09-28
+
+- 命令“TRGL: Replace DiceMaid Line # 一键替换骰娘文本为骰子动画行”已实装
+
+## [1.7.3] - 2022-09-28
+
+- 给所有命令加上了中文注释
+
 ## [1.7.2] - 2022-09-21
 
 - 修改了侧边栏图标

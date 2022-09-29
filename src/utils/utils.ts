@@ -11,11 +11,11 @@ function parseBoolean(str:string){
  */
 export function testCommand(){
     vscode.window.showInformationMessage("这是用于测试的命令，没有实际功能");
-    vscode.window.showInputBox().then((text)=>{
-        text = text?text:"";
-        console.log(RegexUtils.isDialogueLine(text));
-        RegexUtils.parseDialogueLine(text);
-    });
+    // vscode.window.showInputBox().then((text)=>{
+    //     text = text?text:"";
+    //     console.log(RegexUtils.isDialogueLine(text));
+    //     RegexUtils.parseDialogueLine(text);
+    // });
 }
 
 /**
