@@ -13,6 +13,7 @@ import * as utils from './utils/utils';
 import * as path from 'path';
 import * as fs from 'fs';
 import { CharacterNodeProvider } from './providers/CharacterNodeProvider';
+import { CompletionItemProvider } from './providers/CompletionItemProvider';
 
 /**
  * 从某个HTML文件读取能被Webview加载的HTML内容
@@ -145,6 +146,9 @@ export function activate(context: vscode.ExtensionContext) {
 		showCollapseAll : true,
 	  });
 	context.subscriptions.push(vscode.commands.registerCommand('trpg-replay-generator-log.refreshTreeView', () =>characterNodeProvider.refresh()));
+
+	//自动补全
+	vscode.languages.registerCompletionItemProvider("rgl",new CompletionItemProvider,":",".","{");
 }
 
 // this method is called when your extension is deactivated

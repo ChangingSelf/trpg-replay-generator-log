@@ -14,6 +14,9 @@ export class RegexUtils{
     static regexAsterisk = /'(\{([^\{\}]*?[;])?\*([\w\ \.\,，。：？！“”]*)?\})'/mg;
     static regexHitpoint = /'<hitpoint>:\((.+?),(\d+),(\d+),(\d+)\)'/mg;
     static regexDice = /'\((.+?),(\d+),([\d]+|NA),(\d+)\)'/mg;
+
+    static regexMediaLine = /^(.+?)\s*=\s*(.+?)\((.+)\)$/m;
+
     static isDialogueLine(text:string):boolean{
         return RegexUtils.regexDialogue.test(text);
     }
@@ -22,6 +25,19 @@ export class RegexUtils{
         let result = RegexUtils.regexDialogue.exec(text);
         console.log(result);
         return new DialogueLine();
+    }
+
+    static parseMediaLine(line:string){
+        let result = this.regexMediaLine.exec(line);
+        if(result){
+            return {
+                mediaName:result[1],
+                mediaType:result[2],
+                mediaPara:result[3]
+            };
+        }else{
+            return null;
+        }
     }
 }
 

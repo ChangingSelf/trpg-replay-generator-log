@@ -5,6 +5,10 @@
 格式基于[维护更新日志（Keep a Changelog）](https://keepachangelog.com/en/1.0.0/)，
 并且该项目遵循 [语义版本控制（Semantic Versioning）](https://semver.org/spec/v2.0.0.html)。
 
+## [1.10.0] - 2022-10-02
+
+- 现在可以自动补全角色差分了，只要你正确配置了角色配置表，且角色配置表是tsv格式（xlsx格式暂时无法解析）
+
 ## [1.9.0] - 2022-09-29
 
 - 为庆祝活字引擎3正式发售，增加了有损、不可逆的回声工坊和活字引擎log格式互相转换命令“TRGL: Migrate Log”
