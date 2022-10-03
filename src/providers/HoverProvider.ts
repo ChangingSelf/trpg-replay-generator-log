@@ -103,7 +103,7 @@ export class HoverProvider implements vscode.HoverProvider{
 		
 		//根据行的类型显示相应的悬停提示
 		if(settings.enableDialogLineHover && dialogLineRegex.test(line)){
-			console.log(line.match(dialogLineRegex));
+			//console.log(line.match(dialogLineRegex));
 			let dialogLine = line.match(dialogLineRegex) as RegExpMatchArray;
 			let pcList = [
 				{"name":dialogLine[2],"alpha":dialogLine[4],"subtype":dialogLine[6]}
@@ -155,7 +155,7 @@ export class HoverProvider implements vscode.HoverProvider{
 			);
 		}else if(settings.enableConfigLineHover && configLineRegex.test(line)){
 			let configLine = line.match(configLineRegex) as RegExpMatchArray;
-			console.log(configLine);
+			//console.log(configLine);
 			let configName = configLine[1];
 			let configValue = configLine[2];
 			let configMethod = configLine[4];
@@ -213,7 +213,7 @@ export class HoverProvider implements vscode.HoverProvider{
 			
 		}else if(settings.enableBackgroundLineHover && backgroundLineRegex.test(line)){
 			let backgroundLine = line.match(backgroundLineRegex) as RegExpMatchArray;
-			// console.log(backgroundLine);
+			// //console.log(backgroundLine);
 			let method = backgroundLine[3];
 			let time = backgroundLine[5];
 			let background = backgroundLine[6];
@@ -221,7 +221,7 @@ export class HoverProvider implements vscode.HoverProvider{
 			mdStr.appendMarkdown(`以【${methodDict.background[method as keyof typeof methodDict.background]}】的方式将背景替换为【${background}】${time?"，替换时间为【"+time+"】帧":""}`);
 		}else if(settings.enableAnimationLineHover && hpLineRegex.test(line)){
 			let hpLine = line.match(hpLineRegex) as RegExpMatchArray;
-			console.log(hpLine);
+			//console.log(hpLine);
 			let desc = hpLine[1];
 			let hpMax = hpLine[2];
 			let before = hpLine[3];
@@ -231,10 +231,10 @@ export class HoverProvider implements vscode.HoverProvider{
 			let diceLine = (line.match(diceLineRegex) as RegExpMatchArray)[0];
 			
 			let diceList = diceLine.split(":")[1].slice(1,-1).split("),(");
-			console.log(diceList);
+			//console.log(diceList);
 			diceList.forEach((x,i)=>{
 				let dice = x.split(",");
-				console.log(dice);
+				//console.log(dice);
 				let desc = dice[0];
 				let faceNum = dice[1];
 				let checkValue = dice[2];

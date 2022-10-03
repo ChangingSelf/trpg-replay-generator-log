@@ -3,6 +3,7 @@
 import * as vscode from 'vscode';
 import * as rglCount from './rglCount';
 import * as defineMedia from './defineMedia';
+import * as importLocalSound from './importLocalSound';
 import * as regexReplace from './regexReplace';
 import * as replayGenerator from './replayGenerator';
 import * as defineCharacter from './defineCharacter';
@@ -40,16 +41,15 @@ export function activate(context: vscode.ExtensionContext) {
 	
 	// Use the console to output diagnostic information (console.log) and errors (console.error)
 	// This line of code will only be executed once when your extension is activated
-	console.log('Congratulations, your extension "trpg-replay-generator-log" is now active!');
+	//console.log('Congratulations, your extension "trpg-replay-generator-log" is now active!');
 
 	// The command has been defined in the package.json file
 	// Now provide the implementation of the command with registerCommand
 	// The commandId parameter must match the command field in package.json
 
 	//状态栏
-	let statusBar = new rglStatusBar.rglStatusBar();
-	statusBar.updateRglStatus();
-	context.subscriptions.push(statusBar);
+	rglStatusBar.rglStatusBar.updateRglStatus();
+	context.subscriptions.push(rglStatusBar.rglStatusBar.getInstance());
 	
 	context.subscriptions.push(vscode.commands.registerCommand('trpg-replay-generator-log.testCommand',utils.testCommand));
 	
@@ -83,8 +83,11 @@ export function activate(context: vscode.ExtensionContext) {
 	//导出XML
 	context.subscriptions.push(vscode.commands.registerCommand('trpg-replay-generator-log.exportXML',replayGenerator.exportXML));
 	
-	//确定对话行长度
+	//检查对话行长度
 	context.subscriptions.push(vscode.commands.registerCommand('trpg-replay-generator-log.checkDialogLineLength',rglCount.checkDialogLineLength));
+	
+	//导入本地语音
+	context.subscriptions.push(vscode.commands.registerCommand('trpg-replay-generator-log.importLocalSound',importLocalSound.importLocalSound));
 	
 	//快速打开readme
 	context.subscriptions.push(vscode.commands.registerCommand('trpg-replay-generator-log.openDocument',()=>{
@@ -131,7 +134,7 @@ export function activate(context: vscode.ExtensionContext) {
 		//将当前文件内容传给WebView
 		let text = vscode.window.activeTextEditor?.document.getText() ?? "";
 		let mediaListObj = defineMedia.mediaDef2Obj(text);
-		console.log(mediaListObj);
+		//console.log(mediaListObj);
 		currentPanel.webview.postMessage({
 			data: mediaListObj,
 			filePath:vscode.window.activeTextEditor?.document.uri.fsPath ?? ""

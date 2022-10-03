@@ -26,7 +26,7 @@ export function chatWithDiceBot(){
             "user_id":"0"
           }
           ).then((response: any)=>{
-            console.log(response);
+            // //console.log(response);
             response.data.forEach((line: { message: any; }) => {
                 outputChannel.appendLine(`${new Date().toLocaleTimeString()} [Exception]:\n${line?.message}\n`);
             });
@@ -34,7 +34,7 @@ export function chatWithDiceBot(){
             outputChannel.show();
           })
           .catch((error: any)=>{
-            console.log(error);
+            // //console.log(error);
             vscode.window.showErrorMessage(`DiceBot出现错误：${error.message}`);
           });
     });

@@ -20,12 +20,8 @@ function regexReplace(searchValue:string | RegExp,replaceValue:string,isShowMsg 
             editorEdit.replace(allSelection,text); 
         }).then(isSuccess => {
             if (isSuccess) {
-                console.log("Edit successed");
-                let len = doc.getText().length;
-                console.log(len); 
                 if(isShowMsg) {vscode.window.showInformationMessage("执行成功！");}
             } else {
-                console.log("Edit failed");
                 if(isShowMsg) {vscode.window.showErrorMessage("执行失败！");}
             }
         }, err => {
@@ -64,12 +60,12 @@ function regexReplaceInBatch(regexList:[{searchValue:string | RegExp,replaceValu
             editorEdit.replace(allSelection,text); 
         }).then(isSuccess => {
             if (isSuccess) {
-                console.log("Edit successed");
+                //console.log("Edit successed");
                 let len = doc.getText().length;
-                console.log(len); 
+                //console.log(len); 
                 if(isShowMsg) {vscode.window.showInformationMessage("执行成功！");}
             } else {
-                console.log("Edit failed");
+                //console.log("Edit failed");
                 if(isShowMsg) {vscode.window.showErrorMessage("执行失败！");}
             }
         }, err => {
@@ -169,7 +165,7 @@ export function adjustSoundEffectsTimeInBatches(){
                 let doc = editor.document;
                 let text = doc.getText();
                 let lines = text.split("\n");
-                console.log(lines);
+                //console.log(lines);
                 let regex = /^\[(.*?)\]:(.*?)\{(.*?);\*([\d.]*?)\}$/m;
                 let processedLines = lines.map((line,index)=>{
                     let result = line.match(regex);
@@ -180,7 +176,7 @@ export function adjustSoundEffectsTimeInBatches(){
                     let soundEffects = dialogLine[3];
                     let time = parseFloat(dialogLine[4]) + deltaTime;
                     if(characterName && pc !== characterName) {return line;}
-                    return `[${pc}]:${content}\{${soundEffects};*${time}\}`;
+                    return `[${pc}]:${content}\{${soundEffects};*${time.toFixed(3)}\}`;
                 });
                 let processedText = processedLines.join("\n");
                 regexReplace(text,processedText);

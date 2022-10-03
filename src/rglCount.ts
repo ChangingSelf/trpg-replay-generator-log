@@ -13,7 +13,7 @@ export function estimateDuration(text:string,flag:boolean=true){
 	let asteriskPause = 20/FRAME_PER_SECOND;
 	
 	let textList = text.split("\n");
-	// console.log(textList);
+	// //console.log(textList);
 
 	let totalSeconds = 0;
 	let speechSpeedSetterLineRegex = /^<set:speech_speed>:(.*?)$/m;
@@ -25,7 +25,7 @@ export function estimateDuration(text:string,flag:boolean=true){
 		//语速设置行
 		let setterLine = line.match(speechSpeedSetterLineRegex);
 		if(setterLine){
-			// console.log(setterLine);
+			// //console.log(setterLine);
 			speechSpeed = parseFloat(setterLine[1]);
 			outputChannel.appendLine(`[设置][${index+1}]语速设置为${speechSpeed}word/min`,flag);
 			return;
@@ -33,7 +33,7 @@ export function estimateDuration(text:string,flag:boolean=true){
 		//背景行
 		setterLine = line.match(backgroundLineRegex);
 		if(setterLine){
-			// console.log(setterLine);
+			// //console.log(setterLine);
 			let bgDelay = setterLine[2];
 			if(!bgDelay) return;
 			totalSeconds += parseFloat(bgDelay)/FRAME_PER_SECOND;
@@ -57,7 +57,7 @@ export function estimateDuration(text:string,flag:boolean=true){
 		//对话行
 		let dialogLine = line.match(dialogLineRegex);
 		if(dialogLine){
-			// console.log(dialogLine);
+			// //console.log(dialogLine);
 			if(dialogLine[6] && dialogLine[6][0]=="*"){
 				//如果指定了时长
 				let time = dialogLine[6];
@@ -73,10 +73,10 @@ export function estimateDuration(text:string,flag:boolean=true){
 			// totalSeconds += 10/FRAME_PER_SECOND;//默认气泡切换时间
 		}
 		
-		// console.log(totalSeconds);
+		// //console.log(totalSeconds);
 	});
 	
-	// console.log(speechSpeed);
+	// //console.log(speechSpeed);
 	return totalSeconds;
 
 }
@@ -113,7 +113,7 @@ export function rglCount(flag:boolean=true){
 	//统计背景
 	reg = /^<background>(<.*?>)?:(.*)/mg;
 	result = text.match(reg);
-	// console.log(backgroundLine);
+	// //console.log(backgroundLine);
 
 	let backgroundLine = result ?? [];
 
@@ -122,7 +122,7 @@ export function rglCount(flag:boolean=true){
 		const background = backgroundLine[i];
 		bg.add(background.split(":")[1]);
 	}
-	// console.log(bg);
+	// //console.log(bg);
 
 	//统计角色
 	let pc = new Set();
@@ -132,14 +132,14 @@ export function rglCount(flag:boolean=true){
 		element = element.replace("]","");
 		let cList = element.split(',');
 
-		// console.log(cList);
+		// //console.log(cList);
 		for (let j = 0; j < cList?.length??0; j++) {
 			let character = cList[j];
-			// console.log("====");
-			// console.log(character);
+			// //console.log("====");
+			// //console.log(character);
 			character = character.replace(/(\(\d+\))/,"");
 			character = character.replace(/(\..*)/,"");
-			// console.log(character);
+			// //console.log(character);
 			pc.add(character);
 		}
 

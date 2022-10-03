@@ -36,7 +36,7 @@ export function defineCharacter(){
 			let character = cList[j];
 			character = character.replace(/(\(\d+\))/,"");//删除透明度括号
 			// let subtypeLine = character.split(".");
-            // console.log(subtypeLine);
+            // //console.log(subtypeLine);
 			charactersWithSubtype.add(character);
 		}
 
@@ -77,9 +77,9 @@ export function defineCharacter(){
                     // 在VSCode编辑窗口展示读取到的文本
                     vscode.window.showTextDocument(doc);
                 }, err => {
-                    console.log(`Open ${outputFile} error, ${err}.`);
+                    // //console.log(`Open ${outputFile} error, ${err}.`);
                 }).then(undefined, err => {
-                    console.log(`Open ${outputFile} error, ${err}.`);
+                    // //console.log(`Open ${outputFile} error, ${err}.`);
                 });
         } catch (error) {
             let err:Error = error as Error;

@@ -22,7 +22,7 @@ export class CompletionItemProvider implements vscode.CompletionItemProvider {
                 //读取角色配置文件
                 path = settings.characterTable;
                 let pcData = fs.readFileSync(path,{encoding:'utf8', flag:'r'});
-                // console.log(pcData);
+                // //console.log(pcData);
                 let lines = pcData.split("\n");
                 for(let line of lines){
                     let lineSplit = line.split("\t");

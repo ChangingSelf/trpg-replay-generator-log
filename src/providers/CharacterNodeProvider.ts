@@ -53,7 +53,7 @@ export class CharacterNodeProvider implements vscode.TreeDataProvider<CharacterN
                     let character = cList[j];
                     character = character.replace(/(\(\d+\))/,"");//删除透明度括号
                     // let subtypeLine = character.split(".");
-                    // console.log(subtypeLine);
+                    // //console.log(subtypeLine);
                     charactersWithSubtype.add(character);
                 }
 

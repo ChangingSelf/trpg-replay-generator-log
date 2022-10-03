@@ -4,7 +4,7 @@
  */
 
 export class RegexUtils{
-    static regexDialogue = /^\[([^,\.\(\)]*?(\(\d+\))?(\.[^,\.\(\)]*?)?)(,[^,\.\(\)]*?(\(\d+\))?(\.[^,\.\(\)]*?)?)?(,[^,\.\(\)]*?(\(\d+\))?(\.[^,\.\(\)]*?)?)?\](<.*?>)?:(.*?)(<.*?>)?(\{.*?\})?$/m;
+    static regexDialogue = /^\[(([^,\.\(\)]*?)(\((\d+)\))?(\.([^,\.\(\)]*?))?)(,(([^,\.\(\)]*?)(\((\d+)\))?(\.([^,\.\(\)]*?))?))?(,(([^,\.\(\)]*?)(\((\d+)\))?(\.([^,\.\(\)]*?))?))?\](<.*?>)?:(.*?)(<.*?>)?(\{.*?\})?$/m;
     static regexPlaceobj = /'^<(background|animation|bubble)>(<[\w\=]+>)?:(.+)$'/mg;
     static regexBubble = /'(\w+)\("([^\\"]*)","([^\\"]*)",?(<(\w+)=?(\d+)?>)?\)'/mg;
     static regexSetting = /'^<set:([\w\ \.]+)>:(.+)$'/mg;
@@ -20,11 +20,24 @@ export class RegexUtils{
     static isDialogueLine(text:string):boolean{
         return RegexUtils.regexDialogue.test(text);
     }
-    static parseDialogueLine(text:string):DialogueLine{
-        //TODO:
-        let result = RegexUtils.regexDialogue.exec(text);
-        console.log(result);
-        return new DialogueLine();
+    static parseDialogueLine(text:string){
+        let r = RegexUtils.regexDialogue.exec(text);
+        try {
+            if(r){
+                let pcList = [
+                    new Character(r[2],Number(r[4]),r[6]),
+                    new Character(r[9],Number(r[11]),r[13]),
+                    new Character(r[16],Number(r[18]),r[20])
+                ];
+                pcList = pcList.filter(x => x.name !== "");
+                return new DialogueLine(
+                    pcList,r[21],r[22],r[23],r[24]
+                );
+            }
+        } catch (error) {
+            console.log(error);
+        }
+        return null;
     }
 
     static parseMediaLine(line:string){
@@ -42,19 +55,20 @@ export class RegexUtils{
 }
 
 export class DialogueLine{
-    characterList:Character[] = [];
-    toggleEffect:string = "";
-    content:string = "";
-    textEffect:string = "";
-    soundEffect:SoundEffect = new SoundEffect();
+    constructor(
+        public characterList:Character[] = [],
+        public toggleEffect:string = "",
+        public content:string = "",
+        public textEffect:string = "",
+        public soundEffect:string = ""
+    ){
+
+    }
+    
 }
 
 export class Character{
-    name:string = "";//角色名
-    subtype:string = 'default';//差分
-}
+    constructor(public name:string = '',public alpha:number = -1,public subtype:string = 'default'){
 
-export class SoundEffect{
-    sound:string = "";
-    time:string = "";
+    }
 }

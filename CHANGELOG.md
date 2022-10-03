@@ -5,6 +5,11 @@
 格式基于[维护更新日志（Keep a Changelog）](https://keepachangelog.com/en/1.0.0/)，
 并且该项目遵循 [语义版本控制（Semantic Versioning）](https://semver.org/spec/v2.0.0.html)。
 
+## [1.11.0] - 2022-10-03
+
+- 新增命令“TRGL: Import Local Sound”，以本地wav文件替换log文件中的待处理星标。运行时就是没有进度条的，需要耐心等一下（输出框、状态栏、消息框、进度条都只能在结束时弹出，难以理解，找了四个小时找不到原因就算了）
+- 修复：命令“TRGL: Adjust Sound Effects Time In Batches # 批量调整音效时长”的时长保留3位小数
+
 ## [1.10.0] - 2022-10-02
 
 - 现在可以自动补全角色差分了，只要你正确配置了角色配置表，且角色配置表是tsv格式（xlsx格式暂时无法解析）

@@ -11,11 +11,40 @@ function parseBoolean(str:string){
  */
 export function testCommand(){
     vscode.window.showInformationMessage("这是用于测试的命令，没有实际功能");
-    // vscode.window.showInputBox().then((text)=>{
-    //     text = text?text:"";
-    //     console.log(RegexUtils.isDialogueLine(text));
-    //     RegexUtils.parseDialogueLine(text);
-    // });
+    vscode.window.withProgress({
+        // 进度显示类型, Notification(右下角通知和进度) | Window(状态栏转圈) | SourceControl(源代码控制栏图标和进度)
+        location: vscode.ProgressLocation.Notification,
+        title: "获取网络资源", // 标题
+        cancellable: true // 显示取消按钮
+    }, (progress, token) => {
+
+        // 取消按钮回调
+        token.onCancellationRequested(() => {
+            vscode.window.showInformationMessage("取消成功");
+        });
+
+        // 进度0%, 无文本
+        progress.report({ increment: 0 });
+
+        // 修改进度条到10%, 增加文本
+        setTimeout(() => {
+            progress.report({ increment: 10, message: "发送请求中.." });
+        }, 1000);
+
+        setTimeout(() => {
+            progress.report({ increment: 30, message: "请求发送成功..." });
+        }, 2000);
+
+        setTimeout(() => {
+            progress.report({ increment: 50, message: "请求已到达..." });
+        }, 3000);
+
+        // 4秒后关闭
+        return new Promise<void>(resolve => {
+            vscode.window.showInformationMessage("执行");
+            setTimeout(resolve, 10000);
+        });
+    });
 }
 
 /**

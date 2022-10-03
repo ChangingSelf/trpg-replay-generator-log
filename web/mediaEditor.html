@@ -19,7 +19,7 @@
         const filePathSpan = document.getElementById("filePath");
         window.addEventListener('message', event => {
             const message = event.data;
-            console.log('Webview接收到的消息：', message.data);
+            //console.log('Webview接收到的消息：', message.data);
             filePathSpan.innerHTML = message.filePath;
 
             

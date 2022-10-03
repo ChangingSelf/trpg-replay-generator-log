@@ -4,27 +4,34 @@ import * as rglCount from './rglCount';
 export class rglStatusBar {
 
   // 定义一个状态栏的属性
-  private statusBar : vscode.StatusBarItem | undefined;
+  private static instance : vscode.StatusBarItem;
 
-  constructor() {
-
+  private constructor() {
     //当编辑器中的选择更改时触发的事件
-    vscode.window.onDidChangeTextEditorSelection(this.updateRglStatus,this);
+    vscode.window.onDidChangeTextEditorSelection(rglStatusBar.updateRglStatus,this);
 
     //当活动编辑器发生更改时将触发的事件
-    vscode.window.onDidChangeActiveTextEditor(this.updateRglStatus, this);
+    vscode.window.onDidChangeActiveTextEditor(rglStatusBar.updateRglStatus, this);
 
-    this.updateRglStatus();
+    rglStatusBar.updateRglStatus();
   }
 
-  public updateRglStatus(){
-    if(!this.statusBar) {
-      this.statusBar  = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left);
+  public static getInstance() {
+    if(!this.instance) {
+        this.instance = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left);
     }
+    return this.instance;
+  }
+
+
+  public static updateRglStatus(){
+    
+    let statusBar = rglStatusBar.getInstance();
+    
     //获取当前编辑器
     let editor = vscode.window.activeTextEditor;
     if(!editor) {
-      this.statusBar.hide();
+      statusBar.hide();
       return;
     }
     //获取当前文档
@@ -32,7 +39,7 @@ export class rglStatusBar {
 
     if(doc.languageId === 'rgl') {
       let result = rglCount.rglCount(false);
-      if(!result) {this.statusBar.hide();}
+      if(!result) {statusBar.hide();}
       
       let totalSeconds = result?.totalSeconds ?? 0;
       let dialogLineCount = result?.dialogLineCount;
@@ -42,14 +49,14 @@ export class rglStatusBar {
       let pc = result?.pc ?? new Set();
       let bg = result?.bg ?? new Set();
 
-      this.statusBar.text = `对话行行数：${dialogLineCount}，预计视频时长：${minute}分${second}秒，角色数：${pc.size}，背景数：${bg.size}`;
-      this.statusBar.show();
+      statusBar.text = `对话行行数：${dialogLineCount}，预计视频时长：${minute}分${second}秒，角色数：${pc.size}，背景数：${bg.size}`;
+      statusBar.show();
     } else {
-      this.statusBar.hide();
+      statusBar.hide();
     }
 
   }
   dispose() {
-		this.statusBar?.dispose();
+		rglStatusBar.getInstance()?.dispose();
 	}
 } 

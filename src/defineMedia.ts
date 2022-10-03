@@ -28,7 +28,7 @@ function defineMediaInFolder(mediaType:string,folder:fs.Dirent,parent:string,med
         filePath = filePath.replace(/\\/g,"/")
         let mediumName = `${prefix && level!=1?prefix+"_":""}${level!=1?folder.name+"_":""}${medium.name.substring(0,medium.name.indexOf('.'))}`;//TODO:进行合法性检验
         if(!islegal(mediumName) && !islegal(prefix + mediumName)) {
-            console.log(`"${mediumName}"不是合法的媒体变量名`);
+            // //console.log(`"${mediumName}"不是合法的媒体变量名`);
             outputChannel.appendLine(`错误：[${mediumName}]不是合法的媒体变量名，已跳过`);
             return;
         }else if(islegal(prefix + mediumName)){
@@ -109,9 +109,9 @@ export function defineMedia(){
                     // 在VSCode编辑窗口展示读取到的文本
                     vscode.window.showTextDocument(doc);
                 }, err => {
-                    console.log(`Open ${mediaFile} error, ${err}.`);
+                    // //console.log(`Open ${mediaFile} error, ${err}.`);
                 }).then(undefined, err => {
-                    console.log(`Open ${mediaFile} error, ${err}.`);
+                    // //console.log(`Open ${mediaFile} error, ${err}.`);
                 });
                 
             } catch (error) {
