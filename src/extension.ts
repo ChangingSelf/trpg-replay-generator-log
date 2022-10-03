@@ -148,7 +148,7 @@ export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(vscode.commands.registerCommand('trpg-replay-generator-log.refreshTreeView', () =>characterNodeProvider.refresh()));
 
 	//自动补全
-	vscode.languages.registerCompletionItemProvider("rgl",new CompletionItemProvider,":",".","{");
+	vscode.languages.registerCompletionItemProvider("rgl",new CompletionItemProvider,".");
 }
 
 // this method is called when your extension is deactivated

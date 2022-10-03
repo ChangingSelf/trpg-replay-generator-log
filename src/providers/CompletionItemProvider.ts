@@ -33,7 +33,7 @@ export class CompletionItemProvider implements vscode.CompletionItemProvider {
                     }
                 }
                 break;
-            case ":"://背景补全，不知道为何不起作用
+            case ":"://背景补全，不知道为何不起作用，于是取消触发词避免多余消耗
                 if(!/^<background>/m.test(prefix)){
                     //如果不是背景行，则不补全
                     return [];
@@ -48,7 +48,7 @@ export class CompletionItemProvider implements vscode.CompletionItemProvider {
                     }
                 }
                 break;
-            case "{"://音效补全，不知道为何不起作用
+            case "{"://音效补全，不知道为何不起作用，于是取消触发词避免多余消耗
                 path = settings.mediaObjDefine;
                 mediaData = fs.readFileSync(path,{encoding:'utf8', flag:'r'});
                 lines = mediaData.split("\n");
