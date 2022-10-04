@@ -15,6 +15,7 @@ import * as path from 'path';
 import * as fs from 'fs';
 import { CharacterNodeProvider } from './providers/CharacterNodeProvider';
 import { CompletionItemProvider } from './providers/CompletionItemProvider';
+import { BackgroundNode, BackgroundNodeProvider } from './providers/BackgroundNodeProvider';
 
 /**
  * 从某个HTML文件读取能被Webview加载的HTML内容
@@ -143,12 +144,23 @@ export function activate(context: vscode.ExtensionContext) {
 	}));	
 	
 	let characterNodeProvider = new CharacterNodeProvider();
+	let backgroundNodeProvider = new BackgroundNodeProvider();
 	//TreeView
 	vscode.window.createTreeView('rglCharacter', {
 		treeDataProvider: characterNodeProvider,
 		showCollapseAll : true,
-	  });
-	context.subscriptions.push(vscode.commands.registerCommand('trpg-replay-generator-log.refreshTreeView', () =>characterNodeProvider.refresh()));
+	});
+	vscode.window.createTreeView('rglBackground', {
+		treeDataProvider: backgroundNodeProvider,
+		showCollapseAll : true,
+	});
+	context.subscriptions.push(vscode.commands.registerCommand('trpg-replay-generator-log.refreshTreeView', 
+	() =>{
+		characterNodeProvider.refresh();
+		backgroundNodeProvider.refresh();
+	}));
+	context.subscriptions.push(vscode.commands.registerCommand('trpg-replay-generator-log.insertBackground', (node:BackgroundNode) =>{backgroundNodeProvider.insertBackground(node);}));
+
 
 	//自动补全
 	vscode.languages.registerCompletionItemProvider("rgl",new CompletionItemProvider,".");

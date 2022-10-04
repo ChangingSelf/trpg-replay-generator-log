@@ -37,7 +37,8 @@
     "onCommand:trpg-replay-generator-log.openMediaView",
     "onCommand:trpg-replay-generator-log.chatWithDiceBot",
     "onCommand:trpg-replay-generator-log.refreshTreeView",
-    "onCommand:trpg-replay-generator-log.importLocalSound"
+    "onCommand:trpg-replay-generator-log.importLocalSound",
+    "onCommand:trpg-replay-generator-log.copyBackgroundNode"
   ],
   "main": "./dist/extension.js",
   "contributes": {
@@ -125,6 +126,10 @@
       ,{
         "command": "trpg-replay-generator-log.importLocalSound",
         "title": "TRGL: Import Local Sound # 导入本地wav语音"
+      }
+      ,{
+        "command": "trpg-replay-generator-log.insertBackground",
+        "title": "插入背景"
       }
     ],
     "languages": [
@@ -462,7 +467,11 @@
       "rgl-explorer":[
         {
           "id": "rglCharacter",
-          "name": "角色"
+          "name": "剧本中已出现的角色"
+        }
+        ,{
+          "id": "rglBackground",
+          "name": "可用背景媒体"
         }
       ]
     },
@@ -472,6 +481,11 @@
         "contents": "目前没有检测到回声工坊的log文件，请检查是否已经打开了文件或者文件夹，是否将剧本文件的后缀名从“.txt”改为了“.rgl”\n[打开文件](command:workbench.action.files.openFile)\n[打开文件夹](command:workbench.action.files.openFolder)",
         "when": "editorLangId != rgl"
       }
+      ,{
+        "view": "rglBackground",
+        "contents": "目前没有找到媒体定义文件，请确保你已经在插件设置中配置好了媒体定义文件的路径\n[打开设置](command:workbench.action.openSettings2)",
+        "when": "editorLangId != rgl"
+      }
     ],
     "menus": {
       "view/title": [
@@ -479,6 +493,14 @@
           "command": "trpg-replay-generator-log.refreshTreeView",
           "when": "view == rglCharacter",
           "group": "navigation"
+        }
+      ]
+      ,"view/item/context": [
+        {
+          "command": "trpg-replay-generator-log.insertBackground",
+          "when": "view == rglBackground",
+          "group": "inline"
+          
         }
       ]
     }

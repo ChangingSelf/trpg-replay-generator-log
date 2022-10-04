@@ -15,7 +15,7 @@ export class RegexUtils{
     static regexHitpoint = /'<hitpoint>:\((.+?),(\d+),(\d+),(\d+)\)'/mg;
     static regexDice = /'\((.+?),(\d+),([\d]+|NA),(\d+)\)'/mg;
 
-    static regexMediaLine = /^(.+?)\s*=\s*(.+?)\((.+)\)$/m;
+    static regexMediaLine = /^[^#](.*?)\s*=\s*(.+?)\((.+)\)$/m;
 
     static isDialogueLine(text:string):boolean{
         return RegexUtils.regexDialogue.test(text);
