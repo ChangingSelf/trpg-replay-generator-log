@@ -4,7 +4,7 @@
  */
 
 export class RegexUtils{
-    static regexDialogue = /^\[(([^,\.\(\)]*?)(\((\d+)\))?(\.([^,\.\(\)]*?))?)(,(([^,\.\(\)]*?)(\((\d+)\))?(\.([^,\.\(\)]*?))?))?(,(([^,\.\(\)]*?)(\((\d+)\))?(\.([^,\.\(\)]*?))?))?\](<.*?>)?:(.*?)(<.*?>)?(\{.*?\})?$/m;
+    static regexDialogueLine = /^\[(([^,\.\(\)]*?)(\((\d+)\))?(\.([^,\.\(\)]*?))?)(,(([^,\.\(\)]*?)(\((\d+)\))?(\.([^,\.\(\)]*?))?))?(,(([^,\.\(\)]*?)(\((\d+)\))?(\.([^,\.\(\)]*?))?))?\](<.*?>)?:(.*?)(<.*?>)?(\{.*?\})?$/m;
     static regexPlaceobj = /'^<(background|animation|bubble)>(<[\w\=]+>)?:(.+)$'/mg;
     static regexBubble = /'(\w+)\("([^\\"]*)","([^\\"]*)",?(<(\w+)=?(\d+)?>)?\)'/mg;
     static regexSetting = /'^<set:([\w\ \.]+)>:(.+)$'/mg;
@@ -14,14 +14,15 @@ export class RegexUtils{
     static regexAsterisk = /'(\{([^\{\}]*?[;])?\*([\w\ \.\,，。：？！“”]*)?\})'/mg;
     static regexHitpoint = /'<hitpoint>:\((.+?),(\d+),(\d+),(\d+)\)'/mg;
     static regexDice = /'\((.+?),(\d+),([\d]+|NA),(\d+)\)'/mg;
+    static regexBackgroundLine = /^<background>(<[\w\=]+>)?:(.+)$/m;
 
-    static regexMediaLine = /^[^#](.*?)\s*=\s*(.+?)\((.+)\)$/m;
+    static regexMediaLine = /^([^#].*?)\s*=\s*(.+?)\((.+)\)$/m;
 
     static isDialogueLine(text:string):boolean{
-        return RegexUtils.regexDialogue.test(text);
+        return RegexUtils.regexDialogueLine.test(text);
     }
     static parseDialogueLine(text:string){
-        let r = RegexUtils.regexDialogue.exec(text);
+        let r = RegexUtils.regexDialogueLine.exec(text);
         try {
             if(r){
                 let pcList = [
@@ -47,6 +48,22 @@ export class RegexUtils{
                 mediaName:result[1],
                 mediaType:result[2],
                 mediaPara:result[3]
+            };
+        }else{
+            return null;
+        }
+    }
+
+    static isBackgroundLine(text:string):boolean{
+        return RegexUtils.regexBackgroundLine.test(text);
+    }
+
+    static parseBackgroundLine(line:string){
+        let r = this.regexBackgroundLine.exec(line);
+        if(r){
+            return {
+                switchMethod:r[1],//<black=30>
+                background:r[2]
             };
         }else{
             return null;

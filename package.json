@@ -2,7 +2,7 @@
   "name": "trpg-replay-generator-log",
   "displayName": "TRPG Replay Generator Log",
   "description": "Syntax highlighting and code snippets for TRPG-Replay-Generator-Log language",
-  "version": "1.11.0",
+  "version": "1.12.0",
   "engines": {
     "vscode": "^1.67.0"
   },
@@ -38,7 +38,9 @@
     "onCommand:trpg-replay-generator-log.chatWithDiceBot",
     "onCommand:trpg-replay-generator-log.refreshTreeView",
     "onCommand:trpg-replay-generator-log.importLocalSound",
-    "onCommand:trpg-replay-generator-log.copyBackgroundNode"
+    "onCommand:trpg-replay-generator-log.insertBackground",
+    "onCommand:trpg-replay-generator-log.insertAudio",
+    "onCommand:trpg-replay-generator-log.jumpToOutlineNode"
   ],
   "main": "./dist/extension.js",
   "contributes": {
@@ -130,6 +132,14 @@
       ,{
         "command": "trpg-replay-generator-log.insertBackground",
         "title": "插入背景"
+      }
+      ,{
+        "command": "trpg-replay-generator-log.insertAudio",
+        "title": "插入音效"
+      }
+      ,{
+        "command": "trpg-replay-generator-log.jumpToOutlineNode",
+        "title": "跳转大纲节点"
       }
     ],
     "languages": [
@@ -466,24 +476,46 @@
     "views": {
       "rgl-explorer":[
         {
+          "id": "rglOutline",
+          "name": "大纲",
+          "visibility": "visible"
+        }
+        ,{
           "id": "rglCharacter",
-          "name": "剧本中已出现的角色"
+          "name": "剧本中已出现的角色",
+          "visibility": "collapsed"
         }
         ,{
           "id": "rglBackground",
-          "name": "可用背景媒体"
+          "name": "可用背景媒体",
+          "visibility": "collapsed"
+        }
+        ,{
+          "id": "rglAudio",
+          "name": "可用音效",
+          "visibility": "collapsed"
         }
       ]
     },
     "viewsWelcome": [
       {
+        "view": "rglOutline",
+        "contents": "目前还没有检测到背景行。大纲节点是背景行，即“<background>”行",
+        "when": "editorLangId != rgl"
+      }
+      ,{
         "view": "rglCharacter",
         "contents": "目前没有检测到回声工坊的log文件，请检查是否已经打开了文件或者文件夹，是否将剧本文件的后缀名从“.txt”改为了“.rgl”\n[打开文件](command:workbench.action.files.openFile)\n[打开文件夹](command:workbench.action.files.openFolder)",
         "when": "editorLangId != rgl"
       }
       ,{
         "view": "rglBackground",
-        "contents": "目前没有找到媒体定义文件，请确保你已经在插件设置中配置好了媒体定义文件的路径\n[打开设置](command:workbench.action.openSettings2)",
+        "contents": "目前没有找到媒体定义文件或是没有定义背景，请确保你已经在插件设置中配置好了媒体定义文件的路径\n[打开设置](command:workbench.action.openSettings2)",
+        "when": "editorLangId != rgl"
+      }
+      ,{
+        "view": "rglAudio",
+        "contents": "目前没有找到媒体定义文件或是没有定义音效，请确保你已经在插件设置中配置好了媒体定义文件的路径\n[打开设置](command:workbench.action.openSettings2)",
         "when": "editorLangId != rgl"
       }
     ],
@@ -491,7 +523,6 @@
       "view/title": [
         {
           "command": "trpg-replay-generator-log.refreshTreeView",
-          "when": "view == rglCharacter",
           "group": "navigation"
         }
       ]
@@ -499,6 +530,18 @@
         {
           "command": "trpg-replay-generator-log.insertBackground",
           "when": "view == rglBackground",
+          "group": "inline"
+          
+        }
+        ,{
+          "command": "trpg-replay-generator-log.insertAudio",
+          "when": "view == rglAudio",
+          "group": "inline"
+          
+        }
+        ,{
+          "command": "trpg-replay-generator-log.jumpToOutlineNode",
+          "when": "view == rglOutline",
           "group": "inline"
           
         }

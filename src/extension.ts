@@ -16,6 +16,8 @@ import * as fs from 'fs';
 import { CharacterNodeProvider } from './providers/CharacterNodeProvider';
 import { CompletionItemProvider } from './providers/CompletionItemProvider';
 import { BackgroundNode, BackgroundNodeProvider } from './providers/BackgroundNodeProvider';
+import { AudioNode, AudioNodeProvider } from './providers/AudioNodeProvider';
+import { OutlineNode, OutlineNodeProvider } from './providers/OutlineNodeProvider';
 
 /**
  * 从某个HTML文件读取能被Webview加载的HTML内容
@@ -145,6 +147,8 @@ export function activate(context: vscode.ExtensionContext) {
 	
 	let characterNodeProvider = new CharacterNodeProvider();
 	let backgroundNodeProvider = new BackgroundNodeProvider();
+	let audioNodeProvider = new AudioNodeProvider();
+	let outlineNodeProvider = new OutlineNodeProvider();
 	//TreeView
 	vscode.window.createTreeView('rglCharacter', {
 		treeDataProvider: characterNodeProvider,
@@ -154,12 +158,25 @@ export function activate(context: vscode.ExtensionContext) {
 		treeDataProvider: backgroundNodeProvider,
 		showCollapseAll : true,
 	});
+	vscode.window.createTreeView('rglAudio', {
+		treeDataProvider: audioNodeProvider,
+		showCollapseAll : true,
+	});
+	vscode.window.createTreeView('rglOutline', {
+		treeDataProvider: outlineNodeProvider,
+		showCollapseAll : true,
+	});
 	context.subscriptions.push(vscode.commands.registerCommand('trpg-replay-generator-log.refreshTreeView', 
 	() =>{
 		characterNodeProvider.refresh();
 		backgroundNodeProvider.refresh();
+		audioNodeProvider.refresh();
+		outlineNodeProvider.refresh(undefined);
 	}));
+	vscode.workspace.onDidSaveTextDocument(outlineNodeProvider.refresh);
 	context.subscriptions.push(vscode.commands.registerCommand('trpg-replay-generator-log.insertBackground', (node:BackgroundNode) =>{backgroundNodeProvider.insertBackground(node);}));
+	context.subscriptions.push(vscode.commands.registerCommand('trpg-replay-generator-log.insertAudio', (node:AudioNode) =>{audioNodeProvider.insertAudio(node);}));
+	context.subscriptions.push(vscode.commands.registerCommand('trpg-replay-generator-log.jumpToOutlineNode', (node:OutlineNode) =>{OutlineNodeProvider.jump(node);}));
 
 
 	//自动补全
