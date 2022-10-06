@@ -5,6 +5,10 @@
 格式基于[维护更新日志（Keep a Changelog）](https://keepachangelog.com/en/1.0.0/)，
 并且该项目遵循 [语义版本控制（Semantic Versioning）](https://semver.org/spec/v2.0.0.html)。
 
+## [1.13.1] - 2022-10-06
+
+- 语法高亮兼容回声工坊新语法：<animation>行和<bubble>行
+
 ## [1.13.0] - 2022-10-06
 
 - 当你临时想要添加新的背景或者音效的时候可以不必特地打开回声工坊GUI了，在侧边栏点击“+”图标即可选择媒体添加到媒体定义文件，可以多选
