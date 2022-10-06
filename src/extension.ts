@@ -178,8 +178,11 @@ export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(vscode.commands.registerCommand('trpg-replay-generator-log.insertBackground', (node:BackgroundNode) =>{backgroundNodeProvider.insertBackground(node);}));
 	context.subscriptions.push(vscode.commands.registerCommand('trpg-replay-generator-log.insertAudio', (node:AudioNode) =>{audioNodeProvider.insertAudio(node);}));
 	context.subscriptions.push(vscode.commands.registerCommand('trpg-replay-generator-log.jumpToOutlineNode', (node:OutlineNode) =>{OutlineNodeProvider.jump(node);}));
-	//添加背景节点
+	//添加节点
 	context.subscriptions.push(vscode.commands.registerCommand('trpg-replay-generator-log.addBackgroundNode', (node:BackgroundNode) =>{backgroundNodeProvider.addNodeToMediaFile();}));
+	context.subscriptions.push(vscode.commands.registerCommand('trpg-replay-generator-log.addAudioNode', (node:AudioNode) =>{audioNodeProvider.addNodeToMediaFile();}));
+	//预览节点
+	context.subscriptions.push(vscode.commands.registerCommand('trpg-replay-generator-log.previewBackgroundNode', (node:BackgroundNode) =>{backgroundNodeProvider.previewNode(node);}));
 
 
 	//自动补全

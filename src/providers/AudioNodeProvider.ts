@@ -1,7 +1,11 @@
 import * as vscode from 'vscode';
 import * as fs from 'fs';
+import * as path from 'path';
+import * as outputUtils from '../utils/OutputUtils';
 import { loadSettings } from '../utils/utils';
 import { RegexUtils } from '../utils/RegexUtils';
+
+let outputChannel = outputUtils.OutputUtils.getInstance();
 
 /**
  * 节点对象
@@ -44,6 +48,78 @@ export class AudioNodeProvider implements vscode.TreeDataProvider<AudioNode>{
             vscode.window.showErrorMessage(err);
         });
 	}
+
+    //和背景那边的代码基本一致
+    addNodeToMediaFile(){
+        let settings = loadSettings();
+        let mediaDefFilePath = settings.mediaObjDefine;
+        vscode.window.showOpenDialog({
+            "canSelectFiles":true,
+            "canSelectMany":true,
+            "defaultUri":vscode.Uri.file(mediaDefFilePath),
+            "filters":{
+                '音频': ['wav']
+            },
+            "title":"选择你要添加的音效（可多选）"
+        }).then((uris)=>{
+            if(!uris){
+                return;
+            }
+            // console.log(uris);
+            let mediaData = fs.readFileSync(mediaDefFilePath,{encoding:'utf8', flag:'r'});
+            let lines = mediaData.split("\n");
+
+            //读取已有的媒体
+            let mediaNameSet = new Set();
+            for(let line of lines){
+                let medium = RegexUtils.parseMediaLine(line);
+                if(medium && medium.mediaType === "Audio"){
+                    mediaNameSet.add(medium.mediaName);
+                }
+            }
+            //加入新的媒体
+            outputChannel.show();
+            outputChannel.appendLine(`正在导入...`);
+            let dupList = [];
+            let illegalList = [];
+            let appendLines = [];
+            for(let uri of uris){
+                let filePath = uri.fsPath;
+                let mediumName = path.basename(filePath,path.extname(filePath));
+                if(!RegexUtils.isMediumNameLegal(mediumName)){
+                    //名称不合法
+                    illegalList.push({name:mediumName,filePath:filePath});
+                    continue;
+                }
+                if(mediaNameSet.has(mediumName)){
+                    //存在重名
+                    dupList.push({name:mediumName,filePath:filePath});
+                    continue;
+                }
+                appendLines.push(`${mediumName} = Audio(filepath='${filePath}',label_color='Lavender')`);
+                outputChannel.appendLine(`[${mediumName}](${filePath})`);
+            }
+            if(illegalList.length > 0){
+                outputChannel.appendLine(`\n因为名称非法而未新增的媒体：`);
+                for(let medium of illegalList){
+                    outputChannel.appendLine(`[${medium.name}](${medium.filePath})`);
+                }
+            }
+            if(dupList.length > 0){
+                outputChannel.appendLine(`\n因为与现有媒体重名而未新增的媒体：`);
+                for(let medium of dupList){
+                    outputChannel.appendLine(`[${medium.name}](${medium.filePath})`);
+                }
+            }
+            if(appendLines.length > 0){
+                fs.appendFileSync(mediaDefFilePath,"\n\n# vscode插件导入的背景媒体\n" + appendLines.join("\n"));
+                outputChannel.appendLine(`\n导入完成，新增${appendLines.length}个新媒体，具体信息见上方`);
+            }else{
+                outputChannel.appendLine(`\n没有导入任何媒体`);
+            }
+            this.refresh();
+        });
+    }
 
     getTreeItem(element: AudioNode): vscode.TreeItem | Thenable<vscode.TreeItem> {
         return element;

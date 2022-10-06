@@ -18,6 +18,8 @@ export class RegexUtils{
 
     static regexMediaLine = /^([^#].*?)\s*=\s*(.+?)\((.+)\)$/m;
 
+    static regexFilePathInPara = /(filepath|fontfile)\s*=\s*['"](.+?)['"]/;
+
     static isDialogueLine(text:string):boolean{
         return RegexUtils.regexDialogueLine.test(text);
     }
@@ -65,6 +67,23 @@ export class RegexUtils{
                 switchMethod:r[1],//<black=30>
                 background:r[2]
             };
+        }else{
+            return null;
+        }
+    }
+
+    static isMediumNameLegal(name:string):boolean{
+        let occupiedVariableName = [
+            "Animation","Audio","Audio_type","BGM","BGM_clips","Background","Bubble","BuiltInAnimation","E","Exception","H","Image","ImageDraw","ImageFont","ImageTk","Is_NTSC","MediaError","NA","Na","Nan","None","PR_center_arg","ParserError","RE_asterisk","RE_background","RE_characor","RE_dialogue","RE_dice","RE_hitpoint","RE_mediadef_args","RE_modify","RE_parse_mediadef","RE_setting","RE_sound","RE_vaildname","SOUEFF","StrokeText","Text","UF_cut_str","VOICE","W","Window","__annotations__","__builtins__","__cached__","__doc__","__file__","__loader__","__name__","__package__","__spec__","__warningregistry__","alpha_range","am_dur_default","am_method_default","am_methods","ap","argparse","args","asterisk_pause","audio_clip_tplt","audio_track_tplt","audio_tracks","available_Text","bb_dur_default","bb_method_default","begin","begin_time","bg_dur_default","bg_method_default","black","break_point","browse_file","bubble_clip_list","bubble_this","bulitin_media","channel_list","char_tab","charactor_table","choose_color","clip_index","clip_list","clip_tplt","cmap","colorchooser","concat_xy","crf","ct","cut_str","detail_info","drop","edtion","end","event","exit_status","exportVideo","exportXML","ffmpeg","file_index","filedialog","finish_rate","fixscreen","font","formula","formula_available","forward","fps_clock","frame_rate","get_audio_length","get_background_arg","get_dialogue_arg","get_l2l","get_seting_arg","glob","i","image_canvas","item","key","label_pos_show_text","layer","left","linear","main","main_Track","main_output","media","media_list","media_obj","messagebox","mixer","n","normalized","note_text","np","obj_name","object_define_text","obyte","occupied_variable_name","ofile","open_Edit_windows","open_Main_windows","open_Media_def_window","open_PosSelect","os","outanime_index","output_engine","output_path","outtext_index","parse_timeline","parse_timeline_bubble","parser","path","pause_SE","pd","project_tplt","pydub","pygame","python3","quadratic","quadraticR","re","reformat_path","render","render_arg","render_timeline","resize_screen","right","s","screen","screen_resized","screen_size","show_detail_info","sigmoid","speech_speed","split_xy","stdin_log","stdin_name","stdin_text","stop","stop_SE","synthfirst","sys","system_terminated","temp","temp_AU","text","text_clip_list","text_this","this_Track","this_frame","time","timeline","timer","tk","tr","track_items","track_tplt","tracks","ttk","tx_dur_default","tx_method_default","used_time","used_variable_name","values","video_tracks","voice","voice_lib","webbrowser","white","window","zorder"
+        ];
+        
+        return /^[a-zA-Z_\u4E00-\u9FA5][\u4E00-\u9FA5\w]*$/m.test(name) && !occupiedVariableName.includes(name);
+    }
+
+    static getFilePathInPara(para:string){
+        let r = this.regexFilePathInPara.exec(para);
+        if(r){
+            return r[2];
         }else{
             return null;
         }

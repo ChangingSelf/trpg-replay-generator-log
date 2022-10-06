@@ -2,7 +2,7 @@
   "name": "trpg-replay-generator-log",
   "displayName": "TRPG Replay Generator Log",
   "description": "Syntax highlighting and code snippets for TRPG-Replay-Generator-Log language",
-  "version": "1.12.1",
+  "version": "1.13.0",
   "engines": {
     "vscode": "^1.67.0"
   },
@@ -41,7 +41,9 @@
     "onCommand:trpg-replay-generator-log.insertBackground",
     "onCommand:trpg-replay-generator-log.insertAudio",
     "onCommand:trpg-replay-generator-log.jumpToOutlineNode",
-    "onCommand:trpg-replay-generator-log.addBackgroundNode"
+    "onCommand:trpg-replay-generator-log.addBackgroundNode",
+    "onCommand:trpg-replay-generator-log.addAudioNode",
+    "onCommand:trpg-replay-generator-log.previewBackgroundNode"
   ],
   "main": "./dist/extension.js",
   "contributes": {
@@ -132,19 +134,43 @@
       }
       ,{
         "command": "trpg-replay-generator-log.insertBackground",
-        "title": "插入背景"
+        "title": "插入背景",
+        "icon":{
+          "light": "images/text_insert.svg",
+          "dark": "images/text_insert_dark.svg"
+        }
       }
       ,{
         "command": "trpg-replay-generator-log.insertAudio",
-        "title": "插入音效"
+        "title": "插入音效",
+        "icon":{
+          "light": "images/text_insert.svg",
+          "dark": "images/text_insert_dark.svg"
+        }
       }
       ,{
         "command": "trpg-replay-generator-log.jumpToOutlineNode",
         "title": "跳转大纲节点"
       }
       ,{
+        "command": "trpg-replay-generator-log.previewBackgroundNode",
+        "title": "预览背景",
+        "icon":{
+          "light": "images/preview.svg",
+          "dark": "images/preview_dark.svg"
+        }
+      }
+      ,{
         "command": "trpg-replay-generator-log.addBackgroundNode",
         "title": "新增背景媒体",
+        "icon":{
+          "light": "images/add.svg",
+          "dark": "images/add_dark.svg"
+        }
+      }
+      ,{
+        "command": "trpg-replay-generator-log.addAudioNode",
+        "title": "新增音效媒体",
         "icon":{
           "light": "images/add.svg",
           "dark": "images/add_dark.svg"
@@ -540,10 +566,21 @@
           "group": "navigation",
           "when": "view == rglBackground"
         }
+        ,{
+          "command": "trpg-replay-generator-log.addAudioNode",
+          "group": "navigation",
+          "when": "view == rglAudio"
+        }
       ]
       ,"view/item/context": [
         {
           "command": "trpg-replay-generator-log.insertBackground",
+          "when": "view == rglBackground",
+          "group": "inline"
+          
+        }
+        ,{
+          "command": "trpg-replay-generator-log.previewBackgroundNode",
           "when": "view == rglBackground",
           "group": "inline"
           

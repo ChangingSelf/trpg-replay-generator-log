@@ -1,7 +1,11 @@
 import * as vscode from 'vscode';
 import * as fs from 'fs';
+import * as path from 'path';
+import * as outputUtils from '../utils/OutputUtils';
 import { loadSettings } from '../utils/utils';
 import { RegexUtils } from '../utils/RegexUtils';
+
+let outputChannel = outputUtils.OutputUtils.getInstance();
 
 /**
  * 节点对象
@@ -9,6 +13,7 @@ import { RegexUtils } from '../utils/RegexUtils';
 export class BackgroundNode extends vscode.TreeItem {
     constructor(
         public name:string,
+        public para:string,
         public collapsibleState: vscode.TreeItemCollapsibleState = vscode.TreeItemCollapsibleState.None,
     ){
         super(name,collapsibleState);
@@ -18,12 +23,24 @@ export class BackgroundNode extends vscode.TreeItem {
  * 数据提供者
  */
 export class BackgroundNodeProvider implements vscode.TreeDataProvider<BackgroundNode>{
-    
+
     private _onDidChangeTreeData: vscode.EventEmitter<BackgroundNode | undefined | null | void> = new vscode.EventEmitter<BackgroundNode | undefined | null | void>();
     readonly onDidChangeTreeData: vscode.Event<BackgroundNode | undefined | null | void> = this._onDidChangeTreeData.event;
     refresh(): void {
         this._onDidChangeTreeData.fire();
     }
+
+    previewNode(node: BackgroundNode) {
+        //读取参数中的文件路径
+        let filepath = RegexUtils.getFilePathInPara(node.para);
+        if(!filepath){
+            return;
+        }
+
+		vscode.commands.executeCommand('vscode.open',vscode.Uri.file(filepath)).then(success=>{},reason=>{
+            vscode.window.showErrorMessage(reason);
+        });
+	}
 
     insertBackground(node:BackgroundNode) {
 		let editor = vscode.window.activeTextEditor;
@@ -46,7 +63,74 @@ export class BackgroundNodeProvider implements vscode.TreeDataProvider<Backgroun
 	}
 
     addNodeToMediaFile(){
-        // vscode.window.showOpenDialog()
+        let settings = loadSettings();
+        let mediaDefFilePath = settings.mediaObjDefine;
+        vscode.window.showOpenDialog({
+            "canSelectFiles":true,
+            "canSelectMany":true,
+            "defaultUri":vscode.Uri.file(mediaDefFilePath),
+            "filters":{
+                '图片': ['png', 'jpg','jpeg','bmp']
+            },
+            "title":"选择你要添加的背景图片（可多选）"
+        }).then((uris)=>{
+            if(!uris){
+                return;
+            }
+            // console.log(uris);
+            let mediaData = fs.readFileSync(mediaDefFilePath,{encoding:'utf8', flag:'r'});
+            let lines = mediaData.split("\n");
+
+            //读取已有的媒体
+            let mediaNameSet = new Set();
+            for(let line of lines){
+                let medium = RegexUtils.parseMediaLine(line);
+                if(medium && medium.mediaType === "Background"){
+                    mediaNameSet.add(medium.mediaName);
+                }
+            }
+            //加入新的媒体
+            outputChannel.show();
+            outputChannel.appendLine(`正在导入...`);
+            let dupList = [];
+            let illegalList = [];
+            let appendLines = [];
+            for(let uri of uris){
+                let filePath = uri.fsPath;
+                let mediumName = path.basename(filePath,path.extname(filePath));
+                if(!RegexUtils.isMediumNameLegal(mediumName)){
+                    //名称不合法
+                    illegalList.push({name:mediumName,filePath:filePath});
+                    continue;
+                }
+                if(mediaNameSet.has(mediumName)){
+                    //存在重名
+                    dupList.push({name:mediumName,filePath:filePath});
+                    continue;
+                }
+                appendLines.push(`${mediumName} = Background(filepath='${filePath}',pos=(0,0),label_color='Lavender')`);
+                outputChannel.appendLine(`[${mediumName}](${filePath})`);
+            }
+            if(illegalList.length > 0){
+                outputChannel.appendLine(`\n因为名称非法而未新增的媒体：`);
+                for(let medium of illegalList){
+                    outputChannel.appendLine(`[${medium.name}](${medium.filePath})`);
+                }
+            }
+            if(dupList.length > 0){
+                outputChannel.appendLine(`\n因为与现有媒体重名而未新增的媒体：`);
+                for(let medium of dupList){
+                    outputChannel.appendLine(`[${medium.name}](${medium.filePath})`);
+                }
+            }
+            if(appendLines.length > 0){
+                fs.appendFileSync(mediaDefFilePath,"\n\n# vscode插件导入的背景媒体\n" + appendLines.join("\n"));
+                outputChannel.appendLine(`\n导入完成，新增${appendLines.length}个新媒体，具体信息见上方`);
+            }else{
+                outputChannel.appendLine(`\n没有导入任何媒体`);
+            }
+            this.refresh();
+        });
     }
 
     getTreeItem(element: BackgroundNode): vscode.TreeItem | Thenable<vscode.TreeItem> {
@@ -68,7 +152,7 @@ export class BackgroundNodeProvider implements vscode.TreeDataProvider<Backgroun
             for(let line of lines){
                 let medium = RegexUtils.parseMediaLine(line);
                 if(medium && medium.mediaType === "Background"){
-                    children.push(new BackgroundNode(medium.mediaName));
+                    children.push(new BackgroundNode(medium.mediaName,medium.mediaPara));
                 }
             }
         }else{
