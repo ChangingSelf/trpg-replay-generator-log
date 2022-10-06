@@ -5,10 +5,8 @@ import { loadSettings } from './utils/utils';
 import * as path from 'path';
 import { exec, execSync } from 'child_process';
 import * as outputUtils from './utils/OutputUtils';
-import { rglStatusBar } from './rglStatusBar';
 
 let outputChannel = outputUtils.OutputUtils.getInstance();
-let statusBar = rglStatusBar.getInstance();
 
 function getAudioDuration(filePath:string):number {
     let settings = loadSettings();

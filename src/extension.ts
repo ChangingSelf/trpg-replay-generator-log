@@ -51,8 +51,9 @@ export function activate(context: vscode.ExtensionContext) {
 	// The commandId parameter must match the command field in package.json
 
 	//状态栏
-	rglStatusBar.rglStatusBar.updateRglStatus();
-	context.subscriptions.push(rglStatusBar.rglStatusBar.getInstance());
+	let statusBar = new rglStatusBar.rglStatusBar();
+	statusBar.updateRglStatus();
+	context.subscriptions.push(statusBar);
 	
 	context.subscriptions.push(vscode.commands.registerCommand('trpg-replay-generator-log.testCommand',utils.testCommand));
 	
@@ -177,6 +178,8 @@ export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(vscode.commands.registerCommand('trpg-replay-generator-log.insertBackground', (node:BackgroundNode) =>{backgroundNodeProvider.insertBackground(node);}));
 	context.subscriptions.push(vscode.commands.registerCommand('trpg-replay-generator-log.insertAudio', (node:AudioNode) =>{audioNodeProvider.insertAudio(node);}));
 	context.subscriptions.push(vscode.commands.registerCommand('trpg-replay-generator-log.jumpToOutlineNode', (node:OutlineNode) =>{OutlineNodeProvider.jump(node);}));
+	//添加背景节点
+	context.subscriptions.push(vscode.commands.registerCommand('trpg-replay-generator-log.addBackgroundNode', (node:BackgroundNode) =>{backgroundNodeProvider.addNodeToMediaFile();}));
 
 
 	//自动补全

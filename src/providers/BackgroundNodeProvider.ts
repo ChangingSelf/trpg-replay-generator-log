@@ -45,6 +45,10 @@ export class BackgroundNodeProvider implements vscode.TreeDataProvider<Backgroun
         });
 	}
 
+    addNodeToMediaFile(){
+        // vscode.window.showOpenDialog()
+    }
+
     getTreeItem(element: BackgroundNode): vscode.TreeItem | Thenable<vscode.TreeItem> {
         return element;
     }
