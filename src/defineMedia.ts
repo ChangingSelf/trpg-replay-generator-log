@@ -72,34 +72,48 @@ export function defineMedia(){
     const MEDIA_DEFINE_FILENAME = "media.txt";
 
     
-    vscode.window.showInputBox({ 
-        placeHolder:'输入媒体素材所在的文件夹的路径', // 在输入框内的提示信息
-        prompt:'这个路径下不要有数字开头命名的文件夹，否则会跳过'
-    }).then(inputText1 =>{
-        vscode.window.showInputBox({
-            placeHolder:`输入媒体定义文件的路径（含文件名），默认为“./${MEDIA_DEFINE_FILENAME}”`, // 在输入框内的提示信息
-            prompt:`例：F:/replay/${MEDIA_DEFINE_FILENAME}`
-        }).then(inputText2=>{
+    // vscode.window.showInputBox({ 
+    //     placeHolder:'输入媒体素材所在的文件夹的路径', // 在输入框内的提示信息
+    //     prompt:'这个路径下不要有数字开头命名的文件夹，否则会跳过'
+    // }).then(inputText1 =>{
+    let editor = vscode.window.activeTextEditor;
+    let defaultUri = editor?vscode.Uri.file(path.join(path.dirname(editor.document.uri.fsPath),MEDIA_DEFINE_FILENAME)):undefined;
+    vscode.window.showOpenDialog({
+        "canSelectFolders":true,
+        "canSelectMany":false,
+        "defaultUri":defaultUri,
+        "title":"选择媒体素材所在的文件夹"
+    }).then((uris)=>{
+        if(!uris) {return;}
+
+        vscode.window.showSaveDialog({
+            "defaultUri":defaultUri,
+            "filters":{
+                '媒体定义文件': ['txt']
+            },
+            "title":"选择保存的路径"
+        }).then((saveUri)=>{
+
             try {
-                let root:string = inputText1 ? inputText1 as string:"";
-                // vscode.window.showInformationMessage(path);
-                let outputFile = inputText2?inputText2 as string:MEDIA_DEFINE_FILENAME;
-    
+                
+                if(!saveUri) {return;}
+                let mediaFolderPath = uris[0].fsPath;
+
                 //读取文件夹下的文件列表
-                let folders =  fs.readdirSync(root,{withFileTypes:true});
-    
+                let folders =  fs.readdirSync(mediaFolderPath,{withFileTypes:true});
+
                 let mediaTypes = ["Bubble","Background","Animation","BGM","Audio","Text","StrokeText"]
                 folders = folders.filter(x=>(x.isDirectory() && mediaTypes.includes(x.name)));//筛选出媒体文件夹
-    
+
                 //创建媒体定义文件
-                let mediaFile = path.join(root,outputFile);
+                let mediaFile = saveUri.fsPath;
                 fs.writeFileSync(mediaFile,"");
                 
                 //遍历根目录下每一个媒体文件夹
-                folders.forEach(folder=>defineMediaInFolder(folder.name,folder,root,mediaFile,"",1));
+                folders.forEach(folder=>defineMediaInFolder(folder.name,folder,mediaFolderPath,mediaFile,"",1));
                 vscode.window.showInformationMessage(`媒体定义文件已输出为：${mediaFile}`);
                 outputChannel.show();
-    
+
                 //打开媒体定义文件
                 // 获取TextDocument对象
                 vscode.workspace.openTextDocument(mediaFile)
@@ -116,11 +130,11 @@ export function defineMedia(){
                 let err:Error = error as Error;
                 vscode.window.showErrorMessage(`[${err.name}]${err.message}`);
             }
-        })
-    })
+        
+        });
     
     
-    
+    });
 
    
 }
