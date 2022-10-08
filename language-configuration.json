@@ -32,8 +32,8 @@
     ]
     ,"folding": {
         "markers": {
-          "start": "^#?s",
-          "end": "^#?e"
+          "start": "^#s",
+          "end": "^#e"
         }
       }
 }

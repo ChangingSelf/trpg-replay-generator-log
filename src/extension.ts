@@ -174,10 +174,15 @@ export function activate(context: vscode.ExtensionContext) {
 		audioNodeProvider.refresh();
 		outlineNodeProvider.refresh();
 	}));
-	context.subscriptions.push(vscode.workspace.onDidSaveTextDocument((doc)=>{
+	context.subscriptions.push(vscode.workspace.onDidChangeTextDocument((doc)=>{
 		outlineNodeProvider.refresh();
 	}));//注意：不能直接传入refresh函数，必须用另外的回调函数来调用
-	
+	context.subscriptions.push(vscode.window.onDidChangeTextEditorSelection((doc)=>{
+		outlineNodeProvider.refresh();
+	}));
+	context.subscriptions.push(vscode.window.onDidChangeActiveTextEditor((doc)=>{
+		outlineNodeProvider.refresh();
+	}));
 	context.subscriptions.push(vscode.commands.registerCommand('trpg-replay-generator-log.insertBackground', (node:BackgroundNode) =>{backgroundNodeProvider.insertBackground(node);}));
 	context.subscriptions.push(vscode.commands.registerCommand('trpg-replay-generator-log.insertAudio', (node:AudioNode) =>{audioNodeProvider.insertAudio(node);}));
 	context.subscriptions.push(vscode.commands.registerCommand('trpg-replay-generator-log.jumpToOutlineNode', (node:OutlineNode) =>{OutlineNodeProvider.jump(node);}));

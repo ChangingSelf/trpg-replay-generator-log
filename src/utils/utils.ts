@@ -92,6 +92,8 @@ export function loadSettings(isShowInfo:boolean=false){
 
         //其他配置
         ,"lineLength":Number.POSITIVE_INFINITY
+        //Treeview
+        ,"parseOutlineByComment":parseBoolean(configuration.get('trpg-replay-generator-log.treeview.parseOutlineByComment') as string)
     };
 
     let editor = vscode.window.activeTextEditor;

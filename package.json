@@ -2,7 +2,7 @@
   "name": "trpg-replay-generator-log",
   "displayName": "TRPG Replay Generator Log",
   "description": "Syntax highlighting and code snippets for TRPG-Replay-Generator-Log language",
-  "version": "1.13.2",
+  "version": "1.13.3",
   "engines": {
     "vscode": "^1.67.0"
   },
@@ -389,6 +389,19 @@
             "description": "动画行悬停提示的开关。"
           }
         }
+      },
+      {
+        "order": 5,
+        "title": "侧边栏",
+        "properties": {
+          "trpg-replay-generator-log.treeview.parseOutlineByComment": {
+            "order": 0,
+            "type": "boolean",
+            "default": false,
+            "description": "大纲栏是否基于折叠标记来解析跳转节点"
+          }
+        }
+      
       }
     ],
     "walkthroughs": [
@@ -535,7 +548,7 @@
     "viewsWelcome": [
       {
         "view": "rglOutline",
-        "contents": "目前还没有检测到背景行。大纲节点是背景行，即“<background>”行",
+        "contents": "目前还没有检测到大纲节点。大纲节点默认是背景行，即“<background>”行，也可以在设置中改为使用折叠标记，可以嵌套",
         "when": "editorLangId != rgl"
       }
       ,{
@@ -588,12 +601,6 @@
         ,{
           "command": "trpg-replay-generator-log.insertAudio",
           "when": "view == rglAudio",
-          "group": "inline"
-          
-        }
-        ,{
-          "command": "trpg-replay-generator-log.jumpToOutlineNode",
-          "when": "view == rglOutline",
           "group": "inline"
           
         }
