@@ -29,7 +29,7 @@ export class OutlineNodeProvider implements vscode.TreeDataProvider<OutlineNode>
     
     private _onDidChangeTreeData: vscode.EventEmitter<OutlineNode | undefined | null | void> = new vscode.EventEmitter<OutlineNode | undefined | null | void>();
     readonly onDidChangeTreeData: vscode.Event<OutlineNode | undefined | null | void> = this._onDidChangeTreeData.event;
-    refresh(doc: vscode.TextDocument|undefined): void {
+    refresh(): void {
         this._onDidChangeTreeData.fire();
     }
 
