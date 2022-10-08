@@ -53,14 +53,23 @@ export function defineCharacter(){
     });
     
     const CHARACTER_DEFINE_FILENAME = "characters.tsv";
-    vscode.window.showInputBox({ 
-        placeHolder:`输入要将结果保存到的路径（含文件名），注意后缀是tsv，默认为“log文件所在目录/${CHARACTER_DEFINE_FILENAME}”`, 
-        prompt:'将会保存为tsv格式，可以用Excel或者文本编辑器打开'
-    }).then(inputText=>{
-        try {
-            let outputFile = inputText?inputText as string:CHARACTER_DEFINE_FILENAME;
 
-            outputFile = path.join(root,outputFile);
+    // vscode.window.showInputBox({ 
+    //     placeHolder:`输入要将结果保存到的路径（含文件名），注意后缀是tsv，默认为“log文件所在目录/${CHARACTER_DEFINE_FILENAME}”`, 
+    //     prompt:'将会保存为tsv格式，可以用Excel或者文本编辑器打开'
+    // }).then(inputText=>{
+    vscode.window.showSaveDialog({
+        "defaultUri":vscode.Uri.file(path.join(root,CHARACTER_DEFINE_FILENAME)),
+        "filters":{
+            '角色配置表': ['tsv']
+        },
+        "title":"选择保存的路径"
+    }).then((uri)=>{
+        try {
+            if(!uri) {return;}
+            let outputFile = uri.fsPath;
+
+            // outputFile = path.join(root,outputFile);
             fs.writeFileSync(outputFile,"Name	Subtype	Animation	Bubble	Voice	SpeechRate	PitchRate\n");
             outputChannel.appendLine("Name	Subtype	Animation	Bubble	Voice	SpeechRate	PitchRate\n");
             subtypeLines.forEach(l=>{
