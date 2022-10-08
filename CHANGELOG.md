@@ -5,6 +5,11 @@
 格式基于[维护更新日志（Keep a Changelog）](https://keepachangelog.com/en/1.0.0/)，
 并且该项目遵循 [语义版本控制（Semantic Versioning）](https://semver.org/spec/v2.0.0.html)。
 
+## [1.13.2] - 2022-10-08
+
+- 将一键生成媒体定义文件和角色配置文件的两个命令的路径输入方式改为文件对话框
+- 一键生成媒体定义文件的命令的媒体文件夹和输出文件的路径不必一致
+
 ## [1.13.1] - 2022-10-06
 
 - 语法高亮兼容回声工坊新语法：<animation>行和<bubble>行
