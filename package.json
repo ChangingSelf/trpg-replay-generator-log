@@ -2,7 +2,7 @@
   "name": "trpg-replay-generator-log",
   "displayName": "TRPG Replay Generator Log",
   "description": "Syntax highlighting and code snippets for TRPG-Replay-Generator-Log language",
-  "version": "1.13.4",
+  "version": "1.13.5",
   "engines": {
     "vscode": "^1.67.0"
   },
@@ -681,7 +681,8 @@
     ,"keybindings":[
       {
         "command": "trpg-replay-generator-log.playVideo",
-        "key": "F5"
+        "key": "F5",
+        "when": "resourceLangId == rgl"
       }
     ]
   },

@@ -5,6 +5,10 @@
 格式基于[维护更新日志（Keep a Changelog）](https://keepachangelog.com/en/1.0.0/)，
 并且该项目遵循 [语义版本控制（Semantic Versioning）](https://semver.org/spec/v2.0.0.html)。
 
+## [1.13.5] - 2022-10-09
+
+- 紧急修复快捷键F5在rgl文件以外的地方也起作用的bug
+
 ## [1.13.4] - 2022-10-09
 
 - 将常用命令加入右键菜单当中
