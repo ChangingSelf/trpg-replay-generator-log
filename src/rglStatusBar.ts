@@ -20,6 +20,7 @@ export class rglStatusBar {
   public updateRglStatus(){
     if(!this.statusBar) {
       this.statusBar  = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left);
+      this.statusBar.command = "trpg-replay-generator-log.count";
     }
     //获取当前编辑器
     let editor = vscode.window.activeTextEditor;

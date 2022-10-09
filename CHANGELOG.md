@@ -5,6 +5,11 @@
 格式基于[维护更新日志（Keep a Changelog）](https://keepachangelog.com/en/1.0.0/)，
 并且该项目遵循 [语义版本控制（Semantic Versioning）](https://semver.org/spec/v2.0.0.html)。
 
+## [1.13.4] - 2022-10-09
+
+- 将常用命令加入右键菜单当中
+- 现在可以单击状态栏来启动统计命令
+
 ## [1.13.3] - 2022-10-08
 
 - 修复了大纲无法实时更新的bug，无需手动刷新
