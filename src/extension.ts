@@ -197,13 +197,17 @@ export function activate(context: vscode.ExtensionContext) {
 	//文本编辑事件
 	context.subscriptions.push(vscode.workspace.onDidChangeTextDocument((event)=>{
 		outlineNodeProvider.refresh();
-		DiagnosticProvider.onChange(event,diagnosticCollection);
+		DiagnosticProvider.onChange(event.document,diagnosticCollection);
 	}));//注意：不能直接传入refresh函数，必须用另外的回调函数来调用
 	context.subscriptions.push(vscode.window.onDidChangeTextEditorSelection((event)=>{
 		outlineNodeProvider.refresh();
+		let document = vscode.window.activeTextEditor?.document;
+		DiagnosticProvider.onChange(document,diagnosticCollection);
 	}));
 	context.subscriptions.push(vscode.window.onDidChangeActiveTextEditor((event)=>{
 		outlineNodeProvider.refresh();
+		let document = vscode.window.activeTextEditor?.document;
+		DiagnosticProvider.onChange(document,diagnosticCollection);
 	}));
 }
 

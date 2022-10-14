@@ -167,7 +167,8 @@ export function loadSettings(isShowInfo:boolean=false){
                     outputChannel.show();
                 }
             });
-        } 
+        }
+
     }
 
     return settings;
@@ -177,9 +178,9 @@ export function loadSettings(isShowInfo:boolean=false){
  * 读取角色配置表中的角色
  */
 export function loadCharacters(filePath:string){
-    let pcData = fs.readFileSync(filePath,{encoding:'utf8', flag:'r'});
+    let text = fs.readFileSync(filePath,{encoding:'utf8', flag:'r'});
 
-    let lines = pcData.split("\n");
+    let lines = text.split("\n");
     let pcMap = new Map<string,Set<string>>();
     for(let line of lines){
         let lineSplit = line.split("\t");
@@ -193,4 +194,25 @@ export function loadCharacters(filePath:string){
         }
     }
     return pcMap;
+}
+
+/**
+ * 读取媒体定义文件
+ */
+ export function loadMedia(filePath:string){
+    let text = fs.readFileSync(filePath,{encoding:'utf8', flag:'r'});
+
+    let lines = text.split("\n");
+    let mediaList:{
+        mediaName: string;
+        mediaType: string;
+        mediaPara: string;
+    }[] = [];
+    for(let line of lines){
+        let medium = RegexUtils.parseMediaLine(line);
+        if(medium){
+            mediaList.push(medium);
+        }
+    }
+    return mediaList;
 }
