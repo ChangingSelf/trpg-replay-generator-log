@@ -11,6 +11,7 @@ import * as hoverProvider from './providers/HoverProvider';
 import * as rglStatusBar from './rglStatusBar';
 import * as diceBot from './chatWithDiceBot';
 import * as utils from './utils/utils';
+import * as DiagnosticProvider from './providers/DiagnosticProvider';
 import * as path from 'path';
 import * as fs from 'fs';
 import { CharacterNodeProvider } from './providers/CharacterNodeProvider';
@@ -35,6 +36,7 @@ import { OutlineNode, OutlineNodeProvider } from './providers/OutlineNodeProvide
     return html;
 }
 
+let diagnosticCollection: vscode.DiagnosticCollection;//诊断信息集合
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -174,15 +176,6 @@ export function activate(context: vscode.ExtensionContext) {
 		audioNodeProvider.refresh();
 		outlineNodeProvider.refresh();
 	}));
-	context.subscriptions.push(vscode.workspace.onDidChangeTextDocument((doc)=>{
-		outlineNodeProvider.refresh();
-	}));//注意：不能直接传入refresh函数，必须用另外的回调函数来调用
-	context.subscriptions.push(vscode.window.onDidChangeTextEditorSelection((doc)=>{
-		outlineNodeProvider.refresh();
-	}));
-	context.subscriptions.push(vscode.window.onDidChangeActiveTextEditor((doc)=>{
-		outlineNodeProvider.refresh();
-	}));
 	context.subscriptions.push(vscode.commands.registerCommand('trpg-replay-generator-log.insertBackground', (node:BackgroundNode) =>{backgroundNodeProvider.insertBackground(node);}));
 	context.subscriptions.push(vscode.commands.registerCommand('trpg-replay-generator-log.insertAudio', (node:AudioNode) =>{audioNodeProvider.insertAudio(node);}));
 	context.subscriptions.push(vscode.commands.registerCommand('trpg-replay-generator-log.jumpToOutlineNode', (node:OutlineNode) =>{OutlineNodeProvider.jump(node);}));
@@ -192,9 +185,26 @@ export function activate(context: vscode.ExtensionContext) {
 	//预览节点
 	context.subscriptions.push(vscode.commands.registerCommand('trpg-replay-generator-log.previewBackgroundNode', (node:BackgroundNode) =>{backgroundNodeProvider.previewNode(node);}));
 
+	
 
 	//自动补全
 	vscode.languages.registerCompletionItemProvider("rgl",new CompletionItemProvider,".");
+
+	//诊断信息
+	diagnosticCollection = vscode.languages.createDiagnosticCollection('rgl');
+	context.subscriptions.push(diagnosticCollection);
+
+	//文本编辑事件
+	context.subscriptions.push(vscode.workspace.onDidChangeTextDocument((event)=>{
+		outlineNodeProvider.refresh();
+		DiagnosticProvider.onChange(event,diagnosticCollection);
+	}));//注意：不能直接传入refresh函数，必须用另外的回调函数来调用
+	context.subscriptions.push(vscode.window.onDidChangeTextEditorSelection((event)=>{
+		outlineNodeProvider.refresh();
+	}));
+	context.subscriptions.push(vscode.window.onDidChangeActiveTextEditor((event)=>{
+		outlineNodeProvider.refresh();
+	}));
 }
 
 // this method is called when your extension is deactivated

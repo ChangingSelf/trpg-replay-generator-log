@@ -5,6 +5,10 @@
 格式基于[维护更新日志（Keep a Changelog）](https://keepachangelog.com/en/1.0.0/)，
 并且该项目遵循 [语义版本控制（Semantic Versioning）](https://semver.org/spec/v2.0.0.html)。
 
+## [1.14.0] - 2022-10-14
+
+- 新增代码诊断功能，当角色或者差分未在角色配置表中定义的时候，会划红色波浪线进行提醒
+
 ## [1.13.5] - 2022-10-09
 
 - 紧急修复快捷键F5在rgl文件以外的地方也起作用的bug

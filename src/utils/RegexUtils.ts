@@ -3,6 +3,8 @@
  * 因为需要用到正则表达式匹配剧本文件元素的地方越来越多，所以将其抽取出来
  */
 
+import { Character, DialogueLine } from "../entities";
+
 export class RegexUtils{
     static regexDialogueLine = /^\[(([^,\.\(\)]*?)(\((\d+)\))?(\.([^,\.\(\)]*?))?)(,(([^,\.\(\)]*?)(\((\d+)\))?(\.([^,\.\(\)]*?))?))?(,(([^,\.\(\)]*?)(\((\d+)\))?(\.([^,\.\(\)]*?))?))?\](<.*?>)?:(.*?)(<.*?>)?(\{.*?\})?$/m;
     static regexPlaceobj = /'^<(background|animation|bubble)>(<[\w\=]+>)?:(.+)$'/mg;
@@ -23,8 +25,8 @@ export class RegexUtils{
     static isDialogueLine(text:string):boolean{
         return RegexUtils.regexDialogueLine.test(text);
     }
-    static parseDialogueLine(text:string){
-        let r = RegexUtils.regexDialogueLine.exec(text);
+    static parseDialogueLine(line:string){
+        let r = RegexUtils.regexDialogueLine.exec(line);
         try {
             if(r){
                 let pcList = [
@@ -87,24 +89,5 @@ export class RegexUtils{
         }else{
             return null;
         }
-    }
-}
-
-export class DialogueLine{
-    constructor(
-        public characterList:Character[] = [],
-        public toggleEffect:string = "",
-        public content:string = "",
-        public textEffect:string = "",
-        public soundEffect:string = ""
-    ){
-
-    }
-    
-}
-
-export class Character{
-    constructor(public name:string = '',public alpha:number = -1,public subtype:string = 'default'){
-
     }
 }

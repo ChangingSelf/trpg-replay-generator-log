@@ -1,6 +1,8 @@
 import * as vscode from 'vscode';
 import * as outputUtils from './OutputUtils';
+import * as fs from 'fs';
 import { RegexUtils } from './RegexUtils';
+import { Character } from '../entities';
 
 function parseBoolean(str:string){
     return /^true$/i.test(str);
@@ -171,3 +173,24 @@ export function loadSettings(isShowInfo:boolean=false){
     return settings;
 }
 
+/**
+ * 读取角色配置表中的角色
+ */
+export function loadCharacters(filePath:string){
+    let pcData = fs.readFileSync(filePath,{encoding:'utf8', flag:'r'});
+
+    let lines = pcData.split("\n");
+    let pcMap = new Map<string,Set<string>>();
+    for(let line of lines){
+        let lineSplit = line.split("\t");
+        let name = lineSplit[0];
+        let subtype = lineSplit[1];
+        if(pcMap.has(name)){
+            //如果已经有这个角色则将差分加入进去
+            pcMap.get(name)?.add(subtype);
+        }else{
+            pcMap.set(name,new Set<string>([subtype]));
+        }
+    }
+    return pcMap;
+}
