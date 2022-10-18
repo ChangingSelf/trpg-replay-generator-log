@@ -25,6 +25,10 @@
 - `fold mark`:快速输入折叠标记
 - `current directory`:快速输入当前文档所在目录，便于进行局部配置
 - `quickly configurate`:快速在本文件中配置与本文件同目录下的媒体定义文件media.txt和角色配置表characters.tsv
+- `background`：带切换效果下拉列表的背景行
+- `animation`：常驻立绘行
+- `clear`：聊天窗内容清除行
+- `set FreePos`：设置自由位置
 
 ## 代码折叠
 

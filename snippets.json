@@ -36,6 +36,11 @@
 
 
 	
+	,"background":{
+		"prefix": ["bg","background"],
+		"body": "<background><${1|cross,black,white,replace,delay,push,cover|}=${2:30}>:${3|背景媒体,white,black|}",
+		"description": "背景行，有下拉列表选择切换方式"
+	}
 	,"background cross":{
 		"prefix": ["bgcr","background cross"],
 		"body": "<background><cross=${1:30}>:${2|背景媒体,white,black|}",
@@ -53,24 +58,70 @@
 	}
 	,"background replace":{
 		"prefix": ["bgr","background replace"],
-		"body": "<background><replace=${1:0}>:${2|背景媒体,white,black|}",
+		"body": "<background><replace=${1:30}>:${2|背景媒体,white,black|}",
 		"description": "替换，瞬间替换，参数是替换发生后的停顿时间。参数是整个渐变的时长，单位为帧，默认值是replace=0"
 	}
 	,"background delay":{
 		"prefix": ["bgd","background delay"],
-		"body": "<background><delay=${1:0}>:${2|背景媒体,white,black|}",
+		"body": "<background><delay=${1:30}>:${2|背景媒体,white,black|}",
 		"description": "延时，延后替换，参数是替换发生前的延迟时间，单位为帧"
 	}
 	,"background push":{
 		"prefix": ["bgp","background push"],
-		"body": "<background><push=${1:0}>:${2|背景媒体,white,black|}",
+		"body": "<background><push=${1:30}>:${2|背景媒体,white,black|}",
 		"description": "推，新立绘从右侧进入画面，将旧立绘推出画面，参数是整个动画的持续时间，单位为帧"
 	}
 	,"background cover":{
 		"prefix": ["bgcv","background cover"],
-		"body": "<background><cover=${1:0}>:${2|背景媒体,white,black|}",
+		"body": "<background><cover=${1:30}>:${2|背景媒体,white,black|}",
 		"description": "覆盖，新立绘从右侧进入画面，覆盖在旧立绘上层，参数是整个动画的持续时间，单位为帧"
 	}
+
+
+
+	,"animation":{
+		"prefix": ["am","animation"],
+		"body": "<animation><${1|透明度变化，分别对应：瞬间出现（默认值），延后出现，淡入淡出；,replace,delay,black,切换动态，分别对应：静止（默认值），跳起，通过，圆周运动（实验功能）；,static,leap,pass,circular,切入角度，分别对应：上（默认值），下，左，右，指定角度（12点方向的逆时针角度）；,up,down,left,right,DG[int],运动尺度，分别对应：长距离（默认值），短距离，全屏水平，指定长度（像素）；,major,minor,entire,[int],效果应用于，分别对应：双端（默认值），仅切入，仅切出。,both,in,out|}=${2:30}>:${3|单个立绘,(立绘1\\,立绘2),NA|}",
+		"description": "常驻立绘行。通过立绘行，可用在AmS图层上上放置一个，或者若干个可以跨越小节，不受其他行的内容影响的常驻立绘。"
+	}
+
+	,"bubble":{
+		"prefix": ["bb","bubble"],
+		"body": "<bubble><${1|透明度变化，分别对应：瞬间出现（默认值），延后出现，淡入淡出；,replace,delay,black,切换动态，分别对应：静止（默认值），跳起，通过，圆周运动（实验功能）；,static,leap,pass,circular,切入角度，分别对应：上（默认值），下，左，右，指定角度（12点方向的逆时针角度）；,up,down,left,right,DG[int],运动尺度，分别对应：长距离（默认值），短距离，全屏水平，指定长度（像素）；,major,minor,entire,[int],效果应用于，分别对应：双端（默认值），仅切入，仅切出。,both,in,out|}=${2:30}>:${3:气泡对象}(\"${4|头文本,头文本1\\|头文本2,关键字1#头文本1\\|关键字2#头文本2|}\",\"${5|主文本,主文本1\\|主文本2|}\",<${6|all,w2w,l2l|}=${7:1}>)",
+		"description": "常驻气泡行。通过气泡行，可用在BbS图层上上放置一个可以跨越小节，不受其他行的内容影响的常驻气泡。"
+	}
+
+	,"clear":{
+		"prefix": ["clr","clear"],
+		"body": "<clear>:${1:聊天窗对象}",
+		"description": "聊天窗内容清除行，用于清空一个 `ChatWindow` 类的聊天窗气泡媒体所记录先前的发言行"
+	}
+	
+	,"set FreePos":{
+		"prefix": ["set FreePos"],
+		"body": "<set:${1:自由位置对象}>:(${2:0},${3:0})",
+		"description": "设置自由位置对象的位置。可以设置一个2元素的整数元组，分别代表(X,Y)"
+	}
+	,"set FreePos 1":{
+		"prefix": ["set FreePos select"],
+		"body": "<set:${1:自由位置对象}>:${2|(0\\,0),其他位置对象,位置网格对象[0\\,0],位置对象+(100\\,100)|}",
+		"description": "设置自由位置对象的位置。可列表选择几种定位方式"
+	}
+	,"set FreePos 2":{
+		"prefix": ["set FreePos grid"],
+		"body": "<set:${1:自由位置对象}>:${2:位置网格对象}[${3:0},${4:0}]",
+		"description": "设置自由位置对象的位置。可以移动至一个位置网格中的一个网点"
+	}
+	,"set FreePos 3":{
+		"prefix": ["set FreePos offset"],
+		"body": "<set:${1:自由位置对象}>:${2:位置对象}+(${3:0},${4:0})",
+		"description": "设置自由位置对象的位置。`Pos`和`FreePos`类的对象可以通过加减法方式进行运算，后面的坐标是偏移量"
+	}
+
+	
+
+
+
 
 
 

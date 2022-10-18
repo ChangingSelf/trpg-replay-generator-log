@@ -59,7 +59,7 @@
 		"command":{
 			"patterns": [{
 				"name": "entity.name.function",
-				"begin": "(?=^<(set:[^>]+|background|dice|hitpoint|animation|bubble)>)",
+				"begin": "(?=^<(set:[^>]+|background|dice|hitpoint|animation|bubble|clear)>)",
 				"end":"\n",
 				"patterns": [
 					{
@@ -68,7 +68,7 @@
 					},	
 				{
 					"name": "keyword.control",
-					"match": "^<(set:[^>]+|background|dice|hitpoint|animation|bubble)>"
+					"match": "^<(set:[^>]+|background|dice|hitpoint|animation|bubble|clear)>"
 				},{
 					"name": "punctuation.colon",
 					"match": "\\B:"

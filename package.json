@@ -2,7 +2,7 @@
   "name": "trpg-replay-generator-log",
   "displayName": "TRPG Replay Generator Log",
   "description": "Syntax highlighting and code snippets for TRPG-Replay-Generator-Log language",
-  "version": "1.14.1",
+  "version": "1.14.2",
   "engines": {
     "vscode": "^1.67.0"
   },
@@ -283,8 +283,8 @@
           "trpg-replay-generator-log.video.Zorder": {
             "order": 3,
             "type": "string",
-            "default": "BG3,BG2,BG1,Am3,Am2,Am1,Bb",
-            "markdownDescription": "修改图层顺序参数，可以改变各个图层的重叠关系。默认的图层顺序为`-Z 'BG3,BG2,BG1,Am3,Am2,Am1,Bb'`，顺序为从下到上，即*背景*在最下层，*气泡*在最上层，*立绘*在中间，其中主立绘在其他立绘上层。主要的修改需求可能是要求立绘覆盖在气泡的上层，因此，可以将 *--Zorder* 参数设置为 `'-Z BG3,BG2,BG1,Bb,Am3,Am2,Am1'`"
+            "default": "BG2,BG1,Am3,Am2,Am1,AmS,Bb,BbS",
+            "markdownDescription": "修改图层顺序参数，可以改变各个图层的重叠关系。默认的图层顺序为`BG2,BG1,Am3,Am2,Am1,AmS,Bb,BbS`，顺序为从下到上，即*背景*在最下层，*气泡*在最上层，*立绘*在中间，其中主立绘在其他立绘上层。主要的修改需求可能是要求立绘覆盖在气泡的上层，因此，可以将本项设置为 `BG2,BG1,Bb,Am3,Am2,Am1,AmS,BbS`"
           },
           "trpg-replay-generator-log.video.Quality": {
             "order": 4,
