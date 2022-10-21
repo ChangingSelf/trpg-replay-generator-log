@@ -2,7 +2,7 @@
   "name": "trpg-replay-generator-log",
   "displayName": "TRPG Replay Generator Log",
   "description": "Syntax highlighting and code snippets for TRPG-Replay-Generator-Log language",
-  "version": "1.14.2",
+  "version": "1.14.3",
   "engines": {
     "vscode": "^1.67.0"
   },
@@ -399,6 +399,25 @@
             "type": "boolean",
             "default": false,
             "description": "大纲栏是否基于折叠标记来解析跳转节点"
+          }
+        }
+      
+      }
+      ,{
+        "order": 6,
+        "title": "错误诊断",
+        "properties": {
+          "trpg-replay-generator-log.diagnostic.LineLength": {
+            "order": 0,
+            "type": "integer",
+            "default": 20,
+            "description": "指定对话行内容文本的**单行长度**，用于悬停提示的自动换行以及显示行长超限的警告，设置为负数（例如-1）则视作行长为正无穷（相当于关闭对应功能）"
+          }
+          ,"trpg-replay-generator-log.diagnostic.TotalLength": {
+            "order": 1,
+            "type": "integer",
+            "default": 100,
+            "description": "指定对话行内容文本的**总长度**，用于显示行长超限的警告，设置为负数（例如-1）则视作行长为正无穷（相当于关闭对应功能）"
           }
         }
       

@@ -93,7 +93,8 @@ export function loadSettings(isShowInfo:boolean=false){
         ,"enableAnimationLineHover":parseBoolean(configuration.get('trpg-replay-generator-log.hover.EnableAnimationLine') as string)
 
         //其他配置
-        ,"lineLength":Number.POSITIVE_INFINITY
+        ,"lineLength":configuration.get('trpg-replay-generator-log.diagnostic.LineLength') as number
+        ,"totalLength":configuration.get('trpg-replay-generator-log.diagnostic.TotalLength') as number
         //Treeview
         ,"parseOutlineByComment":parseBoolean(configuration.get('trpg-replay-generator-log.treeview.parseOutlineByComment') as string)
     };
@@ -149,13 +150,35 @@ export function loadSettings(isShowInfo:boolean=false){
             outputChannel.appendLine(`[Timeline](default) ${settings["timeLine"]}`,isShowInfo);
         }
 
+        //单行长度
         reg = /^#(ll|LineLength) (.*)$/im;
         result = text.match(reg);
         if(result){
             settings["lineLength"] = parseInt(result[2]);
+            if(settings.lineLength < 0 ){
+                settings.lineLength = Number.POSITIVE_INFINITY;
+            }
             outputChannel.appendLine(`[LineLength] ${settings["lineLength"]}`,isShowInfo);
         }else{
+            if(settings.lineLength < 0 ){
+                settings.lineLength = Number.POSITIVE_INFINITY;
+            }
             outputChannel.appendLine(`[LineLength](default) ${settings["lineLength"]}`,isShowInfo);
+        }
+        //总长度
+        reg = /^#(tl|TotalLength) (.*)$/im;
+        result = text.match(reg);
+        if(result){
+            settings.totalLength = parseInt(result[2]);
+            if(settings.totalLength < 0 ){
+                settings.totalLength = Number.POSITIVE_INFINITY;
+            }
+            outputChannel.appendLine(`[TotalLength] ${settings.totalLength}`,isShowInfo);
+        }else{
+            if(settings.totalLength < 0 ){
+                settings.totalLength = Number.POSITIVE_INFINITY;
+            }
+            outputChannel.appendLine(`[TotalLength](default) ${settings.totalLength}`,isShowInfo);
         }
 
         outputChannel.appendLine("配置读取完毕",isShowInfo);

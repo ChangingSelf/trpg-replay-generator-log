@@ -36,11 +36,16 @@ function diagnose(doc:vscode.TextDocument | undefined):vscode.Diagnostic[]{
         //对话行
         let dialogueLine = RegexUtils.parseDialogueLine(line);
         let curCol = 1;//当前检查到的列
+        let contentStartCol = 2;//对话行内容开始的列，算上了末尾的英文冒号
         if(dialogueLine){
+            //检查角色
             for(let character of dialogueLine.characterList){
                 let nextCol = curCol + character.name.length;
                 let offsetOfSubtype = character.subtype==='default'?0:(character.subtype.length+1);
                 let offsetOfAlpha = isNaN(character.alpha)?0:(character.alpha.toString().length+2);
+
+                contentStartCol += character.name.length + offsetOfSubtype + offsetOfAlpha + 1;
+
                 if(!pcMap.has(character.name)){
                     //如果角色名字不存在，则标红
                     diagnostics.push(
@@ -48,7 +53,7 @@ function diagnose(doc:vscode.TextDocument | undefined):vscode.Diagnostic[]{
                             range:new vscode.Range(i,curCol,i,nextCol)
                             ,message:`角色「${character.name}」未在角色配置表中定义，请检查角色配置表：${characterFilePath}`
                             ,severity:vscode.DiagnosticSeverity.Error
-                        }                           
+                        }
                     );
                     curCol = nextCol + offsetOfSubtype + offsetOfAlpha + 1;
                 }else if(character.subtype!=='default' && !pcMap.get(character.name)?.has(character.subtype)){
@@ -60,13 +65,41 @@ function diagnose(doc:vscode.TextDocument | undefined):vscode.Diagnostic[]{
                             range:new vscode.Range(i,curCol,i,nextCol)
                             ,message:`角色「${character.name}」的差分「${character.subtype}」未在角色配置表中定义，请检查角色配置表：${characterFilePath}`
                             ,severity:vscode.DiagnosticSeverity.Error
-                        }                           
+                        }
                     );
                     curCol = nextCol;
                 }else{
                     curCol = nextCol + offsetOfSubtype + offsetOfAlpha + 1;
                 }
             }
+            //检查总行长
+            if(dialogueLine.content.length > settings.totalLength){
+                diagnostics.push(
+                    {
+                        range:new vscode.Range(i,contentStartCol,i,contentStartCol + dialogueLine.content.length)
+                        ,message:`对话文本的总长度(${dialogueLine.content.length})超过了你设置的总长度(${settings.totalLength})，可能导致文字超出对话气泡。在插件设置中可关闭该提示`
+                        ,severity:vscode.DiagnosticSeverity.Warning
+                    }
+                );
+            }
+            let singleLines = dialogueLine.content.split('#');
+            if(singleLines.length > 1){
+                let index = 1;
+                for(let singleLine of singleLines){
+                    if(singleLine.length > settings.lineLength){
+                        diagnostics.push(
+                            {
+                                range:new vscode.Range(i,contentStartCol,i,contentStartCol + singleLine.length)
+                                ,message:`对话文本的第${index}行的长度(${singleLine.length})超过了你设置的单行长度(${settings.lineLength})，可能导致文字超出对话气泡。在插件设置中可关闭该提示`
+                                ,severity:vscode.DiagnosticSeverity.Warning
+                            }
+                        );
+                    }
+                    contentStartCol += singleLine.length + 1;//算上井号
+                    ++index;
+                }
+            }
+            
         }
 
         //背景行
