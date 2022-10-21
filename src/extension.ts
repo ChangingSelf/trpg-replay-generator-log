@@ -188,7 +188,7 @@ export function activate(context: vscode.ExtensionContext) {
 	
 
 	//自动补全
-	vscode.languages.registerCompletionItemProvider("rgl",new CompletionItemProvider,".");
+	vscode.languages.registerCompletionItemProvider("rgl",new CompletionItemProvider,".",":","{");
 
 	//诊断信息
 	diagnosticCollection = vscode.languages.createDiagnosticCollection('rgl');

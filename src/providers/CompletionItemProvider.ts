@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 import * as fs from 'fs';
-import { loadSettings } from '../utils/utils';
+import { loadCharacters, loadMedia, loadSettings } from '../utils/utils';
 import { RegexUtils } from '../utils/RegexUtils';
 
 
@@ -14,49 +14,43 @@ export class CompletionItemProvider implements vscode.CompletionItemProvider {
         let pcName = document.getText(range);
         let prefix = document.getText(new vscode.Range(new vscode.Position(position.line,0),position));
         let result:vscode.CompletionItem[] = [];
+        //读取配置
         let settings = loadSettings();
-        let path = "";
+        let characterFilePath = settings.characterTable;
+        let pcMap = loadCharacters(characterFilePath);
+        let hasCharacterPath = characterFilePath !== "";
+
+        let mediaFilePath = settings.mediaObjDefine;
+        let mediaList = loadMedia(mediaFilePath);
+        let backgroundList = mediaList.filter(x=>x.mediaType==="Background");
+        let audioList = mediaList.filter(x=>x.mediaType==="Audio");
+        let hasMediaPath = mediaFilePath !== "";
 
         switch (context.triggerCharacter) {
             case "."://角色差分补全
-                //读取角色配置文件
-                path = settings.characterTable;
-                let pcData = fs.readFileSync(path,{encoding:'utf8', flag:'r'});
-                // //console.log(pcData);
-                let lines = pcData.split("\n");
-                for(let line of lines){
-                    let lineSplit = line.split("\t");
-                    let name = lineSplit[0];
-                    let subtype = lineSplit[1];
-                    if(name === pcName && subtype !== "default"){
+                if(hasCharacterPath && pcMap.has(pcName)){
+                    let subtypes = pcMap.get(pcName) ?? new Set();
+                    subtypes.forEach(subtype=>{
                         result.push({label:subtype,insertText:subtype});
-                    }
+                    });
                 }
                 break;
-            case ":"://背景补全，不知道为何不起作用，于是取消触发词避免多余消耗
+            case ":"://背景补全
                 if(!/^<background>/m.test(prefix)){
                     //如果不是背景行，则不补全
                     return [];
                 }
-                path = settings.mediaObjDefine;
-                let mediaData = fs.readFileSync(path,{encoding:'utf8', flag:'r'});
-                lines = mediaData.split("\n");
-                for(let line of lines){
-                    let medium = RegexUtils.parseMediaLine(line);
-                    if(medium && medium.mediaType === "Background"){
+                if(hasMediaPath){
+                    backgroundList.forEach(medium=>{
                         result.push({label:medium.mediaName,insertText:medium.mediaName});
-                    }
+                    });
                 }
                 break;
-            case "{"://音效补全，不知道为何不起作用，于是取消触发词避免多余消耗
-                path = settings.mediaObjDefine;
-                mediaData = fs.readFileSync(path,{encoding:'utf8', flag:'r'});
-                lines = mediaData.split("\n");
-                for(let line of lines){
-                    let medium = RegexUtils.parseMediaLine(line);
-                    if(medium && medium.mediaType === "Audio"){
+            case "{"://音效补全
+                if(hasMediaPath){
+                    audioList.forEach(medium=>{
                         result.push({label:medium.mediaName,insertText:medium.mediaName});
-                    }
+                    });
                 }
                 break;
             default:

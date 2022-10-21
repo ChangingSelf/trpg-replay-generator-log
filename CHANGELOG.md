@@ -5,6 +5,10 @@
 格式基于[维护更新日志（Keep a Changelog）](https://keepachangelog.com/en/1.0.0/)，
 并且该项目遵循 [语义版本控制（Semantic Versioning）](https://semver.org/spec/v2.0.0.html)。
 
+## [1.14.5] - 2022-10-21
+
+- 新增背景行自动补全（在<background>后输入英文冒号触发）和音效自动补全（输入左花括号触发）
+
 ## [1.14.4] - 2022-10-21
 
 - bug修复：当读取媒体定义文件或者角色配置文件失败时，代码诊断的其他功能不会受到牵连
