@@ -25,10 +25,12 @@ function diagnose(doc:vscode.TextDocument | undefined):vscode.Diagnostic[]{
     let settings = loadSettings();
     let characterFilePath = settings.characterTable;
     let pcMap = loadCharacters(characterFilePath);
+    let isCheckCharacter = characterFilePath !== "";
 
     let mediaFilePath = settings.mediaObjDefine;
     let mediaList = loadMedia(mediaFilePath);
     let backgroundList = mediaList.filter(x=>x.mediaType==="Background");
+    let isCheckMedia = mediaFilePath !== "";
 
     //逐行检查
     for(let i=0;i<doc.lineCount;++i){
@@ -39,39 +41,49 @@ function diagnose(doc:vscode.TextDocument | undefined):vscode.Diagnostic[]{
         let contentStartCol = 2;//对话行内容开始的列，算上了末尾的英文冒号
         if(dialogueLine){
             //检查角色
-            for(let character of dialogueLine.characterList){
-                let nextCol = curCol + character.name.length;
-                let offsetOfSubtype = character.subtype==='default'?0:(character.subtype.length+1);
-                let offsetOfAlpha = isNaN(character.alpha)?0:(character.alpha.toString().length+2);
-
-                contentStartCol += character.name.length + offsetOfSubtype + offsetOfAlpha + 1;
-
-                if(!pcMap.has(character.name)){
-                    //如果角色名字不存在，则标红
-                    diagnostics.push(
-                        {
-                            range:new vscode.Range(i,curCol,i,nextCol)
-                            ,message:`角色「${character.name}」未在角色配置表中定义，请检查角色配置表：${characterFilePath}`
-                            ,severity:vscode.DiagnosticSeverity.Error
-                        }
-                    );
-                    curCol = nextCol + offsetOfSubtype + offsetOfAlpha + 1;
-                }else if(character.subtype!=='default' && !pcMap.get(character.name)?.has(character.subtype)){
-                    curCol += character.name.length + offsetOfAlpha + 1;
-                    nextCol += offsetOfSubtype;
-                    //如果差分不存在，则标红
-                    diagnostics.push(
-                        {
-                            range:new vscode.Range(i,curCol,i,nextCol)
-                            ,message:`角色「${character.name}」的差分「${character.subtype}」未在角色配置表中定义，请检查角色配置表：${characterFilePath}`
-                            ,severity:vscode.DiagnosticSeverity.Error
-                        }
-                    );
-                    curCol = nextCol;
-                }else{
-                    curCol = nextCol + offsetOfSubtype + offsetOfAlpha + 1;
+            if(isCheckCharacter){
+                for(let character of dialogueLine.characterList){
+                    let nextCol = curCol + character.name.length;
+                    let offsetOfSubtype = character.subtype==='default'?0:(character.subtype.length+1);
+                    let offsetOfAlpha = isNaN(character.alpha)?0:(character.alpha.toString().length+2);
+    
+                    contentStartCol += character.name.length + offsetOfSubtype + offsetOfAlpha + 1;
+    
+                    if(!pcMap.has(character.name)){
+                        //如果角色名字不存在，则标红
+                        diagnostics.push(
+                            {
+                                range:new vscode.Range(i,curCol,i,nextCol)
+                                ,message:`角色「${character.name}」未在角色配置表中定义，请检查角色配置表：${characterFilePath}`
+                                ,severity:vscode.DiagnosticSeverity.Error
+                            }
+                        );
+                        curCol = nextCol + offsetOfSubtype + offsetOfAlpha + 1;
+                    }else if(character.subtype!=='default' && !pcMap.get(character.name)?.has(character.subtype)){
+                        curCol += character.name.length + offsetOfAlpha + 1;
+                        nextCol += offsetOfSubtype;
+                        //如果差分不存在，则标红
+                        diagnostics.push(
+                            {
+                                range:new vscode.Range(i,curCol,i,nextCol)
+                                ,message:`角色「${character.name}」的差分「${character.subtype}」未在角色配置表中定义，请检查角色配置表：${characterFilePath}`
+                                ,severity:vscode.DiagnosticSeverity.Error
+                            }
+                        );
+                        curCol = nextCol;
+                    }else{
+                        curCol = nextCol + offsetOfSubtype + offsetOfAlpha + 1;
+                    }
+                }
+            }else{
+                for(let character of dialogueLine.characterList){
+                    let offsetOfSubtype = character.subtype==='default'?0:(character.subtype.length+1);
+                    let offsetOfAlpha = isNaN(character.alpha)?0:(character.alpha.toString().length+2);
+    
+                    contentStartCol += character.name.length + offsetOfSubtype + offsetOfAlpha + 1;
                 }
             }
+            
             //检查总行长
             if(dialogueLine.content.length > settings.totalLength){
                 diagnostics.push(
@@ -103,22 +115,24 @@ function diagnose(doc:vscode.TextDocument | undefined):vscode.Diagnostic[]{
         }
 
         //背景行
-        let backgroundLine = RegexUtils.parseBackgroundLine(line);
-        if(backgroundLine && backgroundLine.background !== "black" && backgroundLine.background !== "white"){
-            //如果不存在此背景媒体，则标红
-            if(backgroundList.findIndex(x=>x.mediaName===backgroundLine?.background) === -1){
-                let startCol = "<background>:".length + (backgroundLine.switchMethod?.length ?? 0);
-                let endCol = startCol + backgroundLine.background.length;
-                diagnostics.push(
-                    {
-                        range:new vscode.Range(i,startCol,i,endCol)
-                        ,message:`背景「${backgroundLine.background}」未在媒体定义文件中定义，请检查媒体定义文件：${mediaFilePath}`
-                        ,severity:vscode.DiagnosticSeverity.Error
-                    }                           
-                );
+        if(isCheckMedia){
+            let backgroundLine = RegexUtils.parseBackgroundLine(line);
+            if(backgroundLine && backgroundLine.background !== "black" && backgroundLine.background !== "white"){
+                //如果不存在此背景媒体，则标红
+                if(backgroundList.findIndex(x=>x.mediaName===backgroundLine?.background) === -1){
+                    let startCol = "<background>:".length + (backgroundLine.switchMethod?.length ?? 0);
+                    let endCol = startCol + backgroundLine.background.length;
+                    diagnostics.push(
+                        {
+                            range:new vscode.Range(i,startCol,i,endCol)
+                            ,message:`背景「${backgroundLine.background}」未在媒体定义文件中定义，请检查媒体定义文件：${mediaFilePath}`
+                            ,severity:vscode.DiagnosticSeverity.Error
+                        }                           
+                    );
+                }
             }
         }
-        //BGM行
+
     }
 
 

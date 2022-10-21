@@ -201,10 +201,18 @@ export function loadSettings(isShowInfo:boolean=false){
  * 读取角色配置表中的角色
  */
 export function loadCharacters(filePath:string){
-    let text = fs.readFileSync(filePath,{encoding:'utf8', flag:'r'});
-
-    let lines = text.split("\n");
+    let text = "";
+    try {
+       text = fs.readFileSync(filePath,{encoding:'utf8', flag:'r'});
+    } catch (error) {
+        console.log(error);
+    }
+    
     let pcMap = new Map<string,Set<string>>();
+    if(text === ""){
+        return pcMap;
+    }
+    let lines = text.split("\n");
     for(let line of lines){
         let lineSplit = line.split("\t");
         let name = lineSplit[0];
@@ -223,14 +231,25 @@ export function loadCharacters(filePath:string){
  * 读取媒体定义文件
  */
  export function loadMedia(filePath:string){
-    let text = fs.readFileSync(filePath,{encoding:'utf8', flag:'r'});
 
-    let lines = text.split("\n");
+    let text = "";
+    try {
+       text = fs.readFileSync(filePath,{encoding:'utf8', flag:'r'});
+    } catch (error) {
+        console.log(error);
+    }
+    
     let mediaList:{
         mediaName: string;
         mediaType: string;
         mediaPara: string;
     }[] = [];
+    if(text === ""){
+        return mediaList;
+    }
+
+    let lines = text.split("\n");
+    
     for(let line of lines){
         let medium = RegexUtils.parseMediaLine(line);
         if(medium){
