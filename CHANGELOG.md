@@ -5,6 +5,10 @@
 格式基于[维护更新日志（Keep a Changelog）](https://keepachangelog.com/en/1.0.0/)，
 并且该项目遵循 [语义版本控制（Semantic Versioning）](https://semver.org/spec/v2.0.0.html)。
 
+## [1.14.7] - 2022-11-08
+
+- 修复一键替换骰娘文本为动画行功能无法识别D前数字的问题
+
 ## [1.14.6] - 2022-11-08
 
 - 修复生成媒体定义文件命令默认打开的文件夹的路径

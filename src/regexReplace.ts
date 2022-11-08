@@ -20,9 +20,9 @@ function regexReplace(searchValue:string | RegExp,replaceValue:string,isShowMsg 
             editorEdit.replace(allSelection,text); 
         }).then(isSuccess => {
             if (isSuccess) {
-                if(isShowMsg) {vscode.window.showInformationMessage("执行成功！");}
+                if(isShowMsg) {vscode.window.showInformationMessage(`已完成正则替换`);}
             } else {
-                if(isShowMsg) {vscode.window.showErrorMessage("执行失败！");}
+                if(isShowMsg) {vscode.window.showErrorMessage("替换失败！");}
             }
         }, err => {
             console.error("Edit error, " + err);
@@ -63,10 +63,10 @@ function regexReplaceInBatch(regexList:[{searchValue:string | RegExp,replaceValu
                 //console.log("Edit successed");
                 let len = doc.getText().length;
                 //console.log(len); 
-                if(isShowMsg) {vscode.window.showInformationMessage("执行成功！");}
+                if(isShowMsg) {vscode.window.showInformationMessage("已完成正则替换");}
             } else {
                 //console.log("Edit failed");
-                if(isShowMsg) {vscode.window.showErrorMessage("执行失败！");}
+                if(isShowMsg) {vscode.window.showErrorMessage("替换失败！");}
             }
         }, err => {
             console.error("Edit error, " + err);
@@ -212,11 +212,11 @@ export function replaceDiceMaidLine(){
         }).then(item=>{
             switch (item) {
                 case optDefault:default:
-                    regexReplace(new RegExp(`^\\[${characterName}\\]:(.*)[:：]\\s*[Dd](\\d*)\\s*=\\s*(\\d*)\\/(\\d*).*$`,"gm"),
+                    regexReplace(new RegExp(`^\\[${characterName}\\]:(.*)[:：].*[Dd](\\d*)\\s*=\\s*(\\d*)\\/(\\d*).*$`,"gm"),
                     "<dice>:($1,$2,$4,$3)\n#$&");
                     break;
                 case optDoubleQuote:
-                    regexReplace(new RegExp(`^\\[${characterName}\\]:.*["“](.*)["”].*[:：]\\s*[Dd](\\d*)\\s*=\\s*(\\d*)\\/(\\d*).*$`,"gm"),
+                    regexReplace(new RegExp(`^\\[${characterName}\\]:.*["“](.*)["”].*[:：].*[Dd](\\d*)\\s*=\\s*(\\d*)\\/(\\d*).*$`,"gm"),
                     "<dice>:($1,$2,$4,$3)\n#$&");
                     break;
             }
