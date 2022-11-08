@@ -81,7 +81,7 @@ export function defineMedia(){
     vscode.window.showOpenDialog({
         "canSelectFolders":true,
         "canSelectMany":false,
-        "defaultUri":defaultUri,
+        "defaultUri":defaultUri?vscode.Uri.file(path.join(path.dirname(defaultUri.fsPath))):undefined,
         "title":"选择媒体素材所在的文件夹"
     }).then((uris)=>{
         if(!uris) {return;}
