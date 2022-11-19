@@ -1,4 +1,5 @@
 import * as vscode from 'vscode';
+import { loadCharacters, loadSettings } from '../utils/utils';
 /**
  * 节点对象
  */
@@ -7,8 +8,10 @@ class CharacterNode extends vscode.TreeItem {
         public name:string,
         public subtypes:CharacterNode[] = [],
         public collapsibleState: vscode.TreeItemCollapsibleState = vscode.TreeItemCollapsibleState.None,
+        public isExist:boolean = false //指示是否已在log文件中出现
     ){
-        super(name,collapsibleState);
+        let displayName = isExist ? `*${name}`:name;
+        super(displayName,collapsibleState);
     }
 }
 /**
@@ -28,6 +31,7 @@ export class CharacterNodeProvider implements vscode.TreeDataProvider<CharacterN
     getChildren(element?: CharacterNode | undefined): vscode.ProviderResult<CharacterNode[]> {
         let children:CharacterNode[] = [];
         if(!element) {
+            
             //如果是根节点，则查找rgl文件中所有角色
             let editor = vscode.window.activeTextEditor;
             if(!editor) {return [];}
@@ -75,15 +79,44 @@ export class CharacterNodeProvider implements vscode.TreeDataProvider<CharacterN
                 let name = l[0];
                 let subtype = l[1];
                 if(!charactersSet.has(name)){
-                    children.push(new CharacterNode(name,[new CharacterNode(subtype)],vscode.TreeItemCollapsibleState.Collapsed));
+                    children.push(new CharacterNode(name,[new CharacterNode(subtype)],vscode.TreeItemCollapsibleState.Collapsed,true));
                     charactersSet.add(name);
                 }else{
                     let pc = children.find(value=>value.name === name);
                     if(pc){
-                        pc.subtypes.push(new CharacterNode(subtype));
+                        pc.subtypes.push(new CharacterNode(subtype,[],vscode.TreeItemCollapsibleState.None,true));
                     }
                 }
             });
+
+
+
+            //从角色配置表中读取角色
+            let settings = loadSettings();
+            let characterFilePath = settings.characterTable;
+            let pcMap = loadCharacters(characterFilePath);
+            for(let item of pcMap.entries()){
+                let pcName = item[0];
+                let subtypes = item[1];
+                if(children.some(x => x.name === pcName)){
+                    //如果已经加入了，就跳过该角色
+                    continue;
+                }
+
+                let subtypeList:CharacterNode[] = [];
+                for(let subtype of subtypes){
+                    subtypeList.push(new CharacterNode(subtype));
+                }
+
+                let child = new CharacterNode(
+                    pcName,subtypeList,
+                    subtypeList.length>0?vscode.TreeItemCollapsibleState.Collapsed:vscode.TreeItemCollapsibleState.None
+                );
+                
+                children.push(child);
+            }
+
+
         }else{
             children = children.concat(element.subtypes);
         }

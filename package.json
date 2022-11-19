@@ -549,7 +549,7 @@
         }
         ,{
           "id": "rglCharacter",
-          "name": "剧本中已出现的角色",
+          "name": "可用角色",
           "visibility": "collapsed"
         }
         ,{
