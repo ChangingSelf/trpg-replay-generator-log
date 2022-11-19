@@ -14,7 +14,7 @@ import * as utils from './utils/utils';
 import * as DiagnosticProvider from './providers/DiagnosticProvider';
 import * as path from 'path';
 import * as fs from 'fs';
-import { CharacterNodeProvider } from './providers/CharacterNodeProvider';
+import { CharacterNode, CharacterNodeProvider } from './providers/CharacterNodeProvider';
 import { CompletionItemProvider } from './providers/CompletionItemProvider';
 import { BackgroundNode, BackgroundNodeProvider } from './providers/BackgroundNodeProvider';
 import { AudioNode, AudioNodeProvider } from './providers/AudioNodeProvider';
@@ -176,6 +176,7 @@ export function activate(context: vscode.ExtensionContext) {
 		audioNodeProvider.refresh();
 		outlineNodeProvider.refresh();
 	}));
+	context.subscriptions.push(vscode.commands.registerCommand('trpg-replay-generator-log.insertCharacter', (node:CharacterNode) =>{characterNodeProvider.insertCharacter(node);}));
 	context.subscriptions.push(vscode.commands.registerCommand('trpg-replay-generator-log.insertBackground', (node:BackgroundNode) =>{backgroundNodeProvider.insertBackground(node);}));
 	context.subscriptions.push(vscode.commands.registerCommand('trpg-replay-generator-log.insertAudio', (node:AudioNode) =>{audioNodeProvider.insertAudio(node);}));
 	context.subscriptions.push(vscode.commands.registerCommand('trpg-replay-generator-log.jumpToOutlineNode', (node:OutlineNode) =>{OutlineNodeProvider.jump(node);}));

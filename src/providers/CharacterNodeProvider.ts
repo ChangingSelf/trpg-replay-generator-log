@@ -3,9 +3,10 @@ import { loadCharacters, loadSettings } from '../utils/utils';
 /**
  * 节点对象
  */
-class CharacterNode extends vscode.TreeItem {
+export class CharacterNode extends vscode.TreeItem {
     constructor(
         public name:string,
+        public parentName:string = "",
         public subtypes:CharacterNode[] = [],
         public collapsibleState: vscode.TreeItemCollapsibleState = vscode.TreeItemCollapsibleState.None,
         public isExist:boolean = false //指示是否已在log文件中出现
@@ -24,6 +25,26 @@ export class CharacterNodeProvider implements vscode.TreeDataProvider<CharacterN
     refresh(): void {
         this._onDidChangeTreeData.fire();
     }
+
+    insertCharacter(node:CharacterNode) {
+		let editor = vscode.window.activeTextEditor;
+        if(!editor) {return;}
+        let doc = editor.document;
+        let position = editor.selection.start;
+        let content = `[${node.parentName===""?node.name:(node.parentName+(node.name==="default"?"":"."+node.name))}]:`;
+        editor.edit(editorEdit => {
+            editorEdit.insert(position,content);
+        }).then(isSuccess => {
+            if (isSuccess) {
+                // vscode.window.showInformationMessage("插入成功！");
+            } else {
+                vscode.window.showErrorMessage("插入失败！");
+            }
+        }, err => {
+            console.error("Edit error, " + err);
+            vscode.window.showErrorMessage(err);
+        });
+	}
 
     getTreeItem(element: CharacterNode): vscode.TreeItem | Thenable<vscode.TreeItem> {
         return element;
@@ -76,15 +97,15 @@ export class CharacterNodeProvider implements vscode.TreeDataProvider<CharacterN
             //TODO：重构优化上面获取角色差分的代码
             let charactersSet = new Set();
             subtypeLines.forEach(l=>{
-                let name = l[0];
+                let pcName = l[0];
                 let subtype = l[1];
-                if(!charactersSet.has(name)){
-                    children.push(new CharacterNode(name,[new CharacterNode(subtype)],vscode.TreeItemCollapsibleState.Collapsed,true));
-                    charactersSet.add(name);
+                if(!charactersSet.has(pcName)){
+                    children.push(new CharacterNode(pcName,"",[new CharacterNode(subtype)],vscode.TreeItemCollapsibleState.Collapsed,true));
+                    charactersSet.add(pcName);
                 }else{
-                    let pc = children.find(value=>value.name === name);
+                    let pc = children.find(value=>value.name === pcName);
                     if(pc){
-                        pc.subtypes.push(new CharacterNode(subtype,[],vscode.TreeItemCollapsibleState.None,true));
+                        pc.subtypes.push(new CharacterNode(subtype,pcName,[],vscode.TreeItemCollapsibleState.None,true));
                     }
                 }
             });
@@ -105,11 +126,13 @@ export class CharacterNodeProvider implements vscode.TreeDataProvider<CharacterN
 
                 let subtypeList:CharacterNode[] = [];
                 for(let subtype of subtypes){
-                    subtypeList.push(new CharacterNode(subtype));
+                    subtypeList.push(new CharacterNode(subtype,pcName));
                 }
 
                 let child = new CharacterNode(
-                    pcName,subtypeList,
+                    pcName,
+                    "",
+                    subtypeList,
                     subtypeList.length>0?vscode.TreeItemCollapsibleState.Collapsed:vscode.TreeItemCollapsibleState.None
                 );
                 

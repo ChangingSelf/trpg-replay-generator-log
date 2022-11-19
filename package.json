@@ -2,7 +2,7 @@
   "name": "trpg-replay-generator-log",
   "displayName": "TRPG Replay Generator Log",
   "description": "Syntax highlighting and code snippets for TRPG-Replay-Generator-Log language",
-  "version": "1.14.8",
+  "version": "1.14.9",
   "engines": {
     "vscode": "^1.67.0"
   },
@@ -131,6 +131,14 @@
       ,{
         "command": "trpg-replay-generator-log.importLocalSound",
         "title": "TRGL: Import Local Sound # 导入本地wav语音"
+      }
+      ,{
+        "command": "trpg-replay-generator-log.insertCharacter",
+        "title": "插入角色差分",
+        "icon":{
+          "light": "images/text_insert.svg",
+          "dark": "images/text_insert_dark.svg"
+        }
       }
       ,{
         "command": "trpg-replay-generator-log.insertBackground",
@@ -606,6 +614,12 @@
       ]
       ,"view/item/context": [
         {
+          "command": "trpg-replay-generator-log.insertCharacter",
+          "when": "view == rglCharacter",
+          "group": "inline"
+          
+        }
+        ,{
           "command": "trpg-replay-generator-log.insertBackground",
           "when": "view == rglBackground",
           "group": "inline"
