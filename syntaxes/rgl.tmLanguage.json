@@ -8,6 +8,18 @@
 		,{"include": "#command"}
 	],
 	"repository": {
+		"error":{
+			"patterns": [{
+				"name": "invalid.illegal",
+				"match": "^[\\t\\ ]+$"
+			}
+			,{
+				"name": "invalid.illegal",
+				"match": "(\\[.+\\]|<.+>){1,2}："
+			}
+			
+		]
+		},
 		"comments":{
 			"patterns": [{
 				"name": "comment.block.documentation",
@@ -24,11 +36,7 @@
 				"name": "entity.name.function",
 				"begin": "(?=^\\[)",
 				"end":"\n",
-				"patterns": [
-					{
-						"name": "invalid.illegal",
-						"match": "\\B："
-					},					
+				"patterns": [				
 					{
 					"name": "variable.parameter",
 					"match":"^\\[([^,\\.\\(\\)]*?(\\(\\d+\\))?(\\.[^,\\.\\(\\)]*?)?)(,[^,\\.\\(\\)]*?(\\(\\d+\\))?(\\.[^,\\.\\(\\)]*?)?)?(,[^,\\.\\(\\)]*?(\\(\\d+\\))?(\\.[^,\\.\\(\\)]*?)?)?\\]"
@@ -62,10 +70,6 @@
 				"begin": "(?=^<(set:[^>]+|background|dice|hitpoint|animation|bubble|clear)>)",
 				"end":"\n",
 				"patterns": [
-					{
-						"name": "invalid.illegal",
-						"match": "\\B："
-					},	
 				{
 					"name": "keyword.control",
 					"match": "^<(set:[^>]+|background|dice|hitpoint|animation|bubble|clear)>"
@@ -91,15 +95,6 @@
 				}
 			]
 			}]
-		},
-		"error":{
-			"patterns": [{
-				"name": "invalid.illegal",
-				"match": "^[\\t\\ ]+$"
-			}
-			
-			
-		]
 		}
 	},
 	
