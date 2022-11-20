@@ -19,6 +19,7 @@ import { CompletionItemProvider } from './providers/CompletionItemProvider';
 import { BackgroundNode, BackgroundNodeProvider } from './providers/BackgroundNodeProvider';
 import { AudioNode, AudioNodeProvider } from './providers/AudioNodeProvider';
 import { OutlineNode, OutlineNodeProvider } from './providers/OutlineNodeProvider';
+import { MediaFoldingRangeProvider } from './providers/FoldingRangeProvider';
 
 /**
  * 从某个HTML文件读取能被Webview加载的HTML内容
@@ -189,7 +190,11 @@ export function activate(context: vscode.ExtensionContext) {
 	
 
 	//自动补全
-	vscode.languages.registerCompletionItemProvider("rgl",new CompletionItemProvider,".",":","{");
+	context.subscriptions.push(vscode.languages.registerCompletionItemProvider("rgl",new CompletionItemProvider,".",":","{"));
+
+
+	//折叠
+	context.subscriptions.push(vscode.languages.registerFoldingRangeProvider("plaintext",new MediaFoldingRangeProvider));
 
 	//诊断信息
 	diagnosticCollection = vscode.languages.createDiagnosticCollection('rgl');
