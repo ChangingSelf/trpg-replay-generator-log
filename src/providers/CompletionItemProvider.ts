@@ -24,6 +24,7 @@ export class CompletionItemProvider implements vscode.CompletionItemProvider {
         let mediaList = loadMedia(mediaFilePath);
         let backgroundList = mediaList.filter(x=>x.mediaType==="Background");
         let audioList = mediaList.filter(x=>x.mediaType==="Audio");
+        let animationList = mediaList.filter(x=>x.mediaType==="Animation");
         let hasMediaPath = mediaFilePath !== "";
 
         switch (context.triggerCharacter) {
@@ -35,16 +36,23 @@ export class CompletionItemProvider implements vscode.CompletionItemProvider {
                     });
                 }
                 break;
-            case ":"://背景补全
-                if(!/^<background>/m.test(prefix)){
-                    //如果不是背景行，则不补全
-                    return [];
-                }
-                if(hasMediaPath){
+            case ":":
+                if(!hasMediaPath){return [];}
+                //背景补全
+                if(/^<background>/m.test(prefix)){
                     backgroundList.forEach(medium=>{
                         result.push({label:medium.mediaName,insertText:medium.mediaName});
                     });
                 }
+                //立绘补全
+                else if(/^<animation>/m.test(prefix)){
+                    result.push({label:"NA",insertText:"NA"});
+                    animationList.forEach(medium=>{
+                        result.push({label:medium.mediaName,insertText:medium.mediaName});
+                    });
+                }
+                    
+                
                 break;
             case "{"://音效补全
                 if(hasMediaPath){
@@ -60,12 +68,31 @@ export class CompletionItemProvider implements vscode.CompletionItemProvider {
                     }
                 }
                 break;
-            case ","://多角色输入补全
-                if(hasCharacterPath && range && /^\[[^\]]+,/m.test(prefix)){//只有不在行开头时才补全，且触发点必须在框内
+            case ",":
+                if(!hasMediaPath){return [];}
+                //多角色输入补全
+                if(range && /^\[[^\]]+,/m.test(prefix)){//只有不在行开头时才补全，且触发点必须在框内
                     for(let name of pcMap.keys()){                    
                         result.push({label:name,insertText:name});
                     }
+                }else if(/^<animation>/m.test(prefix)){
+                    //组合立绘补全
+                    result.push({label:"NA",insertText:"NA"});
+                    animationList.forEach(medium=>{
+                        result.push({label:medium.mediaName,insertText:medium.mediaName});
+                    });
                 }
+                break;
+            case "(":
+                //组合立绘补全
+                if(!hasMediaPath){return [];}
+                if(/^<animation>/m.test(prefix)){
+                    result.push({label:"NA",insertText:"NA"});
+                    animationList.forEach(medium=>{
+                        result.push({label:medium.mediaName,insertText:medium.mediaName});
+                    });
+                }
+
                 break;
             default:
                 break;

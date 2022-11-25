@@ -190,7 +190,7 @@ export function activate(context: vscode.ExtensionContext) {
 	
 
 	//自动补全
-	context.subscriptions.push(vscode.languages.registerCompletionItemProvider("rgl",new CompletionItemProvider,".",":","{","[",","));
+	context.subscriptions.push(vscode.languages.registerCompletionItemProvider("rgl",new CompletionItemProvider,".",":","{","[",",","("));
 
 
 	//折叠
