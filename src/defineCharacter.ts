@@ -2,9 +2,30 @@ import * as vscode from 'vscode';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as outputUtils from './utils/OutputUtils';
+import { loadMedia } from './utils/utils';
 
+let outputChannel = outputUtils.OutputUtils.getInstance();
 export function defineCharacter(){
-    let outputChannel = outputUtils.OutputUtils.getInstance();
+    let optFromLog = "从log文件中生成";
+    let optFromMediaDef = "从媒体定义文件中生成";
+    let optList:string[] = [optFromLog,optFromMediaDef];
+    vscode.window.showQuickPick(optList,{
+        placeHolder:"请选择生成模式"
+    }).then(item=>{
+        switch (item) {
+            case optFromLog:
+                defineCharacterFromLog();
+                break;
+            case optFromMediaDef:
+                defineCharacterFromMediaDef();
+                break;
+        }
+    });
+}
+
+
+
+function defineCharacterFromLog(){
     let editor = vscode.window.activeTextEditor;
 	if(!editor) {
 		vscode.window.showInformationMessage('请选中某个文件');
@@ -98,4 +119,78 @@ export function defineCharacter(){
     });
 
 	
+}
+
+function defineCharacterFromMediaDef(){
+    vscode.window.showOpenDialog({
+        "canSelectFiles":true,
+        "canSelectMany":false,
+        "title":"选择媒体定义文件"
+    }).then((uris)=>{
+        if(!uris) {return;}
+
+        let mediaList = loadMedia(uris[0].fsPath);
+        let animationList = mediaList.filter(x=>x.mediaType==="Animation");
+
+        let subtypeLines: { name: string; subtype: string; animation: string; }[] = [];
+        animationList.forEach(x=>{
+            let nameSubList = x.mediaName.split("_");
+            let subtype = "default";
+            let name = x.mediaName;
+            if(nameSubList.length !== 1){
+                //用分隔符分隔
+                subtype = nameSubList[nameSubList.length-1];//取最后一段作为差分名
+                name = nameSubList.slice(0,nameSubList.length-1).join("_");//取前面部分作为角色名
+            }
+            
+            
+            let animation = x.mediaName;
+
+            subtypeLines.push({
+                name:name,
+                subtype:subtype,
+                animation:animation
+            });
+        });
+
+        //生成文件
+        vscode.window.showSaveDialog({
+            "filters":{
+                '角色配置表': ['tsv']
+            },
+            "title":"选择保存的路径"
+        }).then((uri)=>{
+            try {
+                if(!uri) {return;}
+                let outputFile = uri.fsPath;
+    
+                // outputFile = path.join(root,outputFile);
+                fs.writeFileSync(outputFile,"Name	Subtype	Animation	Bubble	Voice	SpeechRate	PitchRate\n");
+                outputChannel.appendLine("Name	Subtype	Animation	Bubble	Voice	SpeechRate	PitchRate\n");
+                subtypeLines.forEach(l=>{
+                    let content = `${l.name}\t${l.subtype}\t${l.animation}\tNA\tNA\tNA\tNA\n`;
+                    fs.appendFileSync(outputFile,content);
+                    outputChannel.appendLine(content);
+                });
+                outputChannel.show();
+                outputChannel.appendLine(`已生成角色配置文件：${outputFile}`);
+    
+    
+                //打开生成的文件
+                vscode.workspace.openTextDocument(outputFile)
+                    .then(doc => {
+                        // 在VSCode编辑窗口展示读取到的文本
+                        vscode.window.showTextDocument(doc);
+                    }, err => {
+                        // //console.log(`Open ${outputFile} error, ${err}.`);
+                    }).then(undefined, err => {
+                        // //console.log(`Open ${outputFile} error, ${err}.`);
+                    });
+            } catch (error) {
+                let err:Error = error as Error;
+                vscode.window.showErrorMessage(`[${err.name}]${err.message}`);
+            }
+            
+        });
+    });
 }

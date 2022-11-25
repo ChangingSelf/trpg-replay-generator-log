@@ -156,7 +156,13 @@
 
 ### `TRGL: Define Character`
 
-根据已有的log文件自动生成tsv角色配置表
+生成的角色配置表自动填充Name,Subtype,Animation三列，其余列为NA
+
+该命令有如下选项：
+
+- 从log文件生成，根据已有的log文件中出现的角色及其差分自动生成tsv角色配置表，Animation列会将Name和Subtype列用“_”相连接
+- 从媒体定义文件生成，根据立绘媒体名生成角色配置文件的差分行，Name和Subtype列会根据Animation列进行拆分。例如“憧憬少_微笑”这个Animation媒体会被转换为“憧憬少”角色的“微笑”差分，对应的立绘就是“憧憬少_微笑”这个立绘媒体。
+
 
 ### `TRGL: Define Media`
 
