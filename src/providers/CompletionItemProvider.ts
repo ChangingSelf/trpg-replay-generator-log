@@ -25,6 +25,7 @@ export class CompletionItemProvider implements vscode.CompletionItemProvider {
         let backgroundList = mediaList.filter(x=>x.mediaType==="Background");
         let audioList = mediaList.filter(x=>x.mediaType==="Audio");
         let animationList = mediaList.filter(x=>x.mediaType==="Animation");
+        let bubbleList = mediaList.filter(x=>(x.mediaType==="Bubble" || x.mediaType === "Balloon" || x.mediaType === "ChatWindow"));
         let hasMediaPath = mediaFilePath !== "";
 
         switch (context.triggerCharacter) {
@@ -41,23 +42,36 @@ export class CompletionItemProvider implements vscode.CompletionItemProvider {
                 //背景补全
                 if(/^<background>/m.test(prefix)){
                     backgroundList.forEach(medium=>{
-                        result.push({label:medium.mediaName,insertText:medium.mediaName});
+                        result.push({label:`${medium.mediaName}(${medium.mediaType})`,insertText:medium.mediaName,detail:medium.mediaType,documentation:medium.mediaPara});
                     });
                 }
                 //立绘补全
                 else if(/^<animation>/m.test(prefix)){
-                    result.push({label:"NA",insertText:"NA"});
+                    result.push({label:"NA",insertText:"NA",preselect:true});
                     animationList.forEach(medium=>{
-                        result.push({label:medium.mediaName,insertText:medium.mediaName});
+                        result.push({label:`${medium.mediaName}(${medium.mediaType})`,insertText:medium.mediaName,detail:medium.mediaType,documentation:medium.mediaPara});
                     });
                 }
-                    
+                //气泡补全
+                else if(/^<bubble>/m.test(prefix)){
+                    result.push({label:"NA",insertText:"NA",preselect:true});
+                    bubbleList.forEach(medium=>{
+                        result.push({label:`${medium.mediaName}(${medium.mediaType})`,insertText:medium.mediaName,detail:medium.mediaType,documentation:medium.mediaPara});
+                    });
+                }
+                //聊天窗清除行补全
+                else if(/^<clear>/m.test(prefix)){
+                    bubbleList.forEach(medium=>{
+                        if(medium.mediaType!=="ChatWindow") {return;}
+                        result.push({label:`${medium.mediaName}(${medium.mediaType})`,insertText:medium.mediaName,detail:medium.mediaType,documentation:medium.mediaPara});
+                    });
+                }
                 
                 break;
             case "{"://音效补全
                 if(hasMediaPath){
                     audioList.forEach(medium=>{
-                        result.push({label:medium.mediaName,insertText:medium.mediaName});
+                        result.push({label:`${medium.mediaName}(${medium.mediaType})`,insertText:medium.mediaName,detail:medium.mediaType,documentation:medium.mediaPara});
                     });
                 }
                 break;
@@ -77,9 +91,9 @@ export class CompletionItemProvider implements vscode.CompletionItemProvider {
                     }
                 }else if(/^<animation>/m.test(prefix)){
                     //组合立绘补全
-                    result.push({label:"NA",insertText:"NA"});
+                    result.push({label:"NA",insertText:"NA",preselect:true});
                     animationList.forEach(medium=>{
-                        result.push({label:medium.mediaName,insertText:medium.mediaName});
+                        result.push({label:`${medium.mediaName}(${medium.mediaType})`,insertText:medium.mediaName,detail:medium.mediaType,documentation:medium.mediaPara});
                     });
                 }
                 break;
@@ -87,12 +101,12 @@ export class CompletionItemProvider implements vscode.CompletionItemProvider {
                 //组合立绘补全
                 if(!hasMediaPath){return [];}
                 if(/^<animation>/m.test(prefix)){
-                    result.push({label:"NA",insertText:"NA"});
+                    result.push({label:"NA",insertText:"NA",preselect:true});
                     animationList.forEach(medium=>{
-                        result.push({label:medium.mediaName,insertText:medium.mediaName});
+                        result.push({label:`${medium.mediaName}(${medium.mediaType})`,insertText:medium.mediaName,detail:medium.mediaType,documentation:medium.mediaPara});
                     });
                 }
-
+                
                 break;
             default:
                 break;
