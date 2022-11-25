@@ -2,7 +2,7 @@
   "name": "trpg-replay-generator-log",
   "displayName": "TRPG Replay Generator Log",
   "description": "Syntax highlighting and code snippets for TRPG-Replay-Generator-Log language",
-  "version": "1.16.0",
+  "version": "1.16.1",
   "engines": {
     "vscode": "^1.67.0"
   },
@@ -83,7 +83,7 @@
       },
       {
         "command": "trpg-replay-generator-log.addAsteriskMarks",
-        "title": "TRGL: Add Asterisk Marks # 批量添加语音待处理星标{*}"     
+        "title": "TRGL: Add Asterisk Marks # 批量添加语音待处理星标{*}"
       },
       {
         "command": "trpg-replay-generator-log.addSoundEffectsInBatches",
@@ -120,67 +120,67 @@
       {
         "command": "trpg-replay-generator-log.openMediaView",
         "title": "TRGL: Open Media View # 打开媒体视图（待实装）"
-      }
-      ,{
+      },
+      {
         "command": "trpg-replay-generator-log.refreshTreeView",
         "title": "TRGL: Refresh TreeView # 刷新侧边栏树视图",
-        "icon":{
+        "icon": {
           "light": "images/refresh.svg",
           "dark": "images/refresh_dark.svg"
         }
-      }
-      ,{
+      },
+      {
         "command": "trpg-replay-generator-log.importLocalSound",
         "title": "TRGL: Import Local Sound # 导入本地wav语音"
-      }
-      ,{
+      },
+      {
         "command": "trpg-replay-generator-log.insertCharacter",
         "title": "插入角色差分",
-        "icon":{
+        "icon": {
           "light": "images/text_insert.svg",
           "dark": "images/text_insert_dark.svg"
         }
-      }
-      ,{
+      },
+      {
         "command": "trpg-replay-generator-log.insertBackground",
         "title": "插入背景",
-        "icon":{
+        "icon": {
           "light": "images/text_insert.svg",
           "dark": "images/text_insert_dark.svg"
         }
-      }
-      ,{
+      },
+      {
         "command": "trpg-replay-generator-log.insertAudio",
         "title": "插入音效",
-        "icon":{
+        "icon": {
           "light": "images/text_insert.svg",
           "dark": "images/text_insert_dark.svg"
         }
-      }
-      ,{
+      },
+      {
         "command": "trpg-replay-generator-log.jumpToOutlineNode",
         "title": "跳转大纲节点"
-      }
-      ,{
+      },
+      {
         "command": "trpg-replay-generator-log.previewBackgroundNode",
         "title": "预览背景",
-        "icon":{
+        "icon": {
           "light": "images/preview.svg",
           "dark": "images/preview_dark.svg"
         }
-      }
-      ,{
+      },
+      {
         "command": "trpg-replay-generator-log.addBackgroundNode",
         "title": "新增背景媒体",
-        "icon":{
+        "icon": {
           "light": "images/add.svg",
           "dark": "images/add_dark.svg"
         }
-      }
-      ,{
+      },
+      {
         "command": "trpg-replay-generator-log.addAudioNode",
         "title": "新增音效媒体",
-        "icon":{
+        "icon": {
           "light": "images/add.svg",
           "dark": "images/add_dark.svg"
         }
@@ -410,9 +410,8 @@
             "description": "大纲栏是否基于折叠标记来解析跳转节点"
           }
         }
-      
-      }
-      ,{
+      },
+      {
         "order": 6,
         "title": "错误诊断",
         "properties": {
@@ -421,15 +420,14 @@
             "type": "integer",
             "default": 20,
             "description": "指定对话行内容文本的**单行长度**，用于悬停提示的自动换行以及显示行长超限的警告，设置为负数（例如-1）则视作行长为正无穷（相当于关闭对应功能）"
-          }
-          ,"trpg-replay-generator-log.diagnostic.TotalLength": {
+          },
+          "trpg-replay-generator-log.diagnostic.TotalLength": {
             "order": 1,
             "type": "integer",
             "default": 100,
             "description": "指定对话行内容文本的**总长度**，用于显示行长超限的警告，设置为负数（例如-1）则视作行长为正无穷（相当于关闭对应功能）"
           }
         }
-      
       }
     ],
     "walkthroughs": [
@@ -439,104 +437,154 @@
         "description": "一步步教你如何使用本插件辅助制作replay视频",
         "steps": [
           {
-            "id": "README"
-            ,"title": "查看本插件的图文帮助文档"
-            ,"description": "你可以在下面这个网址中找到比插件商店页面更详细的图文教程\n[图文帮助文档](https://www.wolai.com/oPvjzFX3gQDZjV5JLAxpuR)"
-            ,"completionEvents": []
-            ,"media": {"markdown": "README.md"}
+            "id": "README",
+            "title": "查看本插件的图文帮助文档",
+            "description": "你可以在下面这个网址中找到比插件商店页面更详细的图文教程\n[图文帮助文档](https://www.wolai.com/oPvjzFX3gQDZjV5JLAxpuR)",
+            "completionEvents": [],
+            "media": {
+              "markdown": "README.md"
+            }
+          },
+          {
+            "id": "ChangeLanguage",
+            "title": "修改vscode的显示语言为中文",
+            "description": "你可以在插件商店（就是你安装这个插件时打开的页面）搜索“Chinese”，下载量最高的那个插件就是你需要安装的中文插件。\n安装它，然后会有个提示框在右下角弹出来问你要不要修改语言为中文，点击Change Language and Reset那个按钮修改语言\n或者点击这句话下面的按钮修改语言\n[修改显示语言](command:workbench.action.configureLocale)",
+            "media": {
+              "image": "images/icon.png",
+              "altText": "图片丢失"
+            },
+            "completionEvents": [
+              "onExtensionInstalled:ms-ceintl.vscode-language-pack-zh-hans",
+              "onCommand:workbench.action.configureLocale"
+            ]
+          },
+          {
+            "id": "OpenFolder",
+            "title": "打开文件夹",
+            "description": "vscode可以打开文件或者文件夹。\n点击侧边栏最上方的文件图标打开“资源管理器”，你可以看到你已经打开的文件夹。\n如果你没有打开文件夹，可以点击vscode给出的按钮打开你打算用来制作replay的文件夹。\n虽然不打开文件夹也可以编辑log文件，但是侧边栏的资源管理器可以很方便地以树状结构显示和跳转你的项目文件夹的文件，很方便，为什么不试试看呢？\n[打开文件夹](command:workbench.action.files.openFolder)",
+            "media": {
+              "image": "images/icon.png",
+              "altText": "图片丢失"
+            },
+            "completionEvents": [
+              "onCommand:workbench.action.files.openFolder"
+            ]
+          },
+          {
+            "id": "OpenFile",
+            "title": "打开文件",
+            "description": "打开文件夹之后，你可以点击资源管理器的树状图当中的各个文件。\n如果是文本文件就可以在编辑器中打开以查看与编辑；\n如果是图片则可以预览。\n试试看吧！",
+            "media": {
+              "image": "images/icon.png",
+              "altText": "图片丢失"
+            },
+            "completionEvents": []
+          },
+          {
+            "id": "CreateFile",
+            "title": "新建rgl剧本文件",
+            "description": "你可以点击资源管理器中的新建文件的图标，或者打开右键菜单，或者打开vscode顶部的【文件】菜单来新建一个文件或者文件夹。\n选中某个文件夹时新建文件或文件夹，会让它们生成在选中的文件夹里面。\n新建的文件没有后缀名（或者称为扩展名），你需要在文件名字后面加上。\n例如：“新建文件.rgl”、“LogFile.txt”、“episode1.rgl”\n由于本插件支持rgl文件的语法高亮以及各种其他辅助功能，因此需要将后缀名改为“.rgl”才能更好地使用本插件。\n选中文件后使用键盘F2按键或者右键菜单都可以重命名文件\n[文件后缀名是什么？](https://www.wolai.com/9QKAUz4VvohigMJFH7BJVJ)",
+            "media": {
+              "image": "images/icon.png",
+              "altText": "图片丢失"
+            },
+            "completionEvents": []
+          },
+          {
+            "id": "OpenExampleProject",
+            "title": "打开回声工坊示例项目，查看语法高亮",
+            "description": "你可以用vscode打开回声工坊软件目录（“目录”即“文件夹”）下的“toy”文件夹\n预览其中的rgl文件，你可以看到文件的不同要素都被染成了不同的颜色，这就是[语法高亮](https://www.wolai.com/pyeK3jgTLwzyAoGFv6nmue)\n[打开文件夹](command:workbench.action.files.openFolder)",
+            "media": {
+              "image": "images/syntaxHighlight.png",
+              "altText": "语法高亮"
+            },
+            "completionEvents": []
+          },
+          {
+            "id": "AutoNewLine",
+            "title": "让过长的对话行自动换行",
+            "description": "这是vscode自带功能，使用组合键Alt+Z或者在顶部菜单栏【查看】中选择“自动换行”，就可以实现一行字数过多时自动换到下一行，从而不需要横向滚动\n[切换自动换行](command:editor.action.toggleWordWrap)",
+            "media": {
+              "image": "images/icon.png",
+              "altText": "图片丢失"
+            },
+            "completionEvents": [
+              "onCommand:editor.action.toggleWordWrap"
+            ]
+          },
+          {
+            "id": "Snippets",
+            "title": "使用代码片段",
+            "description": "你可以在rgl文件中输入一些触发词来触发代码片段，它可以帮你快速输入一些东西\n[更多代码片段演示动画](https://www.wolai.com/fJGojMQjUbuvjbXu549yyr)",
+            "media": {
+              "image": "images/snippetsUsage.gif",
+              "altText": "代码片段用法演示"
+            },
+            "completionEvents": []
+          },
+          {
+            "id": "ColorThemes",
+            "title": "修改颜色主题",
+            "description": "在本插件的插件商店页面点击“设置颜色主题”按钮就可以设置颜色主题，本插件提供了深色和浅色两种颜色主题\n不同的颜色主题有着不同的语法高亮，选一个你看着舒服的\n当然，你也可以使用其他的颜色主题，而非插件自带的\n[设置颜色主题](command:workbench.action.selectTheme)",
+            "media": {
+              "image": "images/icon.png",
+              "altText": "图片丢失"
+            },
+            "completionEvents": [
+              "onCommand:workbench.action.selectTheme"
+            ]
+          },
+          {
+            "id": "FoldMark",
+            "title": "使用折叠标记",
+            "description": "在想要折叠的起始行和末尾行分别加上 `#s`和 `#e`的注释，即可对中间的内容进行折叠\n可以嵌套，而且这两个边界标记后面可以加注释，例如 `#s 这是折叠的起始行，意思是start`，`#e 这是折叠的末尾行，意思是end。`",
+            "media": {
+              "image": "images/foldMark.gif",
+              "altText": "折叠标记"
+            },
+            "completionEvents": []
+          },
+          {
+            "id": "Hovering",
+            "title": "悬停提示",
+            "description": "鼠标移动到rgl文件的各个元素并悬停时，会出现相应的说明文字。可以在插件设置中关闭。",
+            "media": {
+              "image": "images/Hovering.gif",
+              "altText": "悬浮提示"
+            },
+            "completionEvents": []
+          },
+          {
+            "id": "ChangeSettings",
+            "title": "修改插件设置",
+            "description": "ctrl+逗号或者点击左下角的齿轮图标就能找到全局设置。\n在侧边栏找到本插件名字，或者在上方搜索框中搜索，接着找到你想要修改的设置即可",
+            "media": {
+              "image": "images/ChangeSettings.gif",
+              "altText": "修改设置"
+            },
+            "completionEvents": []
+          },
+          {
+            "id": "StatusBar",
+            "title": "状态栏",
+            "description": "当你的光标停留在rgl文件内时，可以在状态栏（最底下的条）的左侧看到该剧本文件的一些统计信息",
+            "media": {
+              "image": "images/StatusBar.png",
+              "altText": "图片丢失"
+            },
+            "completionEvents": []
+          },
+          {
+            "id": "UseCommand",
+            "title": "使用命令",
+            "description": "本插件的更多辅助功能做成了命令的形式。vscode命令的使用方法是：ctrl+shift+p唤出命令面板，输入命令名字，enter键确认。\n打开命令面板的其他方式：\n- 右键菜单中“命令面板”选项\n- 菜单栏【帮助】>【显示所有命令】\n[打开命令面板](command:workbench.action.showCommands)\n[查看所有命令](https://www.wolai.com/bs7j9tAbqMCGZX8VNqMFKw)",
+            "media": {
+              "markdown": "README.md"
+            },
+            "completionEvents": [
+              "onCommand:workbench.action.showCommands"
+            ]
           }
-          ,{
-            "id": "ChangeLanguage"
-            ,"title": "修改vscode的显示语言为中文"
-            ,"description": "你可以在插件商店（就是你安装这个插件时打开的页面）搜索“Chinese”，下载量最高的那个插件就是你需要安装的中文插件。\n安装它，然后会有个提示框在右下角弹出来问你要不要修改语言为中文，点击Change Language and Reset那个按钮修改语言\n或者点击这句话下面的按钮修改语言\n[修改显示语言](command:workbench.action.configureLocale)"
-            ,"media": {"image": "images/icon.png","altText": "图片丢失"}
-            ,"completionEvents": ["onExtensionInstalled:ms-ceintl.vscode-language-pack-zh-hans","onCommand:workbench.action.configureLocale"]
-          }
-          ,{
-            "id": "OpenFolder"
-            ,"title": "打开文件夹"
-            ,"description": "vscode可以打开文件或者文件夹。\n点击侧边栏最上方的文件图标打开“资源管理器”，你可以看到你已经打开的文件夹。\n如果你没有打开文件夹，可以点击vscode给出的按钮打开你打算用来制作replay的文件夹。\n虽然不打开文件夹也可以编辑log文件，但是侧边栏的资源管理器可以很方便地以树状结构显示和跳转你的项目文件夹的文件，很方便，为什么不试试看呢？\n[打开文件夹](command:workbench.action.files.openFolder)"
-            ,"media": {"image": "images/icon.png","altText": "图片丢失"}
-            ,"completionEvents": ["onCommand:workbench.action.files.openFolder"]
-          }
-          ,{
-            "id": "OpenFile"
-            ,"title": "打开文件"
-            ,"description": "打开文件夹之后，你可以点击资源管理器的树状图当中的各个文件。\n如果是文本文件就可以在编辑器中打开以查看与编辑；\n如果是图片则可以预览。\n试试看吧！"
-            ,"media": {"image": "images/icon.png","altText": "图片丢失"}
-            ,"completionEvents": []
-          }
-          ,{
-            "id": "CreateFile"
-            ,"title": "新建rgl剧本文件"
-            ,"description": "你可以点击资源管理器中的新建文件的图标，或者打开右键菜单，或者打开vscode顶部的【文件】菜单来新建一个文件或者文件夹。\n选中某个文件夹时新建文件或文件夹，会让它们生成在选中的文件夹里面。\n新建的文件没有后缀名（或者称为扩展名），你需要在文件名字后面加上。\n例如：“新建文件.rgl”、“LogFile.txt”、“episode1.rgl”\n由于本插件支持rgl文件的语法高亮以及各种其他辅助功能，因此需要将后缀名改为“.rgl”才能更好地使用本插件。\n选中文件后使用键盘F2按键或者右键菜单都可以重命名文件\n[文件后缀名是什么？](https://www.wolai.com/9QKAUz4VvohigMJFH7BJVJ)"
-            ,"media": {"image": "images/icon.png","altText": "图片丢失"}
-            ,"completionEvents": []
-          }
-          ,{
-            "id": "OpenExampleProject"
-            ,"title": "打开回声工坊示例项目，查看语法高亮"
-            ,"description": "你可以用vscode打开回声工坊软件目录（“目录”即“文件夹”）下的“toy”文件夹\n预览其中的rgl文件，你可以看到文件的不同要素都被染成了不同的颜色，这就是[语法高亮](https://www.wolai.com/pyeK3jgTLwzyAoGFv6nmue)\n[打开文件夹](command:workbench.action.files.openFolder)"
-            ,"media": {"image": "images/syntaxHighlight.png","altText": "语法高亮"}
-            ,"completionEvents": []
-          }
-          ,{
-            "id": "AutoNewLine"
-            ,"title": "让过长的对话行自动换行"
-            ,"description": "这是vscode自带功能，使用组合键Alt+Z或者在顶部菜单栏【查看】中选择“自动换行”，就可以实现一行字数过多时自动换到下一行，从而不需要横向滚动\n[切换自动换行](command:editor.action.toggleWordWrap)"
-            ,"media": {"image": "images/icon.png","altText": "图片丢失"}
-            ,"completionEvents": ["onCommand:editor.action.toggleWordWrap"]
-          }
-          ,{
-            "id": "Snippets"
-            ,"title": "使用代码片段"
-            ,"description": "你可以在rgl文件中输入一些触发词来触发代码片段，它可以帮你快速输入一些东西\n[更多代码片段演示动画](https://www.wolai.com/fJGojMQjUbuvjbXu549yyr)"
-            ,"media": {"image": "images/snippetsUsage.gif","altText": "代码片段用法演示"}
-            ,"completionEvents": []
-          }
-          ,{
-            "id": "ColorThemes"
-            ,"title": "修改颜色主题"
-            ,"description": "在本插件的插件商店页面点击“设置颜色主题”按钮就可以设置颜色主题，本插件提供了深色和浅色两种颜色主题\n不同的颜色主题有着不同的语法高亮，选一个你看着舒服的\n当然，你也可以使用其他的颜色主题，而非插件自带的\n[设置颜色主题](command:workbench.action.selectTheme)"
-            ,"media": {"image": "images/icon.png","altText": "图片丢失"}
-            ,"completionEvents": ["onCommand:workbench.action.selectTheme"]
-          }
-          ,{
-            "id": "FoldMark"
-            ,"title": "使用折叠标记"
-            ,"description": "在想要折叠的起始行和末尾行分别加上 `#s`和 `#e`的注释，即可对中间的内容进行折叠\n可以嵌套，而且这两个边界标记后面可以加注释，例如 `#s 这是折叠的起始行，意思是start`，`#e 这是折叠的末尾行，意思是end。`"
-            ,"media": {"image": "images/foldMark.gif","altText": "折叠标记"}
-            ,"completionEvents": []
-          }
-          ,{
-            "id": "Hovering"
-            ,"title": "悬停提示"
-            ,"description": "鼠标移动到rgl文件的各个元素并悬停时，会出现相应的说明文字。可以在插件设置中关闭。"
-            ,"media": {"image": "images/Hovering.gif","altText": "悬浮提示"}
-            ,"completionEvents": []
-          }
-          ,{
-            "id": "ChangeSettings"
-            ,"title": "修改插件设置"
-            ,"description": "ctrl+逗号或者点击左下角的齿轮图标就能找到全局设置。\n在侧边栏找到本插件名字，或者在上方搜索框中搜索，接着找到你想要修改的设置即可"
-            ,"media": {"image": "images/ChangeSettings.gif","altText": "修改设置"}
-            ,"completionEvents": []
-          }
-          ,{
-            "id": "StatusBar"
-            ,"title": "状态栏"
-            ,"description": "当你的光标停留在rgl文件内时，可以在状态栏（最底下的条）的左侧看到该剧本文件的一些统计信息"
-            ,"media": {"image": "images/StatusBar.png","altText": "图片丢失"}
-            ,"completionEvents": []
-          }
-          ,{
-            "id": "UseCommand"
-            ,"title": "使用命令"
-            ,"description": "本插件的更多辅助功能做成了命令的形式。vscode命令的使用方法是：ctrl+shift+p唤出命令面板，输入命令名字，enter键确认。\n打开命令面板的其他方式：\n- 右键菜单中“命令面板”选项\n- 菜单栏【帮助】>【显示所有命令】\n[打开命令面板](command:workbench.action.showCommands)\n[查看所有命令](https://www.wolai.com/bs7j9tAbqMCGZX8VNqMFKw)"
-            ,"media": {"markdown": "README.md"}
-            ,"completionEvents": ["onCommand:workbench.action.showCommands"]
-          }
-          
         ]
       }
     ],
@@ -550,23 +598,23 @@
       ]
     },
     "views": {
-      "rgl-explorer":[
+      "rgl-explorer": [
         {
           "id": "rglOutline",
           "name": "大纲",
           "visibility": "visible"
-        }
-        ,{
+        },
+        {
           "id": "rglCharacter",
           "name": "可用角色",
           "visibility": "collapsed"
-        }
-        ,{
+        },
+        {
           "id": "rglBackground",
           "name": "可用背景媒体",
           "visibility": "collapsed"
-        }
-        ,{
+        },
+        {
           "id": "rglAudio",
           "name": "可用音效",
           "visibility": "collapsed"
@@ -578,18 +626,18 @@
         "view": "rglOutline",
         "contents": "目前还没有检测到大纲节点。大纲节点默认是背景行，即“<background>”行，也可以在设置中改为使用折叠标记，可以嵌套",
         "when": "editorLangId != rgl"
-      }
-      ,{
+      },
+      {
         "view": "rglCharacter",
         "contents": "目前没有检测到回声工坊的log文件，请检查是否已经打开了文件或者文件夹，是否将剧本文件的后缀名从“.txt”改为了“.rgl”\n[打开文件](command:workbench.action.files.openFile)\n[打开文件夹](command:workbench.action.files.openFolder)",
         "when": "editorLangId != rgl"
-      }
-      ,{
+      },
+      {
         "view": "rglBackground",
         "contents": "目前没有找到媒体定义文件或是没有定义背景，请确保你已经在插件设置中配置好了媒体定义文件的路径\n[打开设置](command:workbench.action.openSettings2)",
         "when": "editorLangId != rgl"
-      }
-      ,{
+      },
+      {
         "view": "rglAudio",
         "contents": "目前没有找到媒体定义文件或是没有定义音效，请确保你已经在插件设置中配置好了媒体定义文件的路径\n[打开设置](command:workbench.action.openSettings2)",
         "when": "editorLangId != rgl"
@@ -601,118 +649,114 @@
           "command": "trpg-replay-generator-log.refreshTreeView",
           "group": "navigation",
           "when": "view == rglBackground || view == rglCharacter || view == rglAudio || view == rglOutline"
-        }
-        ,{
+        },
+        {
           "command": "trpg-replay-generator-log.addBackgroundNode",
           "group": "navigation",
           "when": "view == rglBackground"
-        }
-        ,{
+        },
+        {
           "command": "trpg-replay-generator-log.addAudioNode",
           "group": "navigation",
           "when": "view == rglAudio"
         }
-      ]
-      ,"view/item/context": [
+      ],
+      "view/item/context": [
         {
           "command": "trpg-replay-generator-log.insertCharacter",
           "when": "view == rglCharacter",
           "group": "inline"
-          
-        }
-        ,{
+        },
+        {
           "command": "trpg-replay-generator-log.insertBackground",
           "when": "view == rglBackground",
           "group": "inline"
-          
-        }
-        ,{
+        },
+        {
           "command": "trpg-replay-generator-log.previewBackgroundNode",
           "when": "view == rglBackground",
           "group": "inline"
-          
-        }
-        ,{
+        },
+        {
           "command": "trpg-replay-generator-log.insertAudio",
           "when": "view == rglAudio",
           "group": "inline"
-          
         }
-      ]
-      ,"editor/context": [
+      ],
+      "editor/context": [
         {
-          "when": "resourceLangId == rgl"
-          ,"command": "trpg-replay-generator-log.playVideo"
-          ,"group": "navigation@1"
-        }
-        ,{
-          "when": "resourceLangId == rgl"
-          ,"command": "trpg-replay-generator-log.synthesizedSpeech"
-          ,"group": "navigation@2"
-        }
-        ,{
-          "when": "resourceLangId == rgl"
-          ,"command": "trpg-replay-generator-log.exportVideo"
-          ,"group": "navigation@3"
-        }
-        ,{
-          "when": "resourceLangId == rgl"
-          ,"command": "trpg-replay-generator-log.exportXML"
-          ,"group": "navigation@4"
-        }
-        ,{
-          "when": "resourceLangId == rgl"
-          ,"command": "trpg-replay-generator-log.openDocument"
-          ,"group": "navigation@5"
-        }
-        ,{
-          "when": "resourceLangId == rgl"
-          ,"command": "trpg-replay-generator-log.replaceAngleBrackets"
-          ,"group": "1_modification@2"
-        }
-        ,{
-          "when": "resourceLangId == rgl"
-          ,"command": "trpg-replay-generator-log.addAsteriskMarks"
-          ,"group": "1_modification@3"
-        }
-        ,{
-          "when": "resourceLangId == rgl"
-          ,"command": "trpg-replay-generator-log.addSoundEffectsInBatches"
-          ,"group": "1_modification@4"
-        }
-        ,{
-          "when": "resourceLangId == rgl"
-          ,"command": "trpg-replay-generator-log.replaceDiceMaidLine"
-          ,"group": "1_modification@5"
-        }
-        ,{
-          "when": "resourceLangId == rgl"
-          ,"command": "trpg-replay-generator-log.adjustSoundEffectsTimeInBatches"
-          ,"group": "1_modification@6"
-        }
-        ,{
-          "when": "resourceLangId == rgl"
-          ,"command": "trpg-replay-generator-log.checkDialogLineLength"
-          ,"group": "1_modification@7"
-        }
-        ,{
-          "when": "resourceLangId == rgl"
-          ,"command": "trpg-replay-generator-log.adjustSoundEffectsTimeInBatches"
-          ,"group": "1_modification@8"
-        }
-        ,{
-          "when": "resourceLangId == rgl"
-          ,"command": "trpg-replay-generator-log.defineMedia"
-          ,"group": "z_commands@1"
-        }
-        ,{
-          "when": "resourceLangId == rgl"
-          ,"command": "trpg-replay-generator-log.defineCharacter"
-          ,"group": "z_commands@2"
+          "when": "resourceLangId == rgl",
+          "command": "trpg-replay-generator-log.playVideo",
+          "group": "navigation@1"
+        },
+        {
+          "when": "resourceLangId == rgl",
+          "command": "trpg-replay-generator-log.synthesizedSpeech",
+          "group": "navigation@2"
+        },
+        {
+          "when": "resourceLangId == rgl",
+          "command": "trpg-replay-generator-log.exportVideo",
+          "group": "navigation@3"
+        },
+        {
+          "when": "resourceLangId == rgl",
+          "command": "trpg-replay-generator-log.exportXML",
+          "group": "navigation@4"
+        },
+        {
+          "when": "resourceLangId == rgl",
+          "command": "trpg-replay-generator-log.openDocument",
+          "group": "navigation@5"
+        },
+        {
+          "when": "resourceLangId == rgl",
+          "command": "trpg-replay-generator-log.replaceAngleBrackets",
+          "group": "1_modification@2"
+        },
+        {
+          "when": "resourceLangId == rgl",
+          "command": "trpg-replay-generator-log.addAsteriskMarks",
+          "group": "1_modification@3"
+        },
+        {
+          "when": "resourceLangId == rgl",
+          "command": "trpg-replay-generator-log.addSoundEffectsInBatches",
+          "group": "1_modification@4"
+        },
+        {
+          "when": "resourceLangId == rgl",
+          "command": "trpg-replay-generator-log.replaceDiceMaidLine",
+          "group": "1_modification@5"
+        },
+        {
+          "when": "resourceLangId == rgl",
+          "command": "trpg-replay-generator-log.adjustSoundEffectsTimeInBatches",
+          "group": "1_modification@6"
+        },
+        {
+          "when": "resourceLangId == rgl",
+          "command": "trpg-replay-generator-log.checkDialogLineLength",
+          "group": "1_modification@7"
+        },
+        {
+          "when": "resourceLangId == rgl",
+          "command": "trpg-replay-generator-log.adjustSoundEffectsTimeInBatches",
+          "group": "1_modification@8"
+        },
+        {
+          "when": "resourceLangId == rgl",
+          "command": "trpg-replay-generator-log.defineMedia",
+          "group": "z_commands@1"
+        },
+        {
+          "when": "resourceLangId == rgl",
+          "command": "trpg-replay-generator-log.defineCharacter",
+          "group": "z_commands@2"
         }
       ]
-    }
-    ,"keybindings":[
+    },
+    "keybindings": [
       {
         "command": "trpg-replay-generator-log.playVideo",
         "key": "F5",
@@ -750,6 +794,7 @@
   },
   "dependencies": {
     "axios": "^0.27.2",
-    "jquery": "^3.6.1"
+    "jquery": "^3.6.1",
+    "node-xlsx": "^0.21.0"
   }
 }

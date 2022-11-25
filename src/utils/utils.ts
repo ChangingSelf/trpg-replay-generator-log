@@ -1,8 +1,10 @@
 import * as vscode from 'vscode';
 import * as outputUtils from './OutputUtils';
 import * as fs from 'fs';
+import * as xlsx from "node-xlsx";
 import { RegexUtils } from './RegexUtils';
 import { Character } from '../entities';
+import path = require('path');
 
 function parseBoolean(str:string){
     return /^true$/i.test(str);
@@ -201,27 +203,63 @@ export function loadSettings(isShowInfo:boolean=false){
  * 读取角色配置表中的角色
  */
 export function loadCharacters(filePath:string){
-    let text = "";
-    try {
-       text = fs.readFileSync(filePath,{encoding:'utf8', flag:'r'});
-    } catch (error) {
-        console.log(error);
-    }
-    
     let pcMap = new Map<string,Set<string>>();
-    if(text === ""){
-        return pcMap;
+
+
+    if(path.extname(filePath) === ".xlsx"){
+        let sheets = xlsx.parse(filePath);
+        let data:unknown[] = [];
+        if(sheets.length === 1){
+            //如果只有一个表，那就读这个表
+            data = sheets[0].data;
+        }else if(sheets.length > 1){
+            //如果有多个表，优先读取名为“角色配置”的表
+            let sheet = sheets.find(x=>x.name === "角色配置");
+            if(sheet){
+                //如果找到了，就用那张
+                data = sheet.data;
+            }else{
+                //否则使用第一张表
+                data = sheets[0].data;
+            }
+        }
+        data = data.slice(1,data.length);//去掉表头
+        for(let line of data){
+            if(!Array.isArray(line)){
+                continue;
+            }
+            let name = line[0];
+            let subtype = line[1];
+            if(pcMap.has(name)){
+                //如果已经有这个角色则将差分加入进去
+                pcMap.get(name)?.add(subtype);
+            }else{
+                pcMap.set(name,new Set<string>([subtype]));
+            }
+        }
     }
-    let lines = text.split("\n");
-    for(let line of lines){
-        let lineSplit = line.split("\t");
-        let name = lineSplit[0];
-        let subtype = lineSplit[1];
-        if(pcMap.has(name)){
-            //如果已经有这个角色则将差分加入进去
-            pcMap.get(name)?.add(subtype);
-        }else{
-            pcMap.set(name,new Set<string>([subtype]));
+    else if(path.extname(filePath) === ".tsv"){
+        let text = "";
+        try {
+        text = fs.readFileSync(filePath,{encoding:'utf8', flag:'r'});
+        } catch (error) {
+            console.log(error);
+        }
+        
+        if(text === ""){
+            return pcMap;
+        }
+        let lines = text.split("\n");
+        for(let line of lines){
+            let lineSplit = line.split("\t");
+            let name = lineSplit[0];
+            let subtype = lineSplit[1];
+            if(pcMap.has(name)){
+                //如果已经有这个角色则将差分加入进去
+                pcMap.get(name)?.add(subtype);
+            }else{
+                pcMap.set(name,new Set<string>([subtype]));
+            }
         }
     }
     return pcMap;
