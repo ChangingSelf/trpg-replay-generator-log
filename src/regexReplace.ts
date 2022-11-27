@@ -117,8 +117,8 @@ export function addAsteriskMarks(){
                     placeHolder:"角色名称，不输入则默认为全部角色",
                     prompt:"输入方括号内的内容"
                 }).then(inputText1=>{
-                    if(!inputText1) {vscode.window.showErrorMessage("请输入角色名称");}
-                    regexReplace(new RegExp(`^(\\[${inputText1}.*\\]:.+)\\{.+\\*[\\d\\.]+\\}`,"gm"),"$1{*}");
+                    // if(!inputText1) {vscode.window.showErrorMessage("请输入角色名称");}
+                    regexReplace(new RegExp(`^(\\[${inputText1}.*\\](<.+>)?:.+)\\{.+\\*[\\d\\.]+\\}`,"gm"),"$1{*}");
                 });
                 break;
             default:

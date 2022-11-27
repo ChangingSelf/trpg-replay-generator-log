@@ -1,19 +1,21 @@
 {
   "name": "trpg-replay-generator-log",
-  "displayName": "TRPG Replay Generator Log",
-  "description": "Syntax highlighting and code snippets for TRPG-Replay-Generator-Log language",
-  "version": "1.16.1",
+  "displayName": "回声工坊扩展",
+  "description": "文字视频（例如TRPG replay、视觉小说）制作软件「回声工坊」的辅助扩展，围绕整理剧本文件（跑团Log文件）提供了很多便利功能",
+  "version": "1.16.3",
   "engines": {
     "vscode": "^1.67.0"
   },
   "publisher": "yxChangingSelf",
   "repository": {
-    "url": "https://gitee.com/ChangingSelf/trpg-replay-generator-log"
+    "url": "https://github.com/ChangingSelf/trpg-replay-generator-log"
   },
+  "homepage": "https://www.wolai.com/yxchangingself/PjcZ7xwNTKB2VJ5AJYggv",
   "categories": [
     "Programming Languages",
     "Themes",
-    "Snippets"
+    "Snippets",
+    "Linters"
   ],
   "icon": "images/icon.png",
   "activationEvents": [
@@ -190,8 +192,7 @@
       {
         "id": "rgl",
         "aliases": [
-          "rgl",
-          "rgl"
+          "RGL"
         ],
         "extensions": [
           ".rgl"
@@ -208,12 +209,12 @@
     ],
     "themes": [
       {
-        "label": "rgl theme",
+        "label": "RGL Dark Theme",
         "uiTheme": "vs-dark",
         "path": "./themes/rgl-theme-color-theme.json"
       },
       {
-        "label": "rgl light theme",
+        "label": "RGL Light Theme",
         "uiTheme": "vs",
         "path": "./themes/rgl-light-theme-color-theme.json"
       }
