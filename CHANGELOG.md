@@ -5,6 +5,10 @@
 格式基于[维护更新日志（Keep a Changelog）](https://keepachangelog.com/en/1.0.0/)，
 并且该项目遵循 [语义版本控制（Semantic Versioning）](https://semver.org/spec/v2.0.0.html)。
 
+## [1.16.4] - 2022-11-27
+
+- 在package.json中添加了MIT开源许可证（虽然1.16.2就添加了LICENSE文件，但还是根据扩展开发文档加上这个吧）
+
 ## [1.16.3] - 2022-11-27
 
 - 修复一键复原角色的待合成星标功能对带有尖括号方法的对话行无法匹配的问题
