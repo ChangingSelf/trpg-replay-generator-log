@@ -188,11 +188,15 @@ export function rglCount(flag:boolean=true){
 	if(flag){
 		outputChannel.appendLine(`===`);
 		outputChannel.appendLine(`各角色统计数据（一行多角色时只计算主角色）：`);
-		outputChannel.appendLine(`角色名(出现次数)：文本总字数`);
+		outputChannel.appendLine(`[序号]角色名(出现次数)：发言内容总字数`);
+		outputChannel.appendLine("");
+		let i=0;
 		for(let item of pcDataMap.entries()){
-			outputChannel.appendLine(`${item[0]}(${item[1].count})：${item[1].roleplayLen}`);
+			++i;
+			outputChannel.appendLine(`[${i}]${item[0]}(${item[1].count})：${item[1].roleplayLen}`);
 		}
-		outputChannel.appendLine(`总共出现${pcDataMap.size}个角色，纯发言文本字数为${totalContentLen}`);
+		outputChannel.appendLine("");
+		outputChannel.appendLine(`总共出现${pcDataMap.size}个角色，纯内容字数为${totalContentLen}`);
 
 		outputChannel.appendLine(`===`);
 
@@ -214,6 +218,7 @@ export function rglCount(flag:boolean=true){
 		setterLineCount:setterLineCount,
 		diceLineCount:diceLineCount,
 		totalSeconds:totalSeconds,
+		totalContentLen:totalContentLen,
 		pcDataMap:pcDataMap,
 		backgroundSet:backgroundSet
 	};

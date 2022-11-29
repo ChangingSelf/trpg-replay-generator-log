@@ -43,7 +43,7 @@ export class rglStatusBar {
       let pcDataMap = result?.pcDataMap ?? new Map();
       let backgroundSet = result?.backgroundSet ?? new Set();
 
-      this.statusBar.text = `对话行行数：${dialogLineCount}，预计视频时长：${minute}分${second}秒，角色数：${pcDataMap.size}，背景数：${backgroundSet.size}`;
+      this.statusBar.text = `预计视频时长:${minute}分${second}秒，纯内容字数:${result?.totalContentLen ?? "(统计出错)"}，对话行行数:${dialogLineCount}`;
       this.statusBar.show();
     } else {
       this.statusBar.hide();
