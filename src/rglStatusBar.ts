@@ -40,10 +40,10 @@ export class rglStatusBar {
       let minute = Math.trunc(totalSeconds/60);
       let second = Math.trunc(totalSeconds%60);
 
-      let pc = result?.pc ?? new Set();
-      let bg = result?.bg ?? new Set();
+      let pcDataMap = result?.pcDataMap ?? new Map();
+      let backgroundSet = result?.backgroundSet ?? new Set();
 
-      this.statusBar.text = `对话行行数：${dialogLineCount}，预计视频时长：${minute}分${second}秒，角色数：${pc.size}，背景数：${bg.size}`;
+      this.statusBar.text = `对话行行数：${dialogLineCount}，预计视频时长：${minute}分${second}秒，角色数：${pcDataMap.size}，背景数：${backgroundSet.size}`;
       this.statusBar.show();
     } else {
       this.statusBar.hide();

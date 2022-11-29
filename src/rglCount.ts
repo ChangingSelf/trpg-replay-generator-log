@@ -1,5 +1,7 @@
 import * as vscode from 'vscode';
+import { Character } from './entities';
 import * as outputUtils from './utils/OutputUtils';
+import { RegexUtils } from './utils/RegexUtils';
 
 let outputChannel = outputUtils.OutputUtils.getInstance();
 
@@ -81,84 +83,117 @@ export function estimateDuration(text:string,flag:boolean=true){
 
 }
 
-
-//统计
+//统计函数
 export function rglCount(flag:boolean=true){
 	if(flag) {outputChannel.clear();}
+
+	//获取文本
 	let editor = vscode.window.activeTextEditor;
 	if(!editor) {
 		vscode.window.showInformationMessage('请选中某个文件');
 		return;
 	}
-	if(editor.document.languageId != 'rgl'){
+	if(editor.document.languageId !== 'rgl'){
 		vscode.window.showInformationMessage('请选中某个rgl文件');
 		return;
 	}
 	let text = editor.document.getText();
 	let selectionText = editor.document.getText(editor.selection);
 	if(selectionText) {text = selectionText;}
-
-	//计数
-	let reg = /^\[([^,\.\(\)]*?(\(\d+\))?(\.[^,\.\(\)]*?)?)(,[^,\.\(\)]*?(\(\d+\))?(\.[^,\.\(\)]*?)?)?(,[^,\.\(\)]*?(\(\d+\))?(\.[^,\.\(\)]*?)?)?\]/mg;
-	let result = text.match(reg);
-	let dialogLine = result ?? [];
-	let dialogLineCount = dialogLine.length;
-
-
-	reg = /^<dice>/mg;
-	let diceLine = text.match(reg);
-	let diceLineCount = diceLine?.length??0;
-
-
-	//统计背景
-	reg = /^<background>(<.*?>)?:(.*)/mg;
-	result = text.match(reg);
-	// //console.log(backgroundLine);
-
-	let backgroundLine = result ?? [];
-
-	let bg = new Set();
-	for (let i = 0; i < backgroundLine.length; i++) {
-		const background = backgroundLine[i];
-		bg.add(background.split(":")[1]);
-	}
-	// //console.log(bg);
-
-	//统计角色
-	let pc = new Set();
-	for (let i = 0; i < dialogLine?.length??0; i++) {
-		let element = dialogLine[i];
-		element = element.replace("[","");
-		element = element.replace("]","");
-		let cList = element.split(',');
-
-		// //console.log(cList);
-		for (let j = 0; j < cList?.length??0; j++) {
-			let character = cList[j];
-			// //console.log("====");
-			// //console.log(character);
-			character = character.replace(/(\(\d+\))/,"");
-			character = character.replace(/(\..*)/,"");
-			// //console.log(character);
-			pc.add(character);
-		}
-
-	}
 	
 
-	//预计时长
+	//统计项
+	let dialogLineCount = 0;//对话行行数
+	let backgroundLineCount = 0;//背景行行数
+	let diceLineCount = 0;//骰子行行数
+	let hpLineCount = 0;//血条行行数
+	let setterLineCount = 0;//设置行行数
 
+
+
+	let pcDataMap:Map<string,{
+		roleplayLen:number//总RP长度
+		,count:number//出现次数
+		,dialogLen:number//RP中的对话（双引号内文本）长度
+	}> = new Map();//角色数据
+
+	let asteriskMarkCount = 0;//待处理星标数目，用于和对话行比较来确定是否仍然存在待处理星标
+
+	let backgroundSet = new Set();
+
+	//开始统计
+	let lines = text.split('\n');
+	for(let line of lines){
+		//对话行
+		let dialogLine = RegexUtils.parseDialogueLine(line);
+		if(dialogLine){
+			++dialogLineCount;
+
+			//统计角色数据
+			let mainPC = dialogLine.characterList[0];
+			let data = pcDataMap.get(mainPC.name) ?? {
+				roleplayLen:0
+				,count:0
+				,dialogLen:0
+			};
+
+			pcDataMap.set(mainPC.name,{
+				roleplayLen:data.roleplayLen + dialogLine.content.length
+				,count:data.count + 1
+				,dialogLen:data.dialogLen + (dialogLine.content.match(/“(.+?)”/g)?.join("").length ?? 0)
+			});
+
+			//统计待处理星标数目
+			asteriskMarkCount += /\{\*\}/.test(dialogLine.soundEffect) ? 1 : 0;
+
+			continue;
+		}
+
+		//背景行
+		let backgroundLine = RegexUtils.parseBackgroundLine(line);
+		if(backgroundLine){
+			++backgroundLineCount;
+			backgroundSet.add(backgroundLine.background);
+			continue;
+		}
+
+		//设置行
+		let setterLine = RegexUtils.parseSetterLine(line);
+		if(setterLine){
+			++setterLineCount;
+			continue;
+		}
+
+		
+	}
+
+	//衍生统计项
+	let totalContentLen = 0;//内容总长度
+	for(let item of pcDataMap.entries()){
+		totalContentLen += item[1].roleplayLen;
+	}
+
+	//预估时长
 	let totalSeconds = estimateDuration(text,flag);
 	let minute = Math.trunc(totalSeconds/60);
 	let second = Math.trunc(totalSeconds%60);
 	
 	if(flag){
-		vscode.window.showInformationMessage(`角色(${pc.size})：${[...pc].join(",")}`);
-		vscode.window.showInformationMessage(`背景(${bg.size})：${[...bg].join(",")}`);
-		vscode.window.showInformationMessage(`对话行行数：${dialogLineCount}，预计视频时长：${minute}分${second}秒`);
-		outputChannel.appendLine(`角色(${pc.size})：${[...pc].join(",")}`);
-		outputChannel.appendLine(`背景(${bg.size})：${[...bg].join(",")}`);
-		outputChannel.appendLine(`对话行行数：${dialogLineCount}，预计视频时长：${minute}分${second}秒`);
+		outputChannel.appendLine(`===`);
+		outputChannel.appendLine(`各角色统计数据（一行多角色时只计算主角色）：`);
+		outputChannel.appendLine(`角色名(出现次数)：文本总字数`);
+		for(let item of pcDataMap.entries()){
+			outputChannel.appendLine(`${item[0]}\t${item[1].count}\t${item[1].roleplayLen}`);
+		}
+		outputChannel.appendLine(`总共出现${pcDataMap.size}个角色，纯发言文本字数为${totalContentLen}`);
+
+		outputChannel.appendLine(`===`);
+
+		outputChannel.appendLine(`背景(${backgroundSet.size})：${[...backgroundSet].join(",")}`);
+		outputChannel.appendLine(`对话行行数：${dialogLineCount}`);
+		outputChannel.appendLine(`背景行行数：${backgroundLineCount}`);
+		outputChannel.appendLine(`设置行行数：${setterLineCount}`);
+		outputChannel.appendLine(`预计视频时长：${minute}分${second}秒`);
 		outputChannel.show();
 	
 	}
@@ -166,10 +201,12 @@ export function rglCount(flag:boolean=true){
 	
 
 	return {
-		"dialogLineCount":dialogLineCount,
-		"totalSeconds":totalSeconds,
-		"pc":pc,
-		"bg":bg
+		dialogLineCount:dialogLineCount,
+		backgroundLineCount:backgroundLineCount,
+		setterLineCount:setterLineCount,
+		totalSeconds:totalSeconds,
+		pcDataMap:pcDataMap,
+		backgroundSet:backgroundSet
 	};
 }
 
@@ -210,3 +247,4 @@ export function checkDialogLineLength(){
 		outputChannel.show();
 	});
 }
+
