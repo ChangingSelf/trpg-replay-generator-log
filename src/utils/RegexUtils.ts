@@ -9,7 +9,7 @@ export class RegexUtils{
     static regexDialogueLine = /^\[(([^,\.\(\)]*?)(\((\d+)\))?(\.([^,\.\(\)]*?))?)(,(([^,\.\(\)]*?)(\((\d+)\))?(\.([^,\.\(\)]*?))?))?(,(([^,\.\(\)]*?)(\((\d+)\))?(\.([^,\.\(\)]*?))?))?\](<.*?>)?:(.*?)(<.*?>)?(\{.*?\})?$/m;
     static regexPlaceobj = /'^<(background|animation|bubble)>(<[\w\=]+>)?:(.+)$'/mg;
     static regexBubble = /'(\w+)\("([^\\"]*)","([^\\"]*)",?(<(\w+)=?(\d+)?>)?\)'/mg;
-    static regexSetting = /^<set:([\w\ \.]+)>:(.+)$/mg;
+    static regexSetting = /^<set:(.+)>:(.+)$/m;
     static regexCharacor = /'([\w\ ]+)(\(\d*\))?(\.\w+)?'/mg;
     static regexModify = /'<(\w+)(=\d+)?>'/mg;
     static regexSound = /'({.+?})'/mg;
