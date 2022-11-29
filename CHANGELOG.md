@@ -5,6 +5,10 @@
 格式基于[维护更新日志（Keep a Changelog）](https://keepachangelog.com/en/1.0.0/)，
 并且该项目遵循 [语义版本控制（Semantic Versioning）](https://semver.org/spec/v2.0.0.html)。
 
+## [1.16.5] - 2022-11-29
+
+- 统计功能优化
+
 ## [1.16.4] - 2022-11-27
 
 - 在package.json中添加了MIT开源许可证（虽然1.16.2就添加了LICENSE文件，但还是根据扩展开发文档加上这个吧）
