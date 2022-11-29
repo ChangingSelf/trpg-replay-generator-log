@@ -129,6 +129,7 @@ function diagnose(doc:vscode.TextDocument | undefined):vscode.Diagnostic[]{
                             range:new vscode.Range(i,contentStartCol+index,i,contentStartCol+index+1)
                             ,message:`「${polyphone}」是一个多音字，可能会在语音合成时与你的预期不一致`
                             ,severity:severity
+                            ,code:"polyphone"
                         }
                     );
                 }

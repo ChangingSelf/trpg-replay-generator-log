@@ -20,6 +20,7 @@ import { BackgroundNode, BackgroundNodeProvider } from './providers/BackgroundNo
 import { AudioNode, AudioNodeProvider } from './providers/AudioNodeProvider';
 import { OutlineNode, OutlineNodeProvider } from './providers/OutlineNodeProvider';
 import { MediaFoldingRangeProvider } from './providers/FoldingRangeProvider';
+import { CodeActionProvider } from './providers/CodeActionProvider';
 
 /**
  * 从某个HTML文件读取能被Webview加载的HTML内容
@@ -199,6 +200,9 @@ export function activate(context: vscode.ExtensionContext) {
 	//诊断信息
 	diagnosticCollection = vscode.languages.createDiagnosticCollection('rgl');
 	context.subscriptions.push(diagnosticCollection);
+	
+	//错误修复
+	context.subscriptions.push(vscode.languages.registerCodeActionsProvider("rgl",new CodeActionProvider));
 
 	//文本编辑事件
 	context.subscriptions.push(vscode.workspace.onDidChangeTextDocument((event)=>{
