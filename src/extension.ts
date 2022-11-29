@@ -62,7 +62,7 @@ export function activate(context: vscode.ExtensionContext) {
 	
 	//统计rgl文件的数据
 	context.subscriptions.push(vscode.commands.registerCommand('trpg-replay-generator-log.count',rglCount.rglCount));
-	
+
 	//与骰子机器人聊天
 	context.subscriptions.push(vscode.commands.registerCommand('trpg-replay-generator-log.chatWithDiceBot',diceBot.chatWithDiceBot));
 	

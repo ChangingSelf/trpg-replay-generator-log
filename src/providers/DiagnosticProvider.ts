@@ -4,6 +4,7 @@ import { loadCharacters, loadMedia, loadSettings } from '../utils/utils';
 import * as fs from 'fs';
 import { RegexUtils } from '../utils/RegexUtils';
 
+
 export function onChange(document:vscode.TextDocument | undefined,collection:vscode.DiagnosticCollection){
     let diagnostics: vscode.Diagnostic[] = diagnose(document);
 
@@ -40,7 +41,7 @@ function diagnose(doc:vscode.TextDocument | undefined):vscode.Diagnostic[]{
         let curCol = 1;//当前检查到的列
         let contentStartCol = 2;//对话行内容开始的列，算上了末尾的英文冒号
         if(dialogueLine){
-            //检查角色
+            //检查角色，在这部分代码中计算好了contentStartCol的值
             if(isCheckCharacter){
                 for(let character of dialogueLine.characterList){
                     let nextCol = curCol + character.name.length;
@@ -95,23 +96,43 @@ function diagnose(doc:vscode.TextDocument | undefined):vscode.Diagnostic[]{
                 );
             }
             let singleLines = dialogueLine.content.split('#');
+            let singleLineStartCol = contentStartCol;
             if(singleLines.length > 1){
                 let index = 1;
                 for(let singleLine of singleLines){
                     if(singleLine.length > settings.lineLength){
                         diagnostics.push(
                             {
-                                range:new vscode.Range(i,contentStartCol,i,contentStartCol + singleLine.length)
+                                range:new vscode.Range(i,singleLineStartCol,i,singleLineStartCol + singleLine.length)
                                 ,message:`对话文本的第${index}行的长度(${singleLine.length})超过了你设置的单行长度(${settings.lineLength})，可能导致文字超出对话气泡。在插件设置中可关闭该提示`
                                 ,severity:vscode.DiagnosticSeverity.Warning
                             }
                         );
                     }
-                    contentStartCol += singleLine.length + 1;//算上井号
+                    singleLineStartCol += singleLine.length + 1;//算上井号
                     ++index;
                 }
             }
             
+            //检查多音字
+            for(let polyphone of settings.polyphoneList){
+                let index = dialogueLine.content.indexOf(polyphone);
+                if(index !== -1){
+                    //找到了多音字
+                    let polyphoneSeverity = settings.polyphoneSeverity;
+                    if(polyphoneSeverity === "None"){
+                        continue;
+                    }
+                    let severity:vscode.DiagnosticSeverity = vscode.DiagnosticSeverity[polyphoneSeverity as keyof typeof vscode.DiagnosticSeverity];
+                    diagnostics.push(
+                        {
+                            range:new vscode.Range(i,contentStartCol+index,i,contentStartCol+index+1)
+                            ,message:`「${polyphone}」是一个多音字，可能会在语音合成时与你的预期不一致`
+                            ,severity:severity
+                        }
+                    );
+                }
+            }
         }
 
         //背景行

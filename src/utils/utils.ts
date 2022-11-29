@@ -94,11 +94,14 @@ export function loadSettings(isShowInfo:boolean=false){
         ,"enableBackgroundLineHover":parseBoolean(configuration.get('trpg-replay-generator-log.hover.EnableBackgroundLine') as string)
         ,"enableAnimationLineHover":parseBoolean(configuration.get('trpg-replay-generator-log.hover.EnableAnimationLine') as string)
 
-        //其他配置
+        //错误诊断
         ,"lineLength":configuration.get('trpg-replay-generator-log.diagnostic.LineLength') as number
         ,"totalLength":configuration.get('trpg-replay-generator-log.diagnostic.TotalLength') as number
+        ,"polyphoneList":configuration.get('trpg-replay-generator-log.diagnostic.PolyphoneList') as string
+        ,"polyphoneSeverity":configuration.get('trpg-replay-generator-log.diagnostic.PolyphoneSeverity') as string
         //Treeview
         ,"parseOutlineByComment":parseBoolean(configuration.get('trpg-replay-generator-log.treeview.parseOutlineByComment') as string)
+
     };
 
     let editor = vscode.window.activeTextEditor;
