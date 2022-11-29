@@ -164,6 +164,13 @@ export function rglCount(flag:boolean=true){
 			continue;
 		}
 
+		//骰子行
+		let diceLine = RegexUtils.parseDiceLine(line);
+		if(diceLine){
+			++diceLineCount;
+			continue;
+		}
+
 		
 	}
 
@@ -183,7 +190,7 @@ export function rglCount(flag:boolean=true){
 		outputChannel.appendLine(`各角色统计数据（一行多角色时只计算主角色）：`);
 		outputChannel.appendLine(`角色名(出现次数)：文本总字数`);
 		for(let item of pcDataMap.entries()){
-			outputChannel.appendLine(`${item[0]}\t${item[1].count}\t${item[1].roleplayLen}`);
+			outputChannel.appendLine(`${item[0]}(${item[1].count})：${item[1].roleplayLen}`);
 		}
 		outputChannel.appendLine(`总共出现${pcDataMap.size}个角色，纯发言文本字数为${totalContentLen}`);
 
@@ -193,6 +200,7 @@ export function rglCount(flag:boolean=true){
 		outputChannel.appendLine(`对话行行数：${dialogLineCount}`);
 		outputChannel.appendLine(`背景行行数：${backgroundLineCount}`);
 		outputChannel.appendLine(`设置行行数：${setterLineCount}`);
+		outputChannel.appendLine(`骰子行行数：${diceLineCount}`);
 		outputChannel.appendLine(`预计视频时长：${minute}分${second}秒`);
 		outputChannel.show();
 	
@@ -204,6 +212,7 @@ export function rglCount(flag:boolean=true){
 		dialogLineCount:dialogLineCount,
 		backgroundLineCount:backgroundLineCount,
 		setterLineCount:setterLineCount,
+		diceLineCount:diceLineCount,
 		totalSeconds:totalSeconds,
 		pcDataMap:pcDataMap,
 		backgroundSet:backgroundSet

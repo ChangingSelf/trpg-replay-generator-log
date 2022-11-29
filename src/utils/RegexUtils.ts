@@ -3,7 +3,7 @@
  * 因为需要用到正则表达式匹配剧本文件元素的地方越来越多，所以将其抽取出来
  */
 
-import { Character, DialogueLine } from "../entities";
+import { Character, DialogueLine, Dice } from "../entities";
 
 export class RegexUtils{
     static regexDialogueLine = /^\[(([^,\.\(\)]*?)(\((\d+)\))?(\.([^,\.\(\)]*?))?)(,(([^,\.\(\)]*?)(\((\d+)\))?(\.([^,\.\(\)]*?))?))?(,(([^,\.\(\)]*?)(\((\d+)\))?(\.([^,\.\(\)]*?))?))?\](<.*?>)?:(.*?)(<.*?>)?(\{.*?\})?$/m;
@@ -15,7 +15,7 @@ export class RegexUtils{
     static regexSound = /'({.+?})'/mg;
     static regexAsterisk = /'(\{([^\{\}]*?[;])?\*([\w\ \.\,，。：？！“”]*)?\})'/mg;
     static regexHitpoint = /'<hitpoint>:\((.+?),(\d+),(\d+),(\d+)\)'/mg;
-    static regexDice = /'\((.+?),(\d+),([\d]+|NA),(\d+)\)'/mg;
+    static regexDice = /^<dice>:\((.+?),(.+?),(.+?),(.+?)\)(,\((.+?),(.+?),(.+?),(.+?)\))?(,\((.+?),(.+?),(.+?),(.+?)\))?(,\((.+?),(.+?),(.+?),(.+?)\))?$/mg;
     static regexBackgroundLine = /^<background>(<[\w\=]+>)?:(.+)$/m;
 
     static regexMediaLine = /^([^#].*?)\s*=\s*(.+?)\((.+)\)$/m;
@@ -81,6 +81,20 @@ export class RegexUtils{
                 name:r[1],
                 value:r[2]
             };
+        }else{
+            return null;
+        }
+    }
+
+    static parseDiceLine(line:string){
+        let r = this.regexDice.exec(line);
+        if(r){
+            return [
+                new Dice(r[1],r[2],r[3],r[4]),
+                new Dice(r[6],r[7],r[8],r[9]),
+                new Dice(r[11],r[12],r[13],r[14]),
+                new Dice(r[16],r[17],r[18],r[19]),
+            ];
         }else{
             return null;
         }
