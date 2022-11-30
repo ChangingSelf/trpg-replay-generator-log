@@ -5,6 +5,10 @@
 格式基于[维护更新日志（Keep a Changelog）](https://keepachangelog.com/en/1.0.0/)，
 并且该项目遵循 [语义版本控制（Semantic Versioning）](https://semver.org/spec/v2.0.0.html)。
 
+## [1.18.0] - 2022-11-30
+
+- 新增调用阿里云key进行文本纠错的功能，详细使用方法见：https://www.wolai.com/yxchangingself/D5svMQ4DWThCzUyauUbSb
+
 ## [1.17.1] - 2022-11-30
 
 - 修复了多音字诊断的下划线标注错位的问题

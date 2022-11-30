@@ -140,6 +140,12 @@ Tips：
 
 可以询问答疑骰郎伊可（Exception）问题
 
+#### `TRGL: Correct Typos`
+
+调用阿里云key进行文本纠错的功能，详细使用方法见：https://www.wolai.com/yxchangingself/D5svMQ4DWThCzUyauUbSb
+
+对于已经配置好语音合成的用户来说，你需要做的就一件事：[开通文本纠错服务](https://help.aliyun.com/document_detail/179148.html)，key都是用以前的
+
 #### `TRGL: Count`
 
 可以统计对话行和骰子行的行数，并将rgl文件中提到的所有角色和背景不重复地列出，方便填写角色配置表和定义背景媒体，同时可以估算生成的视频的时间。

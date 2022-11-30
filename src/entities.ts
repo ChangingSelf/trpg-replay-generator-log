@@ -9,6 +9,20 @@ export class DialogueLine{
 
     }
     
+    /**
+     * getContentStartCol
+     */
+    public getContentStartCol() {
+        let contentStartCol = 2;//对话行内容开始的列，算上了末尾的英文冒号
+        for(let character of this.characterList){
+            let offsetOfSubtype = character.subtype==='default'?0:(character.subtype.length+1);
+            let offsetOfAlpha = isNaN(character.alpha)?0:(character.alpha.toString().length+2);
+
+            contentStartCol += character.name.length + offsetOfSubtype + offsetOfAlpha + 1;
+        }
+        contentStartCol += this.toggleEffect.length;
+        return contentStartCol;
+    }
 }
 
 export class Character{

@@ -1,22 +1,100 @@
 import * as vscode from 'vscode';
 import { loadSettings } from './utils/utils';
 import * as crypto from 'crypto';
-import { Base64 }  from 'js-base64';
+import * as fs from 'fs';
+import * as path from 'path';
 import axios from 'axios';
+import { RegexUtils } from './utils/RegexUtils';
+import { OutputUtils } from './utils/OutputUtils';
+
+let outputChannel = OutputUtils.getInstance();
+let CONTENT_MAX_SIZE = 128;//API最大能够接受的字符数
 
 /**
  * 文本纠错
  * 调用阿里云API
  */
-export function correctTypos(){
+export async function correctTypos(){
     let settings = loadSettings();
     let accessKey = settings.accessKey;
     let accessKeySecret = settings.accessKeySecret;
     if(!accessKey || !accessKeySecret){
-        vscode.window.showErrorMessage("你没有配置好阿里云accessKey或accessKeySecret")
+        vscode.window.showErrorMessage("你没有配置好阿里云accessKey或accessKeySecret");
         return;//如果没填这俩，就不用继续了
     }
-    let text = "我今天吃苹果，明天吃香姣.现在似乎是2012.12.17日晚上7点，之所以是似乎，是因为你已经研究你热爱得神秘学长达3天之久了，若不是放在一旁的手机能显示时间，你完全没意识到自己已经3天2夜没合过眼了，你的胃部已经向你发起了警告，它确实需要吃些什么。";
+
+    // //test
+    // let result = await getTypos(accessKey,accessKeySecret,"我今天吃平果");
+    // console.log(result?.data);
+    // console.log(result?.data.Data);
+    // console.log(JSON.parse(result?.data.Data));
+    // console.log(JSON.parse(result?.data.Data).result.target);
+
+    // return;
+
+
+    let doc = vscode.window.activeTextEditor?.document;
+    if(!doc){
+        vscode.window.showErrorMessage("未选中任何文件");
+        return;
+    }
+
+    let text = doc.getText();
+    let lines = text.split('\n');
+
+    //新文件名称
+    let newFileName = path.join(path.dirname(doc.fileName),`CorrectedLog_${new Date().getTime()}.rgl`);
+
+    outputChannel.clear();
+    outputChannel.show();
+    let lineNum = 0;
+    for(let line of lines){
+        let dialogueLine = RegexUtils.parseDialogueLine(line);
+        if(dialogueLine){
+            //是对话行，则进行纠错后写入新文件
+            let content = dialogueLine.content;
+            
+            /**
+                 * {“result”:{ “edits”:[ { “confidence”:0.8385, “pos”:11, “src”:”姣”, “tgt”:”蕉”, “type”:”SpellingError” } ], “source”:”我今天吃苹果，明天吃香姣”, “target”:”我今天吃苹果，明天吃香蕉” },”success”:true}
+                 */
+            let response = await getTypos(accessKey,accessKeySecret,content);
+            if(!response){
+                outputChannel.appendLine(`[${lineNum+1}/${line.length} = ${(lineNum/line.length*100).toFixed(2)}5]:字数(${content.length})超过上限(${CONTENT_MAX_SIZE})，当前版本暂不考虑处理。已跳过。`);
+                fs.appendFileSync(newFileName,line + "\n");
+                continue;
+            }
+
+            outputChannel.appendLine(`[${lineNum+1}/${lines.length} = ${(lineNum/lines.length*100).toFixed(2)}%]:${response?.data.Data}\n`);
+            if(response?.status === 200){
+                let result = JSON.parse(response?.data.Data).result;
+
+                fs.appendFileSync(newFileName,line.replace(result.source,result.target) + "\n");
+            }else{
+                vscode.window.showErrorMessage(`处理第${lineNum+1}行时出现错误，请查看输出面板中对应信息`);
+                outputChannel.appendLine(`\ncode:${response?.status}\nmsg:${response?.statusText}`);
+                console.log(response);
+                return;
+            }
+        }else{
+            //不是对话行，则直接写入新文件
+            fs.appendFileSync(newFileName,line + "\n");
+        }
+        ++lineNum;
+    }
+
+    //打开两者的对比框
+    vscode.commands.executeCommand("vscode.diff",doc.uri,vscode.Uri.file(newFileName),"修改前后对比");
+    outputChannel.show();
+    vscode.window.showInformationMessage(`修改完成，输出文件为${newFileName}`);
+}
+
+async function getTypos(accessKey:string,accessKeySecret:string,text:string){
+    
+    if(!accessKey || !accessKeySecret || text.length > CONTENT_MAX_SIZE){
+        //超出字数的就先简单跳过吧
+        return null;
+    }
+
     let timestamp = new Date().toISOString();
 
     let param = {
@@ -53,7 +131,7 @@ export function correctTypos(){
     //拼接头
     let stringToSign = "GET&%2F&" + paramStr;
     
-    console.log(stringToSign);
+    // console.log(stringToSign);
 
     //计算签名
     accessKeySecret += "&";
@@ -66,21 +144,8 @@ export function correctTypos(){
     param2.Text = text;
     param2.Timestamp = timestamp;
     
-    console.log(param2);
-
-    axios.get("https://alinlp.cn-hangzhou.aliyuncs.com/",{
-        params:param2
-    }).then((response: any)=>{
-        console.log(response);
-        
-      })
-      .catch((error: any)=>{
-        console.log(error);
-        vscode.window.showErrorMessage(error.message);
-      });
-}
-
-function getTypos(accessKey:string,accessKeySecret:string,text:string){
     
-
+    return await axios.get("https://alinlp.cn-hangzhou.aliyuncs.com/",{
+        params:param2
+    });
 }
