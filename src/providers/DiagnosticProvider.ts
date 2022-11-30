@@ -85,6 +85,8 @@ function diagnose(doc:vscode.TextDocument | undefined):vscode.Diagnostic[]{
                 }
             }
             
+            contentStartCol += dialogueLine.toggleEffect.length;
+
             //检查总行长
             if(dialogueLine.content.length > settings.totalLength){
                 diagnostics.push(
