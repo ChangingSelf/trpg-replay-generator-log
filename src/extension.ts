@@ -21,6 +21,7 @@ import { AudioNode, AudioNodeProvider } from './providers/AudioNodeProvider';
 import { OutlineNode, OutlineNodeProvider } from './providers/OutlineNodeProvider';
 import { MediaFoldingRangeProvider } from './providers/FoldingRangeProvider';
 import { CodeActionProvider } from './providers/CodeActionProvider';
+import { correctTypos } from './correctTypos';
 
 /**
  * 从某个HTML文件读取能被Webview加载的HTML内容
@@ -66,6 +67,8 @@ export function activate(context: vscode.ExtensionContext) {
 
 	//与骰子机器人聊天
 	context.subscriptions.push(vscode.commands.registerCommand('trpg-replay-generator-log.chatWithDiceBot',diceBot.chatWithDiceBot));
+	//文本纠错
+	context.subscriptions.push(vscode.commands.registerCommand('trpg-replay-generator-log.correctTypos',correctTypos));
 	
 	//利用现有的素材文件夹生成媒体定义文件
 	context.subscriptions.push(vscode.commands.registerCommand('trpg-replay-generator-log.defineMedia',defineMedia.defineMedia));

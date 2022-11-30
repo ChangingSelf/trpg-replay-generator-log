@@ -40,6 +40,7 @@
     "onCommand:trpg-replay-generator-log.exportXML",
     "onCommand:trpg-replay-generator-log.openMediaView",
     "onCommand:trpg-replay-generator-log.chatWithDiceBot",
+    "onCommand:trpg-replay-generator-log.correctTypos",
     "onCommand:trpg-replay-generator-log.refreshTreeView",
     "onCommand:trpg-replay-generator-log.importLocalSound",
     "onCommand:trpg-replay-generator-log.insertBackground",
@@ -67,6 +68,10 @@
       {
         "command": "trpg-replay-generator-log.chatWithDiceBot",
         "title": "TRGL: Chat With DiceBot # 询问答疑骰郎问题"
+      },
+      {
+        "command": "trpg-replay-generator-log.correctTypos",
+        "title": "TRGL: Correct Typos # 文本纠错（需开通阿里云文本纠错服务）"
       },
       {
         "command": "trpg-replay-generator-log.checkDialogLineLength",
@@ -428,19 +433,31 @@
             "type": "integer",
             "default": 100,
             "description": "指定对话行内容文本的**总长度**，用于显示行长超限的警告，设置为负数（例如-1）则视作行长为正无穷（相当于关闭对应功能）"
-          }
-          ,"trpg-replay-generator-log.diagnostic.PolyphoneList": {
+          },
+          "trpg-replay-generator-log.diagnostic.PolyphoneList": {
             "order": 2,
             "type": "string",
             "default": "茄刨弹颤扒散数参会簸吓胖耙伺好咳处囤缝澄扇得屏几卷乐了吭粘畜称弄俩露重率空泊朝膀校强塞辟倒单折喝着蕃量沓烊载曝宁和省拗度哄丧差扎埋盛伧创伯疟看行艾把传荷涨奇炮给冠干巷薄恶便宿号藏轧卡调模没舍殷还系假降脯间石劲",
             "description": "多音字表，用于标注对话行中的多音字，可以自行添加或者删除需要识别的多音字"
-          }
-          ,"trpg-replay-generator-log.diagnostic.PolyphoneSeverity": {
+          },
+          "trpg-replay-generator-log.diagnostic.PolyphoneSeverity": {
             "order": 3,
             "type": "string",
             "default": "Hint",
-            "enum": ["None","Hint","Information","Warning","Error"],
-            "enumDescriptions": ["关闭","仅仅是灰色虚线提示","蓝色波浪线","黄色波浪线","红色波浪线"],
+            "enum": [
+              "None",
+              "Hint",
+              "Information",
+              "Warning",
+              "Error"
+            ],
+            "enumDescriptions": [
+              "关闭",
+              "仅仅是灰色虚线提示",
+              "蓝色波浪线",
+              "黄色波浪线",
+              "红色波浪线"
+            ],
             "description": "多音字标注的等级。不同等级代表不同的提示强度。除了None和Hint等级之外的等级都会当做问题显示在“问题”那一栏中"
           }
         }
@@ -809,7 +826,9 @@
     "webpack-cli": "^4.9.2"
   },
   "dependencies": {
+    "@types/js-base64": "^3.3.1",
     "axios": "^0.27.2",
+    "crypto-js": "^4.1.1",
     "jquery": "^3.6.1",
     "node-xlsx": "^0.21.0"
   }
