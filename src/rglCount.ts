@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import { Character } from './entities';
+import { Character } from './utils/entities';
 import * as outputUtils from './utils/OutputUtils';
 import { RegexUtils } from './utils/RegexUtils';
 

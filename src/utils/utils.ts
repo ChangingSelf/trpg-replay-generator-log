@@ -3,7 +3,7 @@ import * as outputUtils from './OutputUtils';
 import * as fs from 'fs';
 import * as xlsx from "node-xlsx";
 import { RegexUtils } from './RegexUtils';
-import { Character } from '../entities';
+import { Character } from './entities';
 import path = require('path');
 
 function parseBoolean(str:string){

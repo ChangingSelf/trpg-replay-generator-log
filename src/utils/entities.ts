@@ -1,4 +1,5 @@
 export class DialogueLine{
+
     constructor(
         public characterList:Character[] = [],
         public toggleEffect:string = "",
@@ -23,11 +24,33 @@ export class DialogueLine{
         contentStartCol += this.toggleEffect.length;
         return contentStartCol;
     }
+
+    public getCharactersString(){
+        return `[${this.characterList.map((pc)=>pc.toString()).join(",")}]`;
+    }
+
+    public toString(){
+        return `${this.getCharactersString()}${this.toggleEffect}:${this.content}${this.textEffect}${this.soundEffect}`;
+    }
 }
 
 export class Character{
     constructor(public name:string = '',public alpha:number = -1,public subtype:string = 'default'){
 
+    }
+
+    /**
+     * toString
+     */
+    public toString() {
+        let str = this.name;
+        if(this.alpha !== -1 && !isNaN(this.alpha)){
+            str += `(${this.alpha})`;
+        }
+        if(this.subtype !== "default"){
+            str += `.${this.subtype}`;
+        }
+        return str;
     }
 }
 

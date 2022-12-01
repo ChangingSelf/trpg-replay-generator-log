@@ -3,7 +3,7 @@
  * 因为需要用到正则表达式匹配剧本文件元素的地方越来越多，所以将其抽取出来
  */
 
-import { Character, DialogueLine, Dice } from "../entities";
+import { Character, DialogueLine, Dice } from "./entities";
 
 export class RegexUtils{
     static regexDialogueLine = /^\[(([^,\.\(\)]*?)(\((\d+)\))?(\.([^,\.\(\)]*?))?)(,(([^,\.\(\)]*?)(\((\d+)\))?(\.([^,\.\(\)]*?))?))?(,(([^,\.\(\)]*?)(\((\d+)\))?(\.([^,\.\(\)]*?))?))?\](<.*?>)?:(.*?)(<.*?>)?(\{.*?\})?$/m;

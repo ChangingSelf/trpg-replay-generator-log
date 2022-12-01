@@ -136,6 +136,9 @@ function diagnose(doc:vscode.TextDocument | undefined):vscode.Diagnostic[]{
                     );
                 }
             }
+
+            //TODO:检查音效框
+
             continue;
         }
 
