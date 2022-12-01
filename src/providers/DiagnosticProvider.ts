@@ -38,9 +38,9 @@ function diagnose(doc:vscode.TextDocument | undefined):vscode.Diagnostic[]{
         let line = doc.lineAt(i).text;
         //对话行
         let dialogueLine = RegexUtils.parseDialogueLine(line);
-        let curCol = 1;//当前检查到的列
-        let contentStartCol = 2;//对话行内容开始的列，算上了末尾的英文冒号
         if(dialogueLine){
+            let curCol = 1;//当前检查到的列
+            let contentStartCol = 2;//对话行内容开始的列，算上了末尾的英文冒号
             //检查角色，在这部分代码中计算好了contentStartCol的值
             if(isCheckCharacter){
                 for(let character of dialogueLine.characterList){
@@ -136,6 +136,7 @@ function diagnose(doc:vscode.TextDocument | undefined):vscode.Diagnostic[]{
                     );
                 }
             }
+            continue;
         }
 
         //背景行
@@ -154,9 +155,32 @@ function diagnose(doc:vscode.TextDocument | undefined):vscode.Diagnostic[]{
                         }                           
                     );
                 }
+                continue;
             }
         }
 
+        //骰子行
+        let diceLine = RegexUtils.parseDiceLine(line);
+        if(diceLine){
+            let curCol = "<dice>".length;
+            for(let dice of diceLine){
+                if(!dice.title) {continue;}
+                let curDiceRange = new vscode.Range(i,curCol+1,i,curCol + dice.toString().length+1)
+                if(dice.random > dice.face){
+                    //出目大于骰面数
+                    diagnostics.push(
+                        {
+                            range:curDiceRange
+                            ,message:`骰子出目${dice.random}大于骰子面数${dice.face}`
+                            ,severity:vscode.DiagnosticSeverity.Error
+                        }                           
+                    );
+                }
+
+                //当前列更新
+                curCol += dice.toString().length + 1;//1是前面的逗号或者冒号的长度
+            }
+        }
     }
 
 

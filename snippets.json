@@ -191,6 +191,11 @@
 		"body": "<set:formula>:${1|linear,quadratic,quadraticR,sigmoid,sincurve,left,right|}",
 		"description": "切换效果的曲线函数，初始值是：linear，即线性。目前可用的formula包括 `linear(线性)、quadratic(二次)、quadraticR(二次反向)、sigmoid(S型)、sincurve(正弦)、left(左锋)和right(右峰)`；formula可以接受 lambda函数 形式定义的自定义函数，自定义函数需要以 `(begin,end,duration)` 为参数；formula仅能通过 *设置行* 进行设置，会应用于之后所有的切换效果。"
 	}
+	,"set inline method apply":{
+		"prefix": ["set inline method apply"],
+		"body": "<set:inline_method_apply>:${1|both,animation,bubble,none|}",
+		"description": "对行内指定的切换效果的应用范围，初始值为 `both`。可用的选项有 `both、animation、bubble、none`，分别表示：立绘和气泡、仅立绘、仅气泡、无视行内指定的切换效果"
+	}
 
 
 

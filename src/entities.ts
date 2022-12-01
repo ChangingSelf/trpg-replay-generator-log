@@ -51,4 +51,8 @@ export class Dice{
         }
         this.random = Number.parseInt(random);
     }
+
+    public toString(){
+        return `(${this.title},${this.face},${this.check ?? "NA"},${this.random})`;
+    }
 }

@@ -5,6 +5,11 @@
 格式基于[维护更新日志（Keep a Changelog）](https://keepachangelog.com/en/1.0.0/)，
 并且该项目遵循 [语义版本控制（Semantic Versioning）](https://semver.org/spec/v2.0.0.html)。
 
+## [1.18.1] - 2022-12-01
+
+- 代码片段新增回声工坊1.1.0版的`inline_method_apply`设置行
+- 骰子行新增对出目大于骰面数的代码诊断
+
 ## [1.18.0] - 2022-11-30
 
 - 新增调用阿里云key进行文本纠错的功能，详细使用方法见：https://www.wolai.com/yxchangingself/D5svMQ4DWThCzUyauUbSb
