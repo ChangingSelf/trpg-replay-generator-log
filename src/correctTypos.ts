@@ -53,22 +53,26 @@ export async function correctTypos(){
         if(dialogueLine){
             //是对话行，则进行纠错后写入新文件
             let content = dialogueLine.content;
+            //因为不知道为什么识别不了星号（*），所以需要将其替换为（※）之后再进行纠错，随后再替换回来
+            content = content.replace("*","※");
             
             /**
                  * {“result”:{ “edits”:[ { “confidence”:0.8385, “pos”:11, “src”:”姣”, “tgt”:”蕉”, “type”:”SpellingError” } ], “source”:”我今天吃苹果，明天吃香姣”, “target”:”我今天吃苹果，明天吃香蕉” },”success”:true}
                  */
             let response = await getTypos(accessKey,accessKeySecret,content);
             if(!response){
-                outputChannel.appendLine(`[${lineNum+1}/${line.length} = ${(lineNum/line.length*100).toFixed(2)}5]:字数(${content.length})超过上限(${CONTENT_MAX_SIZE})，当前版本暂不考虑处理。已跳过。`);
+                outputChannel.appendLine(`[${lineNum+1}/${line.length} = ${((lineNum+1)/line.length*100).toFixed(2)}5]:字数(${content.length})超过上限(${CONTENT_MAX_SIZE})，当前版本暂不考虑处理。已跳过。`);
                 fs.appendFileSync(newFileName,line + "\n");
                 continue;
             }
 
-            outputChannel.appendLine(`[${lineNum+1}/${lines.length} = ${(lineNum/lines.length*100).toFixed(2)}%]:${response?.data.Data}\n`);
+            outputChannel.appendLine(`[${lineNum+1}/${lines.length} = ${((lineNum+1)/lines.length*100).toFixed(2)}%]:${response?.data.Data}\n`);
             if(response?.status === 200){
                 let result = JSON.parse(response?.data.Data).result;
 
-                fs.appendFileSync(newFileName,line.replace(result.source,result.target) + "\n");
+                let newContent = result.target.replace("※","*");
+
+                fs.appendFileSync(newFileName,line.replace(result.source,newContent) + "\n");
             }else{
                 vscode.window.showErrorMessage(`处理第${lineNum+1}行时出现错误，请查看输出面板中对应信息`);
                 outputChannel.appendLine(`\ncode:${response?.status}\nmsg:${response?.statusText}`);
@@ -94,6 +98,7 @@ async function getTypos(accessKey:string,accessKeySecret:string,text:string){
         //超出字数的就先简单跳过吧
         return null;
     }
+
 
     let timestamp = new Date().toISOString();
 
