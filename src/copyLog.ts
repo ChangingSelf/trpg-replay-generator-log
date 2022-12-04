@@ -18,6 +18,9 @@ export function copyLog(){
     }
     let doc = editor.document;
     let text = doc.getText();
+    let selectionText = editor.document.getText(editor.selection);
+	if(selectionText) {text = selectionText;}
+
     vscode.window.showQuickPick(optList,{
         placeHolder:"请选择复制格式"
     }).then(item=>{
@@ -45,7 +48,7 @@ export function copyLogForLangdunv(text:string){
             if(copyText !== ""){
                 copyText += "\n";
             }
-            copyText += `[${dialogLine.characterList[0]}]${dialogLine.content}`;
+            copyText += `[${dialogLine.characterList[0].name}]${dialogLine.content}`.replace(/#/g,"").replace(/\^/g,"");
             ++copyLineNum;
         }
     }
@@ -63,7 +66,7 @@ export function copyLogPureScript(text:string){
             if(copyText !== ""){
                 copyText += "\n";
             }
-            copyText += dialogLine.content;
+            copyText += dialogLine.content.replace(/#/g,"").replace(/\^/g,"");
             ++copyLineNum;
         }
     }
