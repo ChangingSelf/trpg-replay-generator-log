@@ -63,9 +63,13 @@ export class RegexUtils{
                                 }
                             }
                             //{"file"(;.*?)},{'file'(;.*?)}
-                            if(rSE[3] || rSE[4]){
-                                soundEffectBox.file = rSE[3]!==""?rSE[3]:(rSE[4]!==""?rSE[4]:"");
+                            if(rSE[3]){
+                                soundEffectBox.file = rSE[3];
                             }
+                            if(rSE[4]){
+                                soundEffectBox.file = rSE[4];
+                            }
+
 
                             //判断时间是秒还是帧或是待处理
                             if(rSE[6]==="*"){
