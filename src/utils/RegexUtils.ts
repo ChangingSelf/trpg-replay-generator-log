@@ -3,7 +3,7 @@
  * 因为需要用到正则表达式匹配剧本文件元素的地方越来越多，所以将其抽取出来
  */
 
-import { Character, DialogueLine, Dice } from "./entities";
+import { Character, DialogueLine, Dice, SoundEffectBox } from "./entities";
 
 export class RegexUtils{
     static regexDialogueLine = /^\[(([^,\.\(\)]*?)(\((\d+)\))?(\.([^,\.\(\)]*?))?)(,(([^,\.\(\)]*?)(\((\d+)\))?(\.([^,\.\(\)]*?))?))?(,(([^,\.\(\)]*?)(\((\d+)\))?(\.([^,\.\(\)]*?))?))?\](<.*?>)?:(.*?)(<.*?>)?(\{.*?\})?$/m;
@@ -12,7 +12,10 @@ export class RegexUtils{
     static regexSetting = /^<set:(.+)>:(.+)$/m;
     static regexCharacor = /'([\w\ ]+)(\(\d*\))?(\.\w+)?'/mg;
     static regexModify = /'<(\w+)(=\d+)?>'/mg;
-    static regexSound = /'({.+?})'/mg;
+
+    static regexSoundEffectBoxG = /\{(([^'"]*?)|"([^']*?)"|'([^"]*?)')(;(\*)?([^\*]*?))?\}/mg;
+    static regexSoundEffectBox = /\{(([^'"]*?)|"([^']*?)"|'([^"]*?)')(;(\*)?([^\*]*?))?\}/m;
+
     static regexAsterisk = /'(\{([^\{\}]*?[;])?\*([\w\ \.\,，。：？！“”]*)?\})'/mg;
     static regexHitpoint = /'<hitpoint>:\((.+?),(\d+),(\d+),(\d+)\)'/mg;
     static regexDice = /^<dice>:\((.+?),(.+?),(.+?),(.+?)\)(,\((.+?),(.+?),(.+?),(.+?)\))?(,\((.+?),(.+?),(.+?),(.+?)\))?(,\((.+?),(.+?),(.+?),(.+?)\))?$/mg;
@@ -26,7 +29,7 @@ export class RegexUtils{
         return RegexUtils.regexDialogueLine.test(text);
     }
     static parseDialogueLine(line:string){
-        let r = RegexUtils.regexDialogueLine.exec(line);
+        let r = this.regexDialogueLine.exec(line);
         try {
             if(r){
                 let pcList = [
@@ -35,8 +38,59 @@ export class RegexUtils{
                     new Character(r[16],Number(r[18]),r[20])
                 ];
                 pcList = pcList.filter(x => x.name !== "");
+                //音效框解析
+                let soundEffect = r[24];
+                //全局匹配时用targetString.match(rExp)而不是rExp.exec(targetString)，因为exec只返回第一个匹配
+                //而match函数对全局匹配又只是返回匹配结果而没有获取其中的分组
+                let seList = soundEffect.match(this.regexSoundEffectBoxG);
+                let soundEffectBoxes:SoundEffectBox[] = [];
+                if(seList){
+                    //匹配到单个音效框之后，再获取分组
+                    //为什么没办法一次性获取呢？很奇怪
+                    for(let se of seList){
+                        let rSE = this.regexSoundEffectBox.exec(se);
+                        if(rSE){
+                            let soundEffectBox = new SoundEffectBox();
+                            if(rSE[2]){
+                                if(rSE[2][0] === "*"){
+                                    //{*speech_text}
+                                    soundEffectBox.isPending = true;
+                                    soundEffectBox.text = rSE[2].slice(1,rSE[2].length);
+                                    // soundEffectBoxes.push(soundEffectBox);
+                                }else{
+                                    //{obj(;.*)?}
+                                    soundEffectBox.obj = rSE[2];
+                                }
+                            }
+                            //{"file"(;.*?)},{'file'(;.*?)}
+                            if(rSE[3] || rSE[4]){
+                                soundEffectBox.file = rSE[3]!==""?rSE[3]:(rSE[4]!==""?rSE[4]:"");
+                            }
+
+                            //判断时间是秒还是帧或是待处理
+                            if(rSE[6]==="*"){
+                                if(rSE[7] && !soundEffectBox.isPending){
+                                    //{file_or_obj;*3.123}
+                                    soundEffectBox.second = Number(rSE[7]);
+                                }else{
+                                    //{file_or_obj;*}
+                                    soundEffectBox.isPending = true;
+                                }
+                            }else{
+                                if(rSE[7] && !soundEffectBox.isPending){
+                                    //{file_or_obj;30}
+                                    soundEffectBox.frame = Number(rSE[7]);
+                                }else{
+                                    //{file_or_obj}
+                                }
+                            }
+                            soundEffectBoxes.push(soundEffectBox);
+                        }
+                    }
+                }
+
                 return new DialogueLine(
-                    pcList,r[21],r[22],r[23],r[24]
+                    pcList,r[21],r[22],r[23],r[24],soundEffectBoxes
                 );
             }
         } catch (error) {
