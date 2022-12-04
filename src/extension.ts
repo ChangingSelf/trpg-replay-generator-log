@@ -22,6 +22,7 @@ import { OutlineNode, OutlineNodeProvider } from './providers/OutlineNodeProvide
 import { MediaFoldingRangeProvider } from './providers/FoldingRangeProvider';
 import { CodeActionProvider } from './providers/CodeActionProvider';
 import { correctTypos } from './correctTypos';
+import { copyLog } from './copyLog';
 
 /**
  * 从某个HTML文件读取能被Webview加载的HTML内容
@@ -99,6 +100,10 @@ export function activate(context: vscode.ExtensionContext) {
 	
 	//导入本地语音
 	context.subscriptions.push(vscode.commands.registerCommand('trpg-replay-generator-log.importLocalSound',importLocalSound.importLocalSound));
+	
+	//按照不同格式复制
+	context.subscriptions.push(vscode.commands.registerCommand('trpg-replay-generator-log.copyLog',copyLog));
+	
 	
 	//快速打开readme
 	context.subscriptions.push(vscode.commands.registerCommand('trpg-replay-generator-log.openDocument',()=>{

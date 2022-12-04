@@ -43,6 +43,7 @@
     "onCommand:trpg-replay-generator-log.correctTypos",
     "onCommand:trpg-replay-generator-log.refreshTreeView",
     "onCommand:trpg-replay-generator-log.importLocalSound",
+    "onCommand:trpg-replay-generator-log.copyLog",
     "onCommand:trpg-replay-generator-log.insertBackground",
     "onCommand:trpg-replay-generator-log.insertAudio",
     "onCommand:trpg-replay-generator-log.jumpToOutlineNode",
@@ -140,6 +141,10 @@
       {
         "command": "trpg-replay-generator-log.importLocalSound",
         "title": "TRGL: Import Local Sound # 导入本地wav语音"
+      },
+      {
+        "command": "trpg-replay-generator-log.copyLog",
+        "title": "TRGL: Copy Log # 以不同格式复制Log文件文本"
       },
       {
         "command": "trpg-replay-generator-log.insertCharacter",
