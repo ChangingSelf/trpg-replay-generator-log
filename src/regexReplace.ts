@@ -97,7 +97,8 @@ export function addAsteriskMarks(){
     let optNotAE = "只给无音效框的行添加待处理星标";
     let optNotPurePunctuation = "去掉纯标点符号行的待处理星标";
     let optReDo = "把某个角色已经合成的语音框替换为待合成星标以便重新合成";
-    let optList:string[] = [optAll,optNotAE,optNotPurePunctuation,optReDo];
+    let optDel = "把某个角色已经合成的语音框删除";
+    let optList:string[] = [optAll,optNotAE,optNotPurePunctuation,optReDo,optDel];
     vscode.window.showQuickPick(optList,{
         placeHolder:"请选择替换模式"
     }).then(item=>{
@@ -115,10 +116,17 @@ export function addAsteriskMarks(){
             case optReDo:
                 vscode.window.showInputBox({
                     placeHolder:"角色名称，不输入则默认为全部角色",
-                    prompt:"输入方括号内的内容"
+                    prompt:"输入方括号内的全部内容，包括差分名和其他角色及差分"
                 }).then(inputText1=>{
-                    // if(!inputText1) {vscode.window.showErrorMessage("请输入角色名称");}
                     regexReplace(new RegExp(`^(\\[${inputText1}.*\\](<.+>)?:.+)\\{.+\\*[\\d\\.]+\\}`,"gm"),"$1{*}");
+                });
+                break;
+            case optDel:
+                vscode.window.showInputBox({
+                    placeHolder:"角色名称，不输入则默认为全部角色",
+                    prompt:"输入方括号内的全部内容，包括差分名和其他角色及差分"
+                }).then(inputText1=>{
+                    regexReplace(new RegExp(`^(\\[${inputText1}.*\\](<.+>)?:.+)\\{.+\\*[\\d\\.]+\\}`,"gm"),"$1");
                 });
                 break;
             default:
