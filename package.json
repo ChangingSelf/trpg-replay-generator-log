@@ -2,7 +2,7 @@
   "name": "trpg-replay-generator-log",
   "displayName": "回声工坊扩展",
   "description": "文字视频（例如TRPG replay、视觉小说）制作软件「回声工坊」的辅助扩展，围绕整理剧本文件（跑团Log文件）提供了很多便利功能",
-  "version": "1.18.2",
+  "version": "1.18.4",
   "engines": {
     "vscode": "^1.67.0"
   },
@@ -789,6 +789,11 @@
         },
         {
           "when": "resourceLangId == rgl",
+          "command": "trpg-replay-generator-log.copyLog",
+          "group": "1_modification@10"
+        },
+        {
+          "when": "resourceLangId == rgl",
           "command": "trpg-replay-generator-log.defineMedia",
           "group": "z_commands@1"
         },
@@ -804,6 +809,11 @@
         "command": "trpg-replay-generator-log.playVideo",
         "key": "F5",
         "when": "resourceLangId == rgl"
+      },
+      {
+        "command": "trpg-replay-generator-log.copyLog",
+        "key": "Ctrl+Shift+C",
+        "when": "editorFocus"
       }
     ]
   },
