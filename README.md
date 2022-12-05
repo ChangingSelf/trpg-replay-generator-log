@@ -193,6 +193,14 @@ Tips：
 
 有损、不可逆的回声工坊和活字引擎log格式互相转换，使用前请做好备份
 
+#### `TRGL: Convert Log`
+
+转换跑团Log格式，对当前文件使用，在旁边生成一个转换好的回声工坊log文件，目前支持：
+
+- 猫爷TRPG => 回声工坊
+- 菠萝文字团平台txt => 回声工坊
+- 菠萝文字团平台json => 回声工坊
+
 #### `TRGL: Define Character`
 
 生成的角色配置表自动填充Name,Subtype,Animation三列，其余列为NA

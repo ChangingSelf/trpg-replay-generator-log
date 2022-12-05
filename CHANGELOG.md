@@ -5,6 +5,19 @@
 格式基于[维护更新日志（Keep a Changelog）](https://keepachangelog.com/en/1.0.0/)，
 并且该项目遵循 [语义版本控制（Semantic Versioning）](https://semver.org/spec/v2.0.0.html)。
 
+
+## [1.19.0] - 2022-12-05
+
+新增命令：
+
+#### `TRGL: Convert Log`
+
+转换跑团Log格式，对当前文件使用，在旁边生成一个转换好的回声工坊log文件，目前支持：
+
+- 猫爷TRPG => 回声工坊
+- 菠萝文字团平台txt => 回声工坊
+- 菠萝文字团平台json => 回声工坊
+
 ## [1.18.7] - 2022-12-04
 
 代码诊断新增音效框相关：
