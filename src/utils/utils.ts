@@ -277,7 +277,7 @@ export function loadCharacters(filePath:string){
     try {
        text = fs.readFileSync(filePath,{encoding:'utf8', flag:'r'});
     } catch (error) {
-        console.log(error);
+        // console.log(error);
     }
     
     let mediaList:{

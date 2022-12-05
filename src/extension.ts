@@ -23,6 +23,7 @@ import { MediaFoldingRangeProvider } from './providers/FoldingRangeProvider';
 import { CodeActionProvider } from './providers/CodeActionProvider';
 import { correctTypos } from './correctTypos';
 import { copyLog } from './copyLog';
+import { convertLog } from './convertLog';
 
 /**
  * 从某个HTML文件读取能被Webview加载的HTML内容
@@ -82,6 +83,8 @@ export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(vscode.commands.registerCommand('trpg-replay-generator-log.addSoundEffectsInBatches',regexReplace.addSoundEffectsInBatches));
 	context.subscriptions.push(vscode.commands.registerCommand('trpg-replay-generator-log.replaceDiceMaidLine',regexReplace.replaceDiceMaidLine));
 	context.subscriptions.push(vscode.commands.registerCommand('trpg-replay-generator-log.migrateLog',regexReplace.migrateLog));
+	//转换Log格式
+	context.subscriptions.push(vscode.commands.registerCommand('trpg-replay-generator-log.convertLog',convertLog));
 	
 	//语音时间批量增减
 	context.subscriptions.push(vscode.commands.registerCommand('trpg-replay-generator-log.adjustSoundEffectsTimeInBatches',regexReplace.adjustSoundEffectsTimeInBatches));

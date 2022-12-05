@@ -34,6 +34,7 @@
     "onCommand:trpg-replay-generator-log.adjustSoundEffectsTimeInBatches",
     "onCommand:trpg-replay-generator-log.replaceDiceMaidLine",
     "onCommand:trpg-replay-generator-log.migrateLog",
+    "onCommand:trpg-replay-generator-log.convertLog",
     "onCommand:trpg-replay-generator-log.playVideo",
     "onCommand:trpg-replay-generator-log.exportVideo",
     "onCommand:trpg-replay-generator-log.synthesizedSpeech",
@@ -104,7 +105,11 @@
       },
       {
         "command": "trpg-replay-generator-log.migrateLog",
-        "title": "TRGL: Migrate Log # 有损、不可逆的回声工坊和活字引擎log格式互相转换"
+        "title": "TRGL: Migrate Log # 有损、不可逆的回声工坊和活字引擎log格式互相转换（即将弃用）"
+      },
+      {
+        "command": "trpg-replay-generator-log.convertLog",
+        "title": "TRGL: Convert Log # 转换跑团Log格式(QQ、猫爷TRPG等Log转换为回声工坊格式)"
       },
       {
         "command": "trpg-replay-generator-log.adjustSoundEffectsTimeInBatches",
