@@ -31,6 +31,7 @@
     "onCommand:trpg-replay-generator-log.replaceAngleBrackets",
     "onCommand:trpg-replay-generator-log.addAsteriskMarks",
     "onCommand:trpg-replay-generator-log.addSoundEffectsInBatches",
+    "onCommand:trpg-replay-generator-log.editAudioBox",
     "onCommand:trpg-replay-generator-log.adjustSoundEffectsTimeInBatches",
     "onCommand:trpg-replay-generator-log.replaceDiceMaidLine",
     "onCommand:trpg-replay-generator-log.convertLog",
@@ -97,6 +98,10 @@
       {
         "command": "trpg-replay-generator-log.addSoundEffectsInBatches",
         "title": "TRGL: Add Sound Effects In Batches # 批量添加音效"
+      },
+      {
+        "command": "trpg-replay-generator-log.editAudioBox",
+        "title": "TRGL: Edit Audio Box # 编辑音效框（待实装）"
       },
       {
         "command": "trpg-replay-generator-log.replaceDiceMaidLine",
