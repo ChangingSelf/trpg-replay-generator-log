@@ -5,6 +5,10 @@
 格式基于[维护更新日志（Keep a Changelog）](https://keepachangelog.com/en/1.0.0/)，
 并且该项目遵循 [语义版本控制（Semantic Versioning）](https://semver.org/spec/v2.0.0.html)。
 
+## [1.19.2] - 2022-12-06
+
+- `TRGL: Migrate Log`命令已弃用，请使用`TRGL: Convert Log`命令进行活字引擎和回声工坊Log格式互相转换
+
 ## [1.19.1] - 2022-12-06
 
 - `TRGL: Convert Log`新增对QQ聊天消息（直接复制和导出两种都行）和已经染色的跑团记录（塔、赵、溯洄）的转换

@@ -2,7 +2,7 @@
   "name": "trpg-replay-generator-log",
   "displayName": "回声工坊扩展",
   "description": "文字视频（例如TRPG replay、视觉小说）制作软件「回声工坊」的辅助扩展，围绕整理剧本文件（跑团Log文件）提供了很多便利功能",
-  "version": "1.19.1",
+  "version": "1.19.2",
   "engines": {
     "vscode": "^1.67.0"
   },
@@ -33,7 +33,6 @@
     "onCommand:trpg-replay-generator-log.addSoundEffectsInBatches",
     "onCommand:trpg-replay-generator-log.adjustSoundEffectsTimeInBatches",
     "onCommand:trpg-replay-generator-log.replaceDiceMaidLine",
-    "onCommand:trpg-replay-generator-log.migrateLog",
     "onCommand:trpg-replay-generator-log.convertLog",
     "onCommand:trpg-replay-generator-log.playVideo",
     "onCommand:trpg-replay-generator-log.exportVideo",
@@ -102,10 +101,6 @@
       {
         "command": "trpg-replay-generator-log.replaceDiceMaidLine",
         "title": "TRGL: Replace DiceMaid Line # 一键替换骰娘文本为骰子动画行"
-      },
-      {
-        "command": "trpg-replay-generator-log.migrateLog",
-        "title": "TRGL: Migrate Log # 有损、不可逆的回声工坊和活字引擎log格式互相转换（即将弃用）"
       },
       {
         "command": "trpg-replay-generator-log.convertLog",

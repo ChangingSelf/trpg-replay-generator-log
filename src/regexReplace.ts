@@ -81,13 +81,6 @@ function regexReplaceInBatch(regexList:[{searchValue:string | RegExp,replaceValu
     
 }
 
-function pushToRegexList(regexList:[{searchValue:string | RegExp,replaceValue:string}],searchValue:string | RegExp,replaceValue:string){
-    regexList.push({
-        searchValue:searchValue,
-        replaceValue:replaceValue
-    });
-}
-
 export function replaceAngleBrackets(){
     regexReplace(/<(.*?)>/g,"[$1]:");
 }
@@ -241,105 +234,4 @@ export function replaceDiceMaidLine(){
     });
 
     
-}
-
-/**
- * 迁移log文件
- * 目前支持活字引擎和回声工坊剧本文件互相转换
- */
-export function migrateLog(){
-    let optYes = "我已备份好";
-    vscode.window.showWarningMessage("由于活字引擎和回声工坊的功能不完全重合，因此转换不可逆，请提前备份当前log文件",optYes,"取消")
-    .then(selection=>{
-        if(selection !== optYes){
-            return;
-        }
-
-        //开始转换
-        let optGenerater2Engine = "回声工坊 => 活字引擎";
-        let optEngine2Generater = "活字引擎 => 回声工坊";
-        let optList:string[] = [optGenerater2Engine,optEngine2Generater];
-        vscode.window.showQuickPick(optList,{
-            placeHolder:"请选择转换方向"
-        }).then(item=>{
-            switch (item) {
-                case optGenerater2Engine:
-                    convertGenerater2Engine();
-                    break;
-                case optEngine2Generater:
-                    convertEngine2Generater();
-                    break;
-                default:
-                    break;
-            }
-        });
-    });
-}
-
-function convertGenerater2Engine(){
-    // vscode.window.showInformationMessage("回声工坊 => 活字引擎");
-    let regexList: [{ searchValue: string | RegExp; replaceValue: string; }]=[{
-        searchValue:"",
-        replaceValue:""
-    }];
-
-    //其余行
-    pushToRegexList(regexList,/^(<set:.+)$/gm,"//$1");
-    pushToRegexList(regexList,/^(<hitpoint>:.+)$/gm,"//$1");
-
-    //转换对话行
-    pushToRegexList(regexList,/^\[(.+?)(\.(.+))?(,.+)?\]:(.+?)(\{.+\})?$/gm,"<$1（$3）>$5");
-    pushToRegexList(regexList,/^<(.+?)（）>/gm,"<$1>");
-
-    //转换背景行
-    pushToRegexList(regexList,/^<background>(<.+>)?:(.+)$/gm,"【背景】$2");
-
-    //BGM
-    pushToRegexList(regexList,/^<set:BGM>:(.+)$/gm,"【BGM】$1");
-    pushToRegexList(regexList,/^<set:BGM>:stop$/gm,"【停止BGM】");
-
-    //骰子
-    pushToRegexList(regexList,/^<dice>:\((.+?),(.+?),(.+?),(.+?)\)(,\((.+?),(.+?),(.+?),(.+?)\))?(,\((.+?),(.+?),(.+?),(.+?)\))?(,\((.+?),(.+?),(.+?),(.+?)\))?$/gm,"【骰子】（$1）D$2=$4/$3；（$6）D$7=$9/$8；（$11）D$12=$14/$13；（$16）D$17=$19/$18");
-    pushToRegexList(regexList,/；（）D=\//gm,"");
-    pushToRegexList(regexList,"/NA","");
-
-    //注释
-    pushToRegexList(regexList,/^#(.+)$/gm,"//$1");
-
-
-
-    regexReplaceInBatch(regexList);
-
-}
-
-function convertEngine2Generater(){
-    // vscode.window.showInformationMessage("活字引擎 => 回声工坊 目前还未完成");
-    let regexList: [{ searchValue: string | RegExp; replaceValue: string; }]=[{
-        searchValue:"",
-        replaceValue:""
-    }];
-
-    //转换对话行
-    pushToRegexList(regexList,/^<(.+?)(（(.+)）)?>(.+)(\n【读作】(.+))?/gm,"[$1.$3]:$4{*$6}");
-    pushToRegexList(regexList,/^\[(.+)\.\]:/gm,"[$1]:");
-
-    //转换背景行
-    pushToRegexList(regexList,/^【背景】(.+)$/gm,"<background>:$1");
-    //BGM
-    pushToRegexList(regexList,/^【BGM】(.+)$/gm,"<set:BGM>:$1");
-    pushToRegexList(regexList,/^【停止BGM】(.+)?$/gm,"<set:BGM>:stop");
-
-    
-    //骰子
-    pushToRegexList(regexList,/^【骰子】（(.+?)）D(\d+)=(\d+)(\/(\d+))?(；（(.+?)）D(\d+)=(\d+)(\/(\d+))?)?(；（(.+?)）D(\d+)=(\d+)(\/(\d+))?)?(；（(.+?)）D(\d+)=(\d+)(\/(\d+))?)?$/gm,"<dice>:($1,$2,$5,$3),($7,$8,$11,$9),($13,$14,$17,$15),($19,$20,$23,$21)");
-    pushToRegexList(regexList,/,\(,,,\)/gm,"");
-    pushToRegexList(regexList,/\((.+?),(\d+?),,(\d+?)\)/gm,"($1,$2,NA,$3)");
-
-    //注释
-    pushToRegexList(regexList,/^\/\/(.+)$/gm,"#$1");
-
-    //其余行
-    pushToRegexList(regexList,/(^【.+$)/gm,"#$1");
-
-    regexReplaceInBatch(regexList);
 }

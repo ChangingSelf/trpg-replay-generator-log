@@ -23,6 +23,8 @@ export function convertLog(){
     let optQQ = "QQ聊天记录 => 回声工坊";
     let optPainted = "已染色记录 => 回声工坊";
     let optPaintedTaDice = "塔骰已染色记录 => 回声工坊";
+    let optEngine2Generater = "活字引擎 => 回声工坊";
+    let optGenerater2Engine = "回声工坊 => 活字引擎";
     vscode.window.showQuickPick([{
         label: optMaoYe,
         description: '猫爷TRPG：https://maoyetrpg.com/',
@@ -38,7 +40,7 @@ export function convertLog(){
     }, {
         label: optQQ,
         description: 'QQ未处理的跑团记录',
-        detail: '支持直接从聊天窗口复制、消息管理器导出的记录甚至两者混合'
+        detail: '支持直接从聊天窗口复制、消息管理器导出的记录(还是不要两者混用了，混用有点bug)'
     }, {
         label: optPainted,
         description: '已经用染色器网站处理过的跑团记录',
@@ -47,7 +49,18 @@ export function convertLog(){
         label: optPaintedTaDice,
         description: '已经用染色器网站处理过的跑团记录，塔骰专属',
         detail: '支持塔骰染色记录'
-    }]).then(value => {
+    }, {
+        label: optEngine2Generater,
+        description: '活字引擎3',
+        detail: ''
+    }, {
+        label: optGenerater2Engine,
+        description: '',
+        detail: ''
+    }],{
+        title:"选择log转换模式",
+        placeHolder:"将会在原文件旁边生成转换好的rgl文件"
+    }).then(value => {
         if(!value){
             return;
         }
@@ -69,6 +82,12 @@ export function convertLog(){
                 break;
             case optPaintedTaDice:
                 text = convertLogFromPaintedTaDice(text);
+                break;
+            case optEngine2Generater:
+                text = convertEngine2Generater(text);
+                break;
+            case optGenerater2Engine:
+                text = convertGenerater2Engine(text);
                 break;
         }
         //写入文件
@@ -219,4 +238,57 @@ export function convertLogFromPaintedTaDice(text:string){
         }
     }
     return newText;
+}
+
+
+//活字引擎 => 回声工坊
+function convertEngine2Generater(text:string){
+    //转换对话行
+    return text.replaceAll(/^<(.+?)(（(.+)）)?>(.+)(\n【读作】(.+))?/gm,"[$1.$3]:$4{*$6}")
+    .replaceAll(/^\[(.+)\.\]:/gm,"[$1]:")
+
+    //转换背景行
+    .replaceAll(/^【背景】(.+)$/gm,"<background>:$1")
+    //BGM
+    .replaceAll(/^【BGM】(.+)$/gm,"<set:BGM>:$1")
+    .replaceAll(/^【停止BGM】(.+)?$/gm,"<set:BGM>:stop")
+
+    
+    //骰子
+    .replaceAll(/^【骰子】（(.+?)）D(\d+)=(\d+)(\/(\d+))?(；（(.+?)）D(\d+)=(\d+)(\/(\d+))?)?(；（(.+?)）D(\d+)=(\d+)(\/(\d+))?)?(；（(.+?)）D(\d+)=(\d+)(\/(\d+))?)?$/gm,"<dice>:($1,$2,$5,$3),($7,$8,$11,$9),($13,$14,$17,$15),($19,$20,$23,$21)")
+    .replaceAll(/,\(,,,\)/gm,"")
+    .replaceAll(/\((.+?),(\d+?),,(\d+?)\)/gm,"($1,$2,NA,$3)")
+
+    //注释
+    .replaceAll(/^\/\/(.+)$/gm,"#$1")
+
+    //其余行
+    .replaceAll(/(^【.+$)/gm,"#$1");
+}
+
+//回声工坊 => 活字引擎
+function convertGenerater2Engine(text:string){
+
+    //其余行
+    return text.replaceAll(/^(<set:.+)$/gm,"//$1")
+    .replaceAll(/^(<hitpoint>:.+)$/gm,"//$1")
+
+    //转换对话行
+    .replaceAll(/^\[(.+?)(\.(.+))?(,.+)?\]:(.+?)(\{.+\})?$/gm,"<$1（$3）>$5")
+    .replaceAll(/^<(.+?)（）>/gm,"<$1>")
+
+    //转换背景行
+    .replaceAll(/^<background>(<.+>)?:(.+)$/gm,"【背景】$2")
+
+    //BGM
+    .replaceAll(/^<set:BGM>:(.+)$/gm,"【BGM】$1")
+    .replaceAll(/^<set:BGM>:stop$/gm,"【停止BGM】")
+
+    //骰子
+    .replaceAll(/^<dice>:\((.+?),(.+?),(.+?),(.+?)\)(,\((.+?),(.+?),(.+?),(.+?)\))?(,\((.+?),(.+?),(.+?),(.+?)\))?(,\((.+?),(.+?),(.+?),(.+?)\))?$/gm,"【骰子】（$1）D$2=$4/$3；（$6）D$7=$9/$8；（$11）D$12=$14/$13；（$16）D$17=$19/$18")
+    .replaceAll(/；（）D=\//gm,"")
+    .replaceAll("/NA","")
+
+    //注释
+    .replaceAll(/^#(.+)$/gm,"//$1");
 }
