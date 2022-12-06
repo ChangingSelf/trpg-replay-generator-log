@@ -5,6 +5,9 @@
 格式基于[维护更新日志（Keep a Changelog）](https://keepachangelog.com/en/1.0.0/)，
 并且该项目遵循 [语义版本控制（Semantic Versioning）](https://semver.org/spec/v2.0.0.html)。
 
+## [1.19.1] - 2022-12-06
+
+- `TRGL: Convert Log`新增对QQ聊天消息（直接复制和导出两种都行）和已经染色的跑团记录（塔、赵、溯洄）的转换
 
 ## [1.19.0] - 2022-12-05
 
