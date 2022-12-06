@@ -192,7 +192,7 @@ function diagnose(doc:vscode.TextDocument | undefined):vscode.Diagnostic[]{
                         }
                     }
                 }else if(isCheckMedia && se.obj){
-                    if(audioList.findIndex(x=>x.mediaName===se.obj)===-1){
+                    if(audioList.findIndex(x=>x.mediaName===se.obj)===-1 && se.obj !== "NA"){
                         //找不到该音效
                         diagnostics.push({
                             range:new vscode.Range(lineNum,seStartCol+1,lineNum,seStartCol+se.obj.length+1)

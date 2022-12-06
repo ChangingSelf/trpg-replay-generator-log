@@ -2,7 +2,7 @@
   "name": "trpg-replay-generator-log",
   "displayName": "回声工坊扩展",
   "description": "文字视频（例如TRPG replay、视觉小说）制作软件「回声工坊」的辅助扩展，围绕整理剧本文件（跑团Log文件）提供了很多便利功能",
-  "version": "1.19.2",
+  "version": "1.19.3",
   "engines": {
     "vscode": "^1.67.0"
   },

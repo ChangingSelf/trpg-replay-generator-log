@@ -5,6 +5,11 @@
 格式基于[维护更新日志（Keep a Changelog）](https://keepachangelog.com/en/1.0.0/)，
 并且该项目遵循 [语义版本控制（Semantic Versioning）](https://semver.org/spec/v2.0.0.html)。
 
+
+## [1.19.3] - 2022-12-06
+
+- 修复NA不被认作媒体对象的问题。现在`{NA}`和`{NA;*时间}`的写法不会报错了
+
 ## [1.19.2] - 2022-12-06
 
 - `TRGL: Migrate Log`命令已弃用，请使用`TRGL: Convert Log`命令进行活字引擎和回声工坊Log格式互相转换
