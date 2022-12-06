@@ -18,8 +18,9 @@ export function convertLog(){
 
     //转换Log
     let optMaoYe = "猫爷TRPG => 回声工坊";
-    let optBoLuoTxt = "菠萝文字团平台txt => 回声工坊";
-    let optBoLuoJson = "菠萝文字团平台json => 回声工坊";
+    let optBoLuoTxt = "菠萝txt => 回声工坊";
+    let optBoLuoJson = "菠萝json => 回声工坊";
+    let optQQ = "QQ聊天记录 => 回声工坊";
     vscode.window.showQuickPick([{
         label: optMaoYe,
         description: '猫爷TRPG：https://maoyetrpg.com/',
@@ -32,6 +33,10 @@ export function convertLog(){
         label: optBoLuoJson,
         description: '菠萝：https://boluo.chat/',
         detail: '菠萝可导出多种格式，此选项处理的是json格式。'
+    }, {
+        label: optQQ,
+        description: 'QQ未处理的跑团记录',
+        detail: '支持直接从聊天窗口复制、消息管理器导出的记录甚至两者混合'
     }]).then(value => {
         if(!value){
             return;
@@ -45,6 +50,9 @@ export function convertLog(){
                 break;
             case optBoLuoJson:
                 text = convertLogFromBoLuoJson(text);
+                break;
+            case optQQ:
+                text = convertLogFromQQ(text);
                 break;
         }
         //写入文件
@@ -107,4 +115,39 @@ export function convertLogFromBoLuoJson(text:string){
         vscode.window.showErrorMessage("解析json时出错，请确保你用的是json文件");
     }
     return text;
+}
+
+//QQ聊天记录
+export function convertLogFromQQ(text:string){
+
+    //直接复制的格式，日期和时间在昵称后面：昵称(QQ号)
+    let regexCopy = /^(\S+?)\s+(\d\d\d\d\/\d\d\/\d\d? )?\d\d?:\d\d:\d\d( #\d+)?/m;
+    //消息管理器导出的格式
+    let regexExport = /^(\d\d\d\d-\d\d-\d\d? \d\d?:\d\d:\d\d) (.+)(\([^\(\n]+\)|<[^\(\n]+>)/m;
+
+    let lines = text.split('\n');
+    let curPC = "";
+    let newText = "";
+    for(let line of lines){
+        line = line.trim();
+        if(line === "" || /^\[图片\]$/m.test(line)){
+            continue;
+        }
+        let r:RegExpExecArray | null;
+        if((r = regexCopy.exec(line)) && r[2]){//如果分组2没匹配到说明把时间当做PC名匹配了
+            //匹配到，则说明切换角色了
+            curPC = r[1].replace("(","（").replace(")","）").replace("[","【").replace("]","】");
+        }else if(r = regexExport.exec(line)){
+            curPC = r[2].replace("(","（").replace(")","）").replace("[","【").replace("]","】");
+        }else{
+            //全都未匹配上，说明是内容行
+            let content = line.replace("(","（").replace(")","）").replace("#","");
+            if(content.startsWith(".") || content.startsWith("。")){
+                newText += `\n# [${curPC}]:${content}`;//注释指令行
+            }else{
+                newText += `\n[${curPC}]:${content}`;
+            }
+        }
+    }
+    return newText;
 }
