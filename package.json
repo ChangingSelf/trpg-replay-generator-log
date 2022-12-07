@@ -2,7 +2,7 @@
   "name": "trpg-replay-generator-log",
   "displayName": "回声工坊扩展",
   "description": "文字视频（例如TRPG replay、视觉小说）制作软件「回声工坊」的辅助扩展，围绕整理剧本文件（跑团Log文件）提供了很多便利功能",
-  "version": "1.19.3",
+  "version": "1.20.0",
   "engines": {
     "vscode": "^1.67.0"
   },
@@ -93,15 +93,15 @@
       },
       {
         "command": "trpg-replay-generator-log.addAsteriskMarks",
-        "title": "TRGL: Add Asterisk Marks # 批量添加语音待处理星标{*}"
+        "title": "TRGL: Add Asterisk Marks # 批量添加语音待处理星标{*}（即将弃用）"
       },
       {
         "command": "trpg-replay-generator-log.addSoundEffectsInBatches",
-        "title": "TRGL: Add Sound Effects In Batches # 批量添加音效"
+        "title": "TRGL: Add Sound Effects In Batches # 批量添加音效（即将弃用）"
       },
       {
         "command": "trpg-replay-generator-log.editAudioBox",
-        "title": "TRGL: Edit Audio Box # 编辑音效框（待实装）"
+        "title": "TRGL: Edit Audio Box # 批量编辑音效框"
       },
       {
         "command": "trpg-replay-generator-log.replaceDiceMaidLine",
@@ -760,6 +760,11 @@
         {
           "when": "resourceLangId == rgl",
           "command": "trpg-replay-generator-log.addAsteriskMarks",
+          "group": "1_modification@3"
+        },
+        {
+          "when": "resourceLangId == rgl",
+          "command": "trpg-replay-generator-log.editAudioBox",
           "group": "1_modification@3"
         },
         {

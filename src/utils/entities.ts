@@ -26,6 +26,28 @@ export class DialogueLine{
         return contentStartCol;
     }
 
+    public addSoundEffect(soundEffectBox:SoundEffectBox|null){
+        if(soundEffectBox === null){
+            return;
+        }
+        this.soundEffectBoxes.push(soundEffectBox);
+        this.soundEffect += soundEffectBox.toString();
+    }
+
+    public delSoundEffect(soundEffectBox:SoundEffectBox|null){
+        if(soundEffectBox === null){
+            return;
+        }
+        let newList:SoundEffectBox[] = [];
+        let index = this.soundEffectBoxes.findIndex(x=>x.toString()===soundEffectBox.toString());
+        if(index === -1){
+            return;
+        }
+        this.soundEffectBoxes.splice(index,1);
+        this.soundEffect = this.soundEffectBoxes.join("");
+    }
+
+
     public getCharactersString(){
         return `[${this.characterList.map((pc)=>pc.toString()).join(",")}]`;
     }

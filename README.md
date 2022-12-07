@@ -169,6 +169,8 @@ Tips：
 
 #### `TRGL: Add Asterisk Marks`
 
+**（即将弃用，请使用`TRGL: Edit Audio Box`命令代替）**
+
 批量给对话行末尾添加待处理星标“{*}”，拥有多个选项
 
 - 给全部对话行添加待处理星标
@@ -179,7 +181,19 @@ Tips：
 
 #### `TRGL: Add Sound Effects In Batches`
 
+**（即将弃用，请使用`TRGL: Edit Audio Box`命令代替）**
+
 为指定角色批量添加指定音效
+
+#### `TRGL: Edit Audio Box`
+
+批量编辑音效框，拥有多个选项：
+
+- 给全部对话行添加{*}
+- 只给没有音效框的对话行行添加{*}
+- 给指定角色添加指定音效(默认为{*})
+- 给指定角色删除指定音效(默认为{*})
+- 去掉纯标点符号行的{*}
 
 #### `TRGL: Adjust Sound Effects Time In Batches`
 
@@ -191,7 +205,7 @@ Tips：
 
 #### `TRGL: Migrate Log`
 
-（已弃用，请使用`TRGL: Convert Log`命令）
+（已弃用，请使用`TRGL: Convert Log`命令代替）
 
 有损、不可逆的回声工坊和活字引擎log格式互相转换，使用前请做好备份
 

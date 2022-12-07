@@ -49,46 +49,8 @@ export class RegexUtils{
                         //匹配到单个音效框之后，再获取分组
                         //为什么没办法一次性获取呢？很奇怪
                         for(let se of seList){
-                            let rSE = this.regexSoundEffectBox.exec(se);
-                            if(rSE){
-                                let soundEffectBox = new SoundEffectBox();
-                                if(rSE[2]){
-                                    if(rSE[2][0] === "*"){
-                                        //{*speech_text}
-                                        soundEffectBox.isPending = true;
-                                        soundEffectBox.text = rSE[2].slice(1,rSE[2].length);
-                                        // soundEffectBoxes.push(soundEffectBox);
-                                    }else{
-                                        //{obj(;.*)?}
-                                        soundEffectBox.obj = rSE[2];
-                                    }
-                                }
-                                //{"file"(;.*?)},{'file'(;.*?)}
-                                if(rSE[3]){
-                                    soundEffectBox.file = rSE[3];
-                                }
-                                if(rSE[4]){
-                                    soundEffectBox.file = rSE[4];
-                                }
-
-
-                                //判断时间是秒还是帧或是待处理
-                                if(rSE[6]==="*"){
-                                    if(rSE[7] && !soundEffectBox.isPending){
-                                        //{file_or_obj;*3.123}
-                                        soundEffectBox.second = Number(rSE[7]);
-                                    }else{
-                                        //{file_or_obj;*}
-                                        soundEffectBox.isPending = true;
-                                    }
-                                }else{
-                                    if(rSE[7] && !soundEffectBox.isPending){
-                                        //{file_or_obj;30}
-                                        soundEffectBox.frame = Number(rSE[7]);
-                                    }else{
-                                        //{file_or_obj}
-                                    }
-                                }
+                            let soundEffectBox = this.parseSoundEffectBox(se);
+                            if(soundEffectBox){
                                 soundEffectBoxes.push(soundEffectBox);
                             }
                         }
@@ -104,6 +66,53 @@ export class RegexUtils{
             console.log(error);
         }
         return null;
+    }
+
+    static parseSoundEffectBox(text:string){
+        let rSE = this.regexSoundEffectBox.exec(text);
+        if(rSE){
+            let soundEffectBox = new SoundEffectBox();
+            if(rSE[2]){
+                if(rSE[2][0] === "*"){
+                    //{*speech_text}
+                    soundEffectBox.isPending = true;
+                    soundEffectBox.text = rSE[2].slice(1,rSE[2].length);
+                    // soundEffectBoxes.push(soundEffectBox);
+                }else{
+                    //{obj(;.*)?}
+                    soundEffectBox.obj = rSE[2];
+                }
+            }
+            //{"file"(;.*?)},{'file'(;.*?)}
+            if(rSE[3]){
+                soundEffectBox.file = rSE[3];
+            }
+            if(rSE[4]){
+                soundEffectBox.file = rSE[4];
+            }
+
+
+            //判断时间是秒还是帧或是待处理
+            if(rSE[6]==="*"){
+                if(rSE[7] && !soundEffectBox.isPending){
+                    //{file_or_obj;*3.123}
+                    soundEffectBox.second = Number(rSE[7]);
+                }else{
+                    //{file_or_obj;*}
+                    soundEffectBox.isPending = true;
+                }
+            }else{
+                if(rSE[7] && !soundEffectBox.isPending){
+                    //{file_or_obj;30}
+                    soundEffectBox.frame = Number(rSE[7]);
+                }else{
+                    //{file_or_obj}
+                }
+            }
+            return soundEffectBox;
+        }else{
+            return null;
+        }
     }
 
     static parseMediaLine(line:string){
