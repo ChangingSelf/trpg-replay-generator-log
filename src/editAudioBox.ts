@@ -17,7 +17,6 @@ export function editAudioBox(){
     let text = doc.getText();
 
     //编辑音效框
-    let optReDo = "把指定角色已经合成的语音框替换为{*}以便重新合成";
     let optDel = "把指定角色已经合成的语音框删除";
     let optDelAll = "删除某个角色后的所有音效框";
     let optAdjustAsteriskAudioTime = "调整星标音频时长";

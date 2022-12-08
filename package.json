@@ -2,9 +2,9 @@
   "name": "trpg-replay-generator-log",
   "displayName": "回声工坊扩展",
   "description": "文字视频（例如TRPG replay、视觉小说）制作软件「回声工坊」的辅助扩展，围绕整理剧本文件（跑团Log文件）提供了很多便利功能",
-  "version": "1.20.0",
+  "version": "1.20.1",
   "engines": {
-    "vscode": "^1.67.0"
+    "vscode": "^1.74.0"
   },
   "publisher": "yxChangingSelf",
   "repository": {
@@ -21,36 +21,7 @@
   "icon": "images/icon.png",
   "activationEvents": [
     "onLanguage:rgl",
-    "onLanguage:plaintext",
-    "onCommand:trpg-replay-generator-log.testCommand",
-    "onCommand:trpg-replay-generator-log.openDocument",
-    "onCommand:trpg-replay-generator-log.count",
-    "onCommand:trpg-replay-generator-log.checkDialogLineLength",
-    "onCommand:trpg-replay-generator-log.defineMedia",
-    "onCommand:trpg-replay-generator-log.defineCharacter",
-    "onCommand:trpg-replay-generator-log.replaceAngleBrackets",
-    "onCommand:trpg-replay-generator-log.addAsteriskMarks",
-    "onCommand:trpg-replay-generator-log.addSoundEffectsInBatches",
-    "onCommand:trpg-replay-generator-log.editAudioBox",
-    "onCommand:trpg-replay-generator-log.adjustSoundEffectsTimeInBatches",
-    "onCommand:trpg-replay-generator-log.replaceDiceMaidLine",
-    "onCommand:trpg-replay-generator-log.convertLog",
-    "onCommand:trpg-replay-generator-log.playVideo",
-    "onCommand:trpg-replay-generator-log.exportVideo",
-    "onCommand:trpg-replay-generator-log.synthesizedSpeech",
-    "onCommand:trpg-replay-generator-log.exportXML",
-    "onCommand:trpg-replay-generator-log.openMediaView",
-    "onCommand:trpg-replay-generator-log.chatWithDiceBot",
-    "onCommand:trpg-replay-generator-log.correctTypos",
-    "onCommand:trpg-replay-generator-log.refreshTreeView",
-    "onCommand:trpg-replay-generator-log.importLocalSound",
-    "onCommand:trpg-replay-generator-log.copyLog",
-    "onCommand:trpg-replay-generator-log.insertBackground",
-    "onCommand:trpg-replay-generator-log.insertAudio",
-    "onCommand:trpg-replay-generator-log.jumpToOutlineNode",
-    "onCommand:trpg-replay-generator-log.addBackgroundNode",
-    "onCommand:trpg-replay-generator-log.addAudioNode",
-    "onCommand:trpg-replay-generator-log.previewBackgroundNode"
+    "onLanguage:plaintext"
   ],
   "main": "./dist/extension.js",
   "contributes": {

@@ -6,6 +6,10 @@
 并且该项目遵循 [语义版本控制（Semantic Versioning）](https://semver.org/spec/v2.0.0.html)。
 
 
+## [1.20.1] - 2022-12-08
+
+把插件最低兼容的vscode版本升级到了1.74.0，可能会用上vscode更新的一些新功能。vscode应该会自动更新，如果没有更新，也可以在顶部菜单【帮助】一栏里面找到【检查更新】，对具体更新内容感兴趣可以看[官方更新日志](https://code.visualstudio.com/updates/v1_74)
+
 ## [1.20.0] - 2022-12-07
 
 新增命令`TRGL: Edit Audio Box # 批量编辑音效框`，用于上位替代`TRGL: Add Sound Effects In Batches # 批量添加音效`和`TRGL: Add Asterisk Marks # 批量添加语音待处理星标{*}`，后二者即将弃用
