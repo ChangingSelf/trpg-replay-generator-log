@@ -26,19 +26,18 @@ export class DialogueLine{
         return contentStartCol;
     }
 
-    public addSoundEffect(soundEffectBox:SoundEffectBox|null){
-        if(soundEffectBox === null){
+    public addSoundEffect(soundEffectBox:SoundEffectBox|null|undefined){
+        if(soundEffectBox === null || soundEffectBox === undefined){
             return;
         }
         this.soundEffectBoxes.push(soundEffectBox);
         this.soundEffect += soundEffectBox.toString();
     }
 
-    public delSoundEffect(soundEffectBox:SoundEffectBox|null){
-        if(soundEffectBox === null){
+    public delSoundEffect(soundEffectBox:SoundEffectBox|null|undefined){
+        if(soundEffectBox === null || soundEffectBox === undefined){
             return;
         }
-        let newList:SoundEffectBox[] = [];
         let index = this.soundEffectBoxes.findIndex(x=>x.toString()===soundEffectBox.toString());
         if(index === -1){
             return;
@@ -46,6 +45,22 @@ export class DialogueLine{
         this.soundEffectBoxes.splice(index,1);
         this.soundEffect = this.soundEffectBoxes.join("");
     }
+
+    public delAllSoundEffect(){
+        this.soundEffectBoxes.splice(0,this.soundEffectBoxes.length);
+        this.soundEffect = "";
+    }
+
+    public delFileSoundEffect(){
+        let index = this.soundEffectBoxes.findIndex(x=>x.file !== "");
+        if(index === -1){
+            return;
+        }
+        this.soundEffectBoxes.splice(index,1);
+        this.soundEffect = this.soundEffectBoxes.join("");
+    }
+
+
 
 
     public getCharactersString(){

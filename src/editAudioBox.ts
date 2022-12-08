@@ -17,9 +17,7 @@ export function editAudioBox(){
     let text = doc.getText();
 
     //编辑音效框
-    let optDel = "把指定角色已经合成的语音框删除";
-    let optDelAll = "删除某个角色后的所有音效框";
-    let optAdjustAsteriskAudioTime = "调整星标音频时长";
+    // let optAdjustAsteriskAudioTime = "调整星标音频时长";
 
     let optList = [{
         label: "+ 给全部对话行添加{*}",
@@ -34,13 +32,23 @@ export function editAudioBox(){
     },{
         label: "+ 给指定角色添加指定音效(默认为{*})",
         description: '逐句解析',
-        detail: '未指定角色时匹配所有角色，未指定差分时匹配该角色所有差分',
+        detail: '未指定角色时匹配所有角色，未指定差分时匹配该角色所有差分，下同',
         converter:addAudioBoxForPC
     },{
         label: "- 给指定角色删除指定音效(默认为{*})",
         description: '逐句解析',
-        detail: '未指定角色时匹配所有角色，未指定差分时匹配该角色所有差分',
+        detail: '',
         converter:delAudioBoxForPC
+    },{
+        label: "- 给指定角色删除文件路径音效",
+        description: '逐句解析',
+        detail: '例如语音合成后的{"F:/replay/output/auto_AU_29.wav";*3.468}可以用本选项删除重新添加{*}来合成',
+        converter:async (input:string)=>forEachCharacter(input,await inputPC(),l=>l.delFileSoundEffect())
+    },{
+        label: "- 给指定角色删除所有音效",
+        description: '逐句解析',
+        detail: '',
+        converter:async (input:string)=>forEachCharacter(input,await inputPC(),l=>l.delAllSoundEffect())
     },{
         label: "- 去掉纯标点符号行的{*}",
         description: '逐句解析',
@@ -98,7 +106,7 @@ export function editAudioBox(){
  * @param callback 处理解析到的对话行的函数
  * @returns 使用callback函数处理之后的文本
  */
- function forEachDialogueLine(input:string,callback:(dialogueLine:DialogueLine,lineNum?:number)=>string){
+ function forEachDialogueLine(input:string,callback:(dialogueLine:DialogueLine)=>string){
     let lines = input.split("\n");
     let output = "";
     let lineNum = 0;
@@ -108,13 +116,56 @@ export function editAudioBox(){
         }
         let dialogueLine = RegexUtils.parseDialogueLine(line);
         if(dialogueLine){
-            output += callback(dialogueLine,lineNum) ;
+            output += callback(dialogueLine);
         }else{
             output += line;
         }
         ++lineNum;
     }
     return output;
+}
+
+
+/**
+ * 对每个特定角色的对话行执行操作
+ * @param input 需要解析的文本
+ * @param pcStr 带有差分的角色名字符串
+ * @param callback 处理解析到的对话行的函数，参数dialogueLine为匹配到的对话行对象
+ * @returns 使用callback函数处理之后的文本
+ */
+function forEachCharacter(input:string,pcStr:string|undefined,callback:(dialogueLine:DialogueLine,soundEffectBox?:SoundEffectBox)=>void,soundEffectBox?:SoundEffectBox){
+    if(pcStr === undefined){
+        return input;
+    }
+    return forEachDialogueLine(input,l=>{
+        if(pcStr !== ""){
+            //目标为特定角色
+            let pcData = pcStr!.split('.');
+            let name = pcData[0];
+            let subtype = pcData[1];
+            if(!subtype){
+                //无差分的情况只匹配名字
+                if(l.characterList[0].name === name){
+                    callback(l,soundEffectBox);
+                    return l.toString();
+                }else{
+                    return l.toString();
+                }
+            }else{
+                //无差分的情况匹配名字和差分
+                if(l.characterList[0].name === name && l.characterList[0].subtype === subtype){
+                    callback(l,soundEffectBox);
+                    return l.toString();
+                }else{
+                    return l.toString();
+                }
+            }
+        }else{
+            //目标为所有角色
+            callback(l,soundEffectBox);
+            return l.toString();
+        }
+    });
 }
 
 async function inputPC(){
@@ -139,10 +190,7 @@ async function inputAudioBox(){
 async function addAudioBoxForPC(input:string) {
 
     //输入
-    let pc = await inputPC();
-    if(pc === undefined){
-        return input;
-    }
+    let pcStr = await inputPC();
     let audioBox = await inputAudioBox();
     if(audioBox === undefined){
         return input;
@@ -156,35 +204,7 @@ async function addAudioBoxForPC(input:string) {
     }
     
     //将新的音效框加入指定角色的对话行
-    return forEachDialogueLine(input,l=>{
-        if(pc !== ""){
-            //目标为特定角色
-            let pcData = pc!.split('.');
-            let name = pcData[0];
-            let subtype = pcData[1];
-            if(!subtype){
-                //无差分的情况只匹配名字
-                if(l.characterList[0].name === name){
-                    l.addSoundEffect(seBox);
-                    return l.toString();
-                }else{
-                    return l.toString();
-                }
-            }else{
-                //无差分的情况匹配名字和差分
-                if(l.characterList[0].name === name && l.characterList[0].subtype === subtype){
-                    l.addSoundEffect(seBox);
-                    return l.toString();
-                }else{
-                    return l.toString();
-                }
-            }
-        }else{
-            //目标为所有角色
-            l.addSoundEffect(seBox);
-            return l.toString();
-        }
-    });
+    return forEachCharacter(input,pcStr,(l,seBox)=>l.addSoundEffect(seBox),seBox);
 }
 /**
  * 给特定角色删除音效框
@@ -194,10 +214,7 @@ async function addAudioBoxForPC(input:string) {
 async function delAudioBoxForPC(input:string) {
 
     //输入
-    let pc = await inputPC();
-    if(pc === undefined){
-        return input;
-    }
+    let pcStr = await inputPC();
     let audioBox = await inputAudioBox();
     if(audioBox === undefined){
         return input;
@@ -210,34 +227,5 @@ async function delAudioBoxForPC(input:string) {
         return input;
     }
     
-    //将新的音效框加入指定角色的对话行
-    return forEachDialogueLine(input,l=>{
-        if(pc !== ""){
-            //目标为特定角色
-            let pcData = pc!.split('.');
-            let name = pcData[0];
-            let subtype = pcData[1];
-            if(!subtype){
-                //无差分的情况只匹配名字
-                if(l.characterList[0].name === name){
-                    l.delSoundEffect(seBox);
-                    return l.toString();
-                }else{
-                    return l.toString();
-                }
-            }else{
-                //无差分的情况匹配名字和差分
-                if(l.characterList[0].name === name && l.characterList[0].subtype === subtype){
-                    l.delSoundEffect(seBox);
-                    return l.toString();
-                }else{
-                    return l.toString();
-                }
-            }
-        }else{
-            //目标为所有角色
-            l.delSoundEffect(seBox);
-            return l.toString();
-        }
-    });
+    return forEachCharacter(input,pcStr,(l,seBox)=>l.delSoundEffect(seBox),seBox);
 }
