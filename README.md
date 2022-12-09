@@ -169,7 +169,7 @@ Tips：
 
 #### `TRGL: Add Asterisk Marks`
 
-**（即将弃用，请使用`TRGL: Edit Audio Box`命令代替）**
+**（已经弃用，请使用`TRGL: Edit Audio Box`命令代替）**
 
 批量给对话行末尾添加待处理星标“{*}”，拥有多个选项
 
@@ -181,7 +181,7 @@ Tips：
 
 #### `TRGL: Add Sound Effects In Batches`
 
-**（即将弃用，请使用`TRGL: Edit Audio Box`命令代替）**
+**（已经弃用，请使用`TRGL: Edit Audio Box`命令代替）**
 
 为指定角色批量添加指定音效
 
@@ -196,6 +196,19 @@ Tips：
 - 给指定角色删除文件路径音效
 - 给指定角色删除所有音效
 - 去掉纯标点符号行的{*}
+
+#### `TRGL: Edit Content`
+
+批量编辑对话行内容
+
+- 注释掉场外交流行
+- 注释掉指令行
+- 给场外交流行的主角色添加「场外」差分
+- 删除注释掉的对话行
+- 左右引号顺序修正
+- 单双引号修正
+- 替换为直角引号
+- 为RP内容分段
 
 #### `TRGL: Adjust Sound Effects Time In Batches`
 

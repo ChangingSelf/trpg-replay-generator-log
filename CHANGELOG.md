@@ -8,9 +8,23 @@
 
 ## [1.21.0] - 2022-12-08
 
+- 修改右键菜单内容
 - 删除命令`TRGL: Add Asterisk Marks`，请使用`TRGL: Edit Audio Box`替代
 - 删除命令`TRGL: Add Sound Effects In Batches`，请使用`TRGL: Edit Audio Box`替代
-- 修改右键菜单内容
+- 新增命令`TRGL: Edit Content`，批量修改对话行内容
+
+#### `TRGL: Edit Content`
+
+批量编辑对话行内容
+
+- 注释掉场外交流行
+- 注释掉指令行
+- 给场外交流行的主角色添加「场外」差分
+- 删除注释掉的对话行
+- 左右引号顺序修正
+- 单双引号修正
+- 替换为直角引号
+- 为RP内容分段
 
 ## [1.20.3] - 2022-12-08
 

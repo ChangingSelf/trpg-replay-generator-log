@@ -1,5 +1,6 @@
 import * as vscode from 'vscode';
-import { forEachDialogueLine } from './utils/converter';
+import { forEachDialogueLine, forEachDialogueLineContent } from './utils/converter';
+import { RegexUtils } from './utils/RegexUtils';
 
 /**
  * 命令：批量编辑对话行内容
@@ -45,26 +46,22 @@ export function editContent(){
         label: "# 左右引号顺序修正",
         description: '逐句解析',
         detail: '英转中、调整次序(左右引号应当依次出现)',
-        converter:(input:string)=>forEachDialogueLine(input,l=>{
-            l.content = correctQuotesOrder(l.content);
-            return l.toString();
-        })
+        converter:(input:string)=>forEachDialogueLineContent(input,correctQuotesOrder)
     },{
         label: "# 单双引号修正",
         description: '逐句解析',
         detail: '让双引号内部只出现单引号。注意：需要左右引号次序正确才行',
-        converter:(input:string)=>forEachDialogueLine(input,l=>{
-            l.content = correctSingleQuotes(l.content);
-            return l.toString();
-        })
+        converter:(input:string)=>forEachDialogueLineContent(input,correctSingleQuotes)
     },{
         label: "# 替换为直角引号",
-        description: '逐句正则替换：',
+        description: '逐句简单替换',
         detail: '“双引号”对应「单层直角引号」，‘单引号’对应『双层直角引号』',
-        converter:(input:string)=>forEachDialogueLine(input,l=>{
-            l.content = correctSingleQuotes(l.content);
-            return l.toString();
-        })
+        converter:(input:string)=>forEachDialogueLineContent(input,(content)=>content.replaceAll("“","「").replaceAll("”","」").replaceAll("‘","『").replaceAll("’","』"))
+    },{
+        label: "# 为RP内容分段",
+        description: '逐句解析',
+        detail: '将形似「“xxx”角色说，“xxx”」的内容分段',
+        converter:(input:string)=>sliceRolePlay(input)
     }];
 
     vscode.window.showQuickPick(optList,{
@@ -133,7 +130,7 @@ export function correctQuotesOrder(input:string){
  * @param input 输入文本
  * @returns 修正好的文本
  */
-function correctSingleQuotes(input: string){
+export function correctSingleQuotes(input:string){
     //先调整引号次序
     // let output = correctQuotesOrder(input);//先调整左右次序之后得到的引号是正确配对的，没法调整
 
@@ -166,4 +163,79 @@ function correctSingleQuotes(input: string){
             return m;//单引号就不管了
         }
     });
+}
+
+/**
+ * 将角色扮演分段
+ * @param input 输入文本
+ */
+export async function sliceRolePlay(input:string){
+
+    let kpName = await vscode.window.showInputBox({
+        "prompt":"输入非对话部分设置的角色名（可带差分）",
+        "placeHolder":"输入非对话部分设置的角色名（可带差分），直接回车代表不修改非对话部分的角色名"
+    });
+    if(kpName === undefined){
+        return input;
+    }
+
+    let lines = input.split("\n");
+    let output = "";
+    let lineNum = 0;
+    let lastLine = undefined;
+    for (let line of lines) {
+        if (lineNum !== 0) {
+            output += '\n';
+        }
+        let dialogueLine = RegexUtils.parseDialogueLine(line);
+        if (dialogueLine) {
+            let resultList = dialogueLine.content.match(/(“.*?”)|(「.*」)|((?<=(”))[^“”「」]+(?=“))|((?<=(”))[^“”「」]+)|([^“”「」]+(?=“))/g);
+            if(resultList){
+                let segments:{isSpeech:boolean,content:string}[] = [];
+                
+                for(let segment of resultList){
+                    if(!/(“.*?”)|(「.*」)/.test(segment)){
+                        //非引号内的内容，则合并到前一个非对话部分
+                        if(segments.length > 0 && !segments[segments.length-1].isSpeech){
+                            segments[segments.length-1].content += segment;
+                        }else{
+                            segments.push({isSpeech:false,content:segment});
+                        }
+                    }else{
+                        //是引号内容，则判断是否非对话
+                        if(/(“[^\p{P}]*?”)|(「[^\p{P}]*」)/u.test(segment)){
+                            //无标点符号，则为非对话内容，附加到前一个非对话部分
+                            if(segments.length > 0 && !segments[segments.length-1].isSpeech){
+                                segments[segments.length-1].content += segment;
+                            }else{
+                                segments.push({isSpeech:false,content:segment});
+                            }
+                        }else{
+                            //存在标点符号，则为对话内容
+                            segments.push({isSpeech:true,content:segment});
+                        }
+                    }
+                }
+                let isFirst = true;
+                for(let segment of segments){
+                    let pcBox = dialogueLine.getCharactersString();
+                    if(!segment.isSpeech){
+                        //非发言部分改旁白
+                        pcBox = kpName!==""?`[${kpName}]`:pcBox;
+                    }
+                    if(!isFirst){
+                        output += '\n';
+                    }
+                    output += `${pcBox}:${dialogueLine.toggleEffect}${segment.content}${dialogueLine.textEffect}`;
+                    isFirst = false;
+                }
+            }else{
+                output += line;
+            }
+        } else {
+            output += line;
+        }
+        ++lineNum;
+    }
+    return output;
 }

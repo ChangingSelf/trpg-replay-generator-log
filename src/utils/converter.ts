@@ -8,17 +8,18 @@ import { RegexUtils } from './RegexUtils';
  * @param callback 参数为这一行的对话行对象，返回这一行的转换结果，如果不转换，可以返回dialogueLine.toString()
  * @returns 使用callback函数处理之后的文本
  */
-export function forEachDialogueLine(input: string, callback: (dialogueLine: DialogueLine) => string) {
+export function forEachDialogueLine(input: string, callback: (curLine: DialogueLine,lastLine?:DialogueLine) => string) {
     let lines = input.split("\n");
     let output = "";
     let lineNum = 0;
+    let lastLine = undefined;
     for (let line of lines) {
         if (lineNum !== 0) {
             output += '\n';
         }
         let dialogueLine = RegexUtils.parseDialogueLine(line);
         if (dialogueLine) {
-            output += callback(dialogueLine);
+            output += callback(dialogueLine,lastLine);
         } else {
             output += line;
         }
@@ -66,5 +67,18 @@ export function forEachCharacter(input: string, pcStr: string | undefined, callb
             callback(l, soundEffectBox);
             return l.toString();
         }
+    });
+}
+
+/**
+ * 对每一个对话行的内容进行转换
+ * @param input 输入文本
+ * @param callback 转换函数
+ * @returns 处理后的文本
+ */
+export function forEachDialogueLineContent(input:string,callback:(content:string,lastLine?:DialogueLine)=>string){
+    return forEachDialogueLine(input,(l,lastLine)=>{
+        l.content = callback(l.content,lastLine);
+        return l.toString();
     });
 }
