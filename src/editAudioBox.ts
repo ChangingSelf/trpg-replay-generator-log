@@ -1,7 +1,6 @@
 import * as vscode from 'vscode';
-import * as fs from 'fs';
-import * as path from 'path';
-import { Character, DialogueLine, SoundEffectBox } from './utils/entities';
+import { forEachCharacter, forEachDialogueLine } from './utils/converter';
+import { inputAudioBox, inputPC } from './utils/input';
 import { RegexUtils } from './utils/RegexUtils';
 
 
@@ -97,88 +96,6 @@ export function editAudioBox(){
             console.error(err);
             vscode.window.showErrorMessage(err);
         });
-    });
-}
-
-/**
- * 对每个对话行执行操作
- * @param input 需要解析的文本
- * @param callback 处理解析到的对话行的函数
- * @returns 使用callback函数处理之后的文本
- */
- function forEachDialogueLine(input:string,callback:(dialogueLine:DialogueLine)=>string){
-    let lines = input.split("\n");
-    let output = "";
-    let lineNum = 0;
-    for(let line of lines){
-        if(lineNum!==0){
-            output += '\n';
-        }
-        let dialogueLine = RegexUtils.parseDialogueLine(line);
-        if(dialogueLine){
-            output += callback(dialogueLine);
-        }else{
-            output += line;
-        }
-        ++lineNum;
-    }
-    return output;
-}
-
-
-/**
- * 对每个特定角色的对话行执行操作
- * @param input 需要解析的文本
- * @param pcStr 带有差分的角色名字符串
- * @param callback 处理解析到的对话行的函数，参数dialogueLine为匹配到的对话行对象
- * @returns 使用callback函数处理之后的文本
- */
-function forEachCharacter(input:string,pcStr:string|undefined,callback:(dialogueLine:DialogueLine,soundEffectBox?:SoundEffectBox)=>void,soundEffectBox?:SoundEffectBox){
-    if(pcStr === undefined){
-        return input;
-    }
-    return forEachDialogueLine(input,l=>{
-        if(pcStr !== ""){
-            //目标为特定角色
-            let pcData = pcStr!.split('.');
-            let name = pcData[0];
-            let subtype = pcData[1];
-            if(!subtype){
-                //无差分的情况只匹配名字
-                if(l.characterList[0].name === name){
-                    callback(l,soundEffectBox);
-                    return l.toString();
-                }else{
-                    return l.toString();
-                }
-            }else{
-                //无差分的情况匹配名字和差分
-                if(l.characterList[0].name === name && l.characterList[0].subtype === subtype){
-                    callback(l,soundEffectBox);
-                    return l.toString();
-                }else{
-                    return l.toString();
-                }
-            }
-        }else{
-            //目标为所有角色
-            callback(l,soundEffectBox);
-            return l.toString();
-        }
-    });
-}
-
-async function inputPC(){
-    return await vscode.window.showInputBox({
-        placeHolder:`请输入主角色(角色框第一个角色)名称，可含有差分名，例如"张安翔.惊恐，但不要含有不透明度的括号"`,
-        prompt:`直接Enter则为全部角色`
-    });
-}
-
-async function inputAudioBox(){
-    return await vscode.window.showInputBox({
-        placeHolder:`请输入你要添加的整个音效框，例如"{键盘音效;30}"或者"{*}"，只输入单个音效框`,
-        prompt:`直接Enter则为{*}`
     });
 }
 
