@@ -5,7 +5,7 @@ import { RegexUtils } from './RegexUtils';
 /**
  * 对每个对话行执行操作
  * @param input 需要解析的文本
- * @param callback 处理解析到的对话行的函数
+ * @param callback 参数为这一行的对话行对象，返回这一行的转换结果，如果不转换，可以返回dialogueLine.toString()
  * @returns 使用callback函数处理之后的文本
  */
 export function forEachDialogueLine(input: string, callback: (dialogueLine: DialogueLine) => string) {

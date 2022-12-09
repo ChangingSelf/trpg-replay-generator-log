@@ -6,6 +6,12 @@
 并且该项目遵循 [语义版本控制（Semantic Versioning）](https://semver.org/spec/v2.0.0.html)。
 
 
+## [1.21.0] - 2022-12-08
+
+- 删除命令`TRGL: Add Asterisk Marks`，请使用`TRGL: Edit Audio Box`替代
+- 删除命令`TRGL: Add Sound Effects In Batches`，请使用`TRGL: Edit Audio Box`替代
+- 修改右键菜单内容
+
 ## [1.20.3] - 2022-12-08
 
 为导出XML和合成语音两个命令添加了输出文件的二次确认，二次确认中修改的路径不会修改你的设置，只是个临时修改

@@ -3,7 +3,10 @@ import { forEachCharacter, forEachDialogueLine } from './utils/converter';
 import { inputAudioBox, inputPC } from './utils/input';
 import { RegexUtils } from './utils/RegexUtils';
 
-
+/**
+ * 命令：批量编辑音效框
+ * @returns void
+ */
 export function editAudioBox(){
     //获取文本
     let editor = vscode.window.activeTextEditor;
@@ -14,7 +17,7 @@ export function editAudioBox(){
     
     let doc = editor.document;
     let text = doc.getText();
-
+    
     //编辑音效框
     // let optAdjustAsteriskAudioTime = "调整星标音频时长";
 
@@ -75,7 +78,7 @@ export function editAudioBox(){
 
         //如果新旧文本一致，就认为没有操作成功，不进行替换
         if(newText === text){
-            vscode.window.showInformationMessage("操作取消，文本未改变");
+            vscode.window.showInformationMessage("操作取消或者操作前后无差别，文本未改变");
             return;
         }
 

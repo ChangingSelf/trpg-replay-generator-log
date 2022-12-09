@@ -63,16 +63,12 @@
         "title": "TRGL: Replace Angle Brackets # 替换尖括号为方括号"
       },
       {
-        "command": "trpg-replay-generator-log.addAsteriskMarks",
-        "title": "TRGL: Add Asterisk Marks # 批量添加语音待处理星标{*}（即将弃用）"
-      },
-      {
-        "command": "trpg-replay-generator-log.addSoundEffectsInBatches",
-        "title": "TRGL: Add Sound Effects In Batches # 批量添加音效（即将弃用）"
-      },
-      {
         "command": "trpg-replay-generator-log.editAudioBox",
         "title": "TRGL: Edit Audio Box # 批量编辑音效框"
+      },
+      {
+        "command": "trpg-replay-generator-log.editContent",
+        "title": "TRGL: Edit Content # 批量编辑对话行文本内容"
       },
       {
         "command": "trpg-replay-generator-log.replaceDiceMaidLine",
@@ -725,23 +721,18 @@
         },
         {
           "when": "resourceLangId == rgl",
-          "command": "trpg-replay-generator-log.replaceAngleBrackets",
-          "group": "1_modification@2"
+          "command": "trpg-replay-generator-log.convertLog",
+          "group": "1_modification@1"
         },
         {
           "when": "resourceLangId == rgl",
-          "command": "trpg-replay-generator-log.addAsteriskMarks",
-          "group": "1_modification@3"
+          "command": "trpg-replay-generator-log.editContent",
+          "group": "1_modification@2"
         },
         {
           "when": "resourceLangId == rgl",
           "command": "trpg-replay-generator-log.editAudioBox",
           "group": "1_modification@3"
-        },
-        {
-          "when": "resourceLangId == rgl",
-          "command": "trpg-replay-generator-log.addSoundEffectsInBatches",
-          "group": "1_modification@4"
         },
         {
           "when": "resourceLangId == rgl",
