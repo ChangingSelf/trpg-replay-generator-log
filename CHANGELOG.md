@@ -6,7 +6,11 @@
 并且该项目遵循 [语义版本控制（Semantic Versioning）](https://semver.org/spec/v2.0.0.html)。
 
 
-## [1.21.0] - 2022-12-08
+## [1.21.1] - 2022-12-10
+
+- `TRGL: Edit Content`命令新增选项：对对话行的内容进行自定义正则替换。仅作用于对话行的内容部分，所以正则表达式无需写匹配角色框的部分
+
+## [1.21.0] - 2022-12-09
 
 - 修改右键菜单内容
 - 删除命令`TRGL: Add Asterisk Marks`，请使用`TRGL: Edit Audio Box`替代

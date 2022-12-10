@@ -18,6 +18,24 @@ export function editContent(){
     let text = doc.getText();
 
     let optList = [{
+        label: "# 对对话行的内容进行自定义正则替换",
+        description: '自己输入正则表达式及其替换内容',
+        detail: '正则替换将会逐行作用于(且仅作用于)对话行的内容上，无视音效框、角色框等内容',
+        converter:async (input:string)=>{
+            let searchStr = await vscode.window.showInputBox({placeHolder:"输入用于匹配的正则表达式，用到的flag有「gmu」"});
+            if(searchStr === undefined) {return input;}
+            else{
+                //预处理
+                searchStr = searchStr.replaceAll(/\\/g,"\\");
+                let replaceStr = await vscode.window.showInputBox({placeHolder:"$&代表取匹配内容，$1、$2等代表取分组内容"});
+                if(replaceStr === undefined) {return input;}
+                else{
+                    let regex = new RegExp(searchStr as string,"gmu");
+                    return forEachDialogueLineContent(input,(content)=>content.replaceAll(regex,replaceStr as string));
+                }
+            }
+        }
+    },{
         label: "# 注释掉场外交流行",
         description: '正则替换：/^(\[.+\]:\s*[\(（].*)$/  =>  "# $1"',
         detail: '以左圆括号开头的行视作场外交流',
