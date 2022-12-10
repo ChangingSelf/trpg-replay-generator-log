@@ -17,6 +17,14 @@ export function editAudioBox(){
     
     let doc = editor.document;
     let text = doc.getText();
+
+    //如果选中了文本，就使用选中的内容
+    let selectRange = new vscode.Range(editor.selection.start.line,0,editor.selection.end.line,Number.MAX_VALUE);
+    let selectionText = editor.document.getText(selectRange);
+	if(selectionText) {
+        text = selectionText;
+        vscode.window.showInformationMessage(`本操作将会作用于已选中的第${selectRange.start.line+1}至${selectRange.end.line+1}行`);
+    }
     
     //编辑音效框
     // let optAdjustAsteriskAudioTime = "调整星标音频时长";
@@ -86,8 +94,11 @@ export function editAudioBox(){
         editor!.edit(editorEdit => {
             let start = new vscode.Position(0,0);
             let end = start.translate(doc.lineCount,doc.getText().length);
-            let allSelection = new vscode.Range(start,end);
-            editorEdit.replace(allSelection,newText); 
+            let replaceRange = new vscode.Range(start,end);
+            if(selectionText){
+                replaceRange = selectRange;
+            }
+            editorEdit.replace(replaceRange,newText); 
         }).then(isSuccess => {
             if (isSuccess) {
                 vscode.window.showInformationMessage(`已完成操作。如果你已经保存文件无法撤销，可以从侧边栏的“资源管理器”的“时间线”视图找到vscode为你保存的上一个版本`);
