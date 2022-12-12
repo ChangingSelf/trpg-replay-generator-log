@@ -36,7 +36,7 @@
       },
       {
         "command": "trpg-replay-generator-log.openDocument",
-        "title": "TRGL: Open Document # 打开回声工坊文档（前提是配置好了回声工坊路径）"
+        "title": "TRGL: Open Document # 打开回声工坊文档"
       },
       {
         "command": "trpg-replay-generator-log.chatWithDiceBot",
@@ -695,6 +695,25 @@
       ],
       "editor/context": [
         {
+          "submenu": "trpg-replay-generator-log.menu.callCore",
+          "group": "navigation@1"
+        },
+        {
+          "submenu": "trpg-replay-generator-log.menu.autoGenerate",
+          "group": "navigation@2"
+        },
+        {
+          "submenu": "trpg-replay-generator-log.menu.edit",
+          "group": "navigation@3"
+        },
+        {
+          "submenu": "trpg-replay-generator-log.menu.check",
+          "group": "navigation@4"
+        }
+        
+      ],
+      "trpg-replay-generator-log.menu.callCore":[
+        {
           "when": "resourceLangId == rgl",
           "command": "trpg-replay-generator-log.playVideo",
           "group": "navigation@1"
@@ -718,52 +737,9 @@
           "when": "resourceLangId == rgl",
           "command": "trpg-replay-generator-log.openDocument",
           "group": "navigation@5"
-        },
-        {
-          "when": "resourceLangId == rgl",
-          "command": "trpg-replay-generator-log.convertLog",
-          "group": "1_modification@1"
-        },
-        {
-          "when": "resourceLangId == rgl",
-          "command": "trpg-replay-generator-log.editContent",
-          "group": "1_modification@2"
-        },
-        {
-          "when": "resourceLangId == rgl",
-          "command": "trpg-replay-generator-log.editAudioBox",
-          "group": "1_modification@3"
-        },
-        {
-          "when": "resourceLangId == rgl",
-          "command": "trpg-replay-generator-log.replaceDiceMaidLine",
-          "group": "1_modification@5"
-        },
-        {
-          "when": "resourceLangId == rgl",
-          "command": "trpg-replay-generator-log.adjustSoundEffectsTimeInBatches",
-          "group": "1_modification@6"
-        },
-        {
-          "when": "resourceLangId == rgl",
-          "command": "trpg-replay-generator-log.checkDialogLineLength",
-          "group": "1_modification@7"
-        },
-        {
-          "when": "resourceLangId == rgl",
-          "command": "trpg-replay-generator-log.adjustSoundEffectsTimeInBatches",
-          "group": "1_modification@8"
-        },
-        {
-          "when": "resourceLangId == rgl",
-          "command": "trpg-replay-generator-log.correctTypos",
-          "group": "1_modification@9"
-        },
-        {
-          "when": "resourceLangId == rgl",
-          "command": "trpg-replay-generator-log.copyLog",
-          "group": "1_modification@10"
-        },
+        }
+      ]
+      ,"trpg-replay-generator-log.menu.autoGenerate":[
         {
           "when": "resourceLangId == rgl",
           "command": "trpg-replay-generator-log.defineMedia",
@@ -775,7 +751,84 @@
           "group": "z_commands@2"
         }
       ]
+      ,"trpg-replay-generator-log.menu.check":[
+        {
+          "when": "resourceLangId == rgl",
+          "command": "trpg-replay-generator-log.count",
+          "group": "1_modification@2"
+        }
+        ,{
+          "when": "resourceLangId == rgl",
+          "command": "trpg-replay-generator-log.checkDialogLineLength",
+          "group": "1_modification@2"
+        }
+        ,{
+          "when": "resourceLangId == rgl",
+          "command": "trpg-replay-generator-log.correctTypos",
+          "group": "1_modification@9"
+        }
+      ]
+      ,"trpg-replay-generator-log.menu.edit": [
+        {
+          "when": "resourceLangId == rgl",
+          "command": "trpg-replay-generator-log.convertLog",
+          "group": "navigation@1"
+        },
+        {
+          "when": "resourceLangId == rgl",
+          "command": "trpg-replay-generator-log.editContent",
+          "group": "navigation@2"
+        },
+        {
+          "when": "resourceLangId == rgl",
+          "command": "trpg-replay-generator-log.editAudioBox",
+          "group": "navigation@3"
+        },
+        {
+          "when": "resourceLangId == rgl",
+          "command": "trpg-replay-generator-log.replaceDiceMaidLine",
+          "group": "1_modification@2"
+        },
+        {
+          "when": "resourceLangId == rgl",
+          "command": "trpg-replay-generator-log.replaceAngleBrackets",
+          "group": "1_modification@3"
+        },
+        {
+          "when": "resourceLangId == rgl",
+          "command": "trpg-replay-generator-log.adjustSoundEffectsTimeInBatches",
+          "group": "1_modification@4"
+        },
+        {
+          "when": "resourceLangId == rgl",
+          "command": "trpg-replay-generator-log.importLocalSound",
+          "group": "1_modification@5"
+        },
+        {
+          "when": "resourceLangId == rgl",
+          "command": "trpg-replay-generator-log.copyLog",
+          "group": "9_cutcopypaste@2"
+        }
+      ]
     },
+    "submenus": [
+      {
+        "id": "trpg-replay-generator-log.menu.callCore",
+        "label": "回声工坊：调用工坊核心（需配置本地回声工坊路径）"
+      }
+      ,{
+        "id": "trpg-replay-generator-log.menu.autoGenerate",
+        "label": "回声工坊：文件一键生成"
+      }
+      ,{
+        "id": "trpg-replay-generator-log.menu.check",
+        "label": "回声工坊：剧本信息核对"
+      }
+      ,{
+        "id": "trpg-replay-generator-log.menu.edit",
+        "label": "回声工坊：剧本内容编辑"
+      }
+    ],
     "keybindings": [
       {
         "command": "trpg-replay-generator-log.playVideo",
