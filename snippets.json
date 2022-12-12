@@ -249,7 +249,7 @@
 		"body":[
 			"#MediaDefinition ${TM_DIRECTORY}\\media.txt",
 			"#CharacterTable ${TM_DIRECTORY}\\characters.tsv",
-			"#output ${TM_DIRECTORY}\\output"
+			"#Output ${TM_DIRECTORY}\\output"
 		],
 		"description":"快速在本文件中配置与本文件同目录下的媒体定义文件media.txt和角色配置表characters.tsv"
 	}

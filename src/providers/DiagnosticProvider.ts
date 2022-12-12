@@ -26,13 +26,13 @@ function diagnose(doc:vscode.TextDocument | undefined):vscode.Diagnostic[]{
     let settings = loadSettings();
     let characterFilePath = settings.characterTable;
     let pcMap = loadCharacters(characterFilePath);
-    let isCheckCharacter = characterFilePath !== "";
+    let isCheckCharacter = fs.existsSync(characterFilePath);
 
     let mediaFilePath = settings.mediaObjDefine;
     let mediaList = loadMedia(mediaFilePath);
     let backgroundList = mediaList.filter(x=>x.mediaType==="Background");
     let audioList = mediaList.filter(x=>x.mediaType==="Audio");
-    let isCheckMedia = mediaFilePath !== "";
+    let isCheckMedia = fs.existsSync(mediaFilePath);
 
     //逐行检查
     for(let lineNum=0;lineNum<doc.lineCount;++lineNum){

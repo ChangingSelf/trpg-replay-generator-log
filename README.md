@@ -32,6 +32,7 @@ Tips：
 - 若不存在局部配置，则使用全局配置。
 - `#md`和 `#MediaDefinition`两种写法都可以，且**不区分大小写**。
 - 优先使用当前文件作为log文件，若未打开文件，则使用全局配置的log文件路径。
+- 支持相对路径，局部配置相对于当前log文件，全局配置相对于当前log文件或者全局配置中的log文件（优先取当前log文件的路径）
 - 代码片段 `current directory`:快速输入当前文档所在目录，便于进行局部配置
 - 代码片段 `quickly configurate`:快速在本文件中配置与本文件同目录下的媒体定义文件media.txt和角色配置表characters.tsv
 

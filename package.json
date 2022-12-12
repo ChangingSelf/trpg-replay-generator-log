@@ -2,7 +2,7 @@
   "name": "trpg-replay-generator-log",
   "displayName": "回声工坊扩展",
   "description": "文字视频（例如TRPG replay、视觉小说）制作软件「回声工坊」的辅助扩展，围绕整理剧本文件（跑团Log文件）提供了很多便利功能",
-  "version": "1.21.2",
+  "version": "1.21.3",
   "engines": {
     "vscode": "^1.74.0"
   },
@@ -222,20 +222,20 @@
           "trpg-replay-generator-log.path.MediaObjDefineFilePath": {
             "order": 1,
             "type": "string",
-            "default": "",
-            "description": "媒体定义文件所在路径（包含文件名），例如：F:/TRPG-Replay-Project/ModName/media.txt"
+            "default": "./media.txt",
+            "description": "媒体定义文件所在路径（包含文件名），例如：「F:/TRPG-Replay-Project/ModName/media.txt」。也支持相对log文件的路径，例如「./media.txt」"
           },
           "trpg-replay-generator-log.path.CharacterTableFilePath": {
             "order": 2,
             "type": "string",
-            "default": "",
-            "description": "角色配置文件所在路径（包含文件名），例如：F:/TRPG-Replay-Project/ModName/characterTable.tsv"
+            "default": "./characterTable.tsv",
+            "description": "角色配置文件所在路径（包含文件名），例如：「F:/TRPG-Replay-Project/ModName/characterTable.tsv」。也支持相对log文件的路径，例如「./characterTable.tsv」"
           },
           "trpg-replay-generator-log.path.LogFilePath": {
             "order": 3,
             "type": "string",
             "default": "",
-            "description": "跑团日志文件所在路径（包含文件名），例如：F:/TRPG-Replay-Project/ModName/log.rgl"
+            "description": "跑团日志文件所在路径（包含文件名），例如：「F:/TRPG-Replay-Project/ModName/log.rgl」"
           },
           "trpg-replay-generator-log.path.OutputPath": {
             "order": 4,

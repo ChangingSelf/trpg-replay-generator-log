@@ -5,6 +5,7 @@ import * as xlsx from "node-xlsx";
 import { RegexUtils } from './RegexUtils';
 import { Character } from './entities';
 import path = require('path');
+import { settings } from '../settings';
 
 function parseBoolean(str:string){
     return /^true$/i.test(str);
@@ -49,6 +50,23 @@ export function testCommand(){
             setTimeout(resolve, 10000);
         });
     });
+}
+
+/**
+ * 相对路径转绝对路径
+ * @param relativePath 相对路径
+ * @param logFilePath 用于生成绝对路径的log文件的路径
+ * @returns 相对于log文件的路径。如果本身就是绝对路径，就不会使用log文件的路径进行替换
+ */
+function relativeToAbsolutePath(relativePath:string,logFilePath:string){
+    if(!relativePath){
+        return relativePath;
+    }
+    if(path.isAbsolute(relativePath)){
+        return relativePath;
+    }else{
+        return path.join(path.dirname(logFilePath),relativePath);
+    }
 }
 
 /**
@@ -106,8 +124,17 @@ export function loadSettings(isShowInfo:boolean=false){
 
     let editor = vscode.window.activeTextEditor;
     if(editor){
-        settings["logFile"] = editor.document.uri.fsPath;
+        let logFilePath = editor.document.uri.fsPath;
         let text = editor.document.getText();
+        settings["logFile"] = logFilePath;
+        
+
+        //如果填写了log文件路径，则将其他相对路径转换为绝对路径
+        settings.mediaObjDefine = relativeToAbsolutePath(settings.mediaObjDefine,logFilePath);
+        settings.characterTable = relativeToAbsolutePath(settings.characterTable,logFilePath);
+        settings.outputPath = relativeToAbsolutePath(settings.outputPath,logFilePath);
+        settings.timeLine = relativeToAbsolutePath(settings.timeLine,logFilePath);
+
 
         //识别文件中的配置
         let reg = /^#! (.*)$/im;
@@ -122,7 +149,7 @@ export function loadSettings(isShowInfo:boolean=false){
         reg = /^#(md|MediaDefinition) (.*)$/im;
         result = text.match(reg);
         if(result){
-            settings["mediaObjDefine"] = result[2];
+            settings["mediaObjDefine"] = relativeToAbsolutePath(result[2],logFilePath);
             outputChannel.appendLine(`[mediaObjDefine] ${settings["mediaObjDefine"]}`,isShowInfo);
         }else{
             outputChannel.appendLine(`[mediaObjDefine](default) ${settings["mediaObjDefine"]}`,isShowInfo);
@@ -131,7 +158,7 @@ export function loadSettings(isShowInfo:boolean=false){
         reg = /^#(ct|CharacterTable) (.*)$/im;
         result = text.match(reg);
         if(result){
-            settings["characterTable"] = result[2];
+            settings["characterTable"] = relativeToAbsolutePath(result[2],logFilePath);
             outputChannel.appendLine(`[characterTable] ${settings["characterTable"]}`,isShowInfo);
         }else{
             outputChannel.appendLine(`[characterTable](default) ${settings["characterTable"]}`,isShowInfo);
@@ -140,7 +167,7 @@ export function loadSettings(isShowInfo:boolean=false){
         reg = /^#(op|Output) (.*)$/im;
         result = text.match(reg);
         if(result){
-            settings["outputPath"] = result[2];
+            settings["outputPath"] = relativeToAbsolutePath(result[2],logFilePath);
             outputChannel.appendLine(`[outputPath] ${settings["outputPath"]}`,isShowInfo);
         }else{
             outputChannel.appendLine(`[outputPath](default) ${settings["outputPath"]}`,isShowInfo);
@@ -149,7 +176,7 @@ export function loadSettings(isShowInfo:boolean=false){
         reg = /^#(tl|Timeline) (.*)$/im;
         result = text.match(reg);
         if(result){
-            settings["outputPath"] = result[2];
+            settings["outputPath"] = relativeToAbsolutePath(result[2],logFilePath);
             outputChannel.appendLine(`[Timeline] ${settings["timeLine"]}`,isShowInfo);
         }else{
             outputChannel.appendLine(`[Timeline](default) ${settings["timeLine"]}`,isShowInfo);
@@ -208,64 +235,69 @@ export function loadSettings(isShowInfo:boolean=false){
 export function loadCharacters(filePath:string){
     let pcMap = new Map<string,Set<string>>();
 
-
-    if(path.extname(filePath) === ".xlsx"){
-        let sheets = xlsx.parse(filePath);
-        let data:unknown[] = [];
-        if(sheets.length === 1){
-            //如果只有一个表，那就读这个表
-            data = sheets[0].data;
-        }else if(sheets.length > 1){
-            //如果有多个表，优先读取名为“角色配置”的表
-            let sheet = sheets.find(x=>x.name === "角色配置");
-            if(sheet){
-                //如果找到了，就用那张
-                data = sheet.data;
-            }else{
-                //否则使用第一张表
+    try {
+        if(path.extname(filePath) === ".xlsx"){
+            let sheets = xlsx.parse(filePath);
+            let data:unknown[] = [];
+            if(sheets.length === 1){
+                //如果只有一个表，那就读这个表
                 data = sheets[0].data;
+            }else if(sheets.length > 1){
+                //如果有多个表，优先读取名为“角色配置”的表
+                let sheet = sheets.find(x=>x.name === "角色配置");
+                if(sheet){
+                    //如果找到了，就用那张
+                    data = sheet.data;
+                }else{
+                    //否则使用第一张表
+                    data = sheets[0].data;
+                }
+            }
+            data = data.slice(1,data.length);//去掉表头
+            for(let line of data){
+                if(!Array.isArray(line)){
+                    continue;
+                }
+                let name = line[0];
+                let subtype = line[1];
+                if(pcMap.has(name)){
+                    //如果已经有这个角色则将差分加入进去
+                    pcMap.get(name)?.add(subtype);
+                }else{
+                    pcMap.set(name,new Set<string>([subtype]));
+                }
             }
         }
-        data = data.slice(1,data.length);//去掉表头
-        for(let line of data){
-            if(!Array.isArray(line)){
-                continue;
+        else if(path.extname(filePath) === ".tsv"){
+            let text = "";
+            try {
+            text = fs.readFileSync(filePath,{encoding:'utf8', flag:'r'});
+            } catch (error) {
+                console.log(error);
             }
-            let name = line[0];
-            let subtype = line[1];
-            if(pcMap.has(name)){
-                //如果已经有这个角色则将差分加入进去
-                pcMap.get(name)?.add(subtype);
-            }else{
-                pcMap.set(name,new Set<string>([subtype]));
+            
+            if(text === ""){
+                return pcMap;
+            }
+            let lines = text.split("\n");
+            for(let line of lines){
+                let lineSplit = line.split("\t");
+                let name = lineSplit[0];
+                let subtype = lineSplit[1];
+                if(pcMap.has(name)){
+                    //如果已经有这个角色则将差分加入进去
+                    pcMap.get(name)?.add(subtype);
+                }else{
+                    pcMap.set(name,new Set<string>([subtype]));
+                }
             }
         }
+    } catch (error) {
+        console.log(error);
+    } finally{
+        return pcMap;
     }
-    else if(path.extname(filePath) === ".tsv"){
-        let text = "";
-        try {
-        text = fs.readFileSync(filePath,{encoding:'utf8', flag:'r'});
-        } catch (error) {
-            console.log(error);
-        }
-        
-        if(text === ""){
-            return pcMap;
-        }
-        let lines = text.split("\n");
-        for(let line of lines){
-            let lineSplit = line.split("\t");
-            let name = lineSplit[0];
-            let subtype = lineSplit[1];
-            if(pcMap.has(name)){
-                //如果已经有这个角色则将差分加入进去
-                pcMap.get(name)?.add(subtype);
-            }else{
-                pcMap.set(name,new Set<string>([subtype]));
-            }
-        }
-    }
-    return pcMap;
+    
 }
 
 /**
