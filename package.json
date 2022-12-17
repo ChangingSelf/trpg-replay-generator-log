@@ -2,7 +2,7 @@
   "name": "trpg-replay-generator-log",
   "displayName": "回声工坊扩展",
   "description": "文字视频（例如TRPG replay、视觉小说）制作软件「回声工坊」的辅助扩展，围绕整理剧本文件（跑团Log文件）提供了很多便利功能",
-  "version": "1.21.3",
+  "version": "1.21.4",
   "engines": {
     "vscode": "^1.74.0"
   },
@@ -695,18 +695,22 @@
       ],
       "editor/context": [
         {
+          "when": "resourceLangId == rgl || resourceLangId == plaintext",
           "submenu": "trpg-replay-generator-log.menu.callCore",
           "group": "navigation@1"
         },
         {
+          "when": "resourceLangId == rgl || resourceLangId == plaintext",
           "submenu": "trpg-replay-generator-log.menu.autoGenerate",
           "group": "navigation@2"
         },
         {
+          "when": "resourceLangId == rgl || resourceLangId == plaintext",
           "submenu": "trpg-replay-generator-log.menu.edit",
           "group": "navigation@3"
         },
         {
+          "when": "resourceLangId == rgl || resourceLangId == plaintext",
           "submenu": "trpg-replay-generator-log.menu.check",
           "group": "navigation@4"
         }
@@ -714,98 +718,81 @@
       ],
       "trpg-replay-generator-log.menu.callCore":[
         {
-          "when": "resourceLangId == rgl",
           "command": "trpg-replay-generator-log.playVideo",
           "group": "navigation@1"
         },
         {
-          "when": "resourceLangId == rgl",
           "command": "trpg-replay-generator-log.synthesizedSpeech",
           "group": "navigation@2"
         },
         {
-          "when": "resourceLangId == rgl",
           "command": "trpg-replay-generator-log.exportVideo",
           "group": "navigation@3"
         },
         {
-          "when": "resourceLangId == rgl",
           "command": "trpg-replay-generator-log.exportXML",
           "group": "navigation@4"
         },
         {
-          "when": "resourceLangId == rgl",
           "command": "trpg-replay-generator-log.openDocument",
           "group": "navigation@5"
         }
       ]
       ,"trpg-replay-generator-log.menu.autoGenerate":[
         {
-          "when": "resourceLangId == rgl",
           "command": "trpg-replay-generator-log.defineMedia",
           "group": "z_commands@1"
         },
         {
-          "when": "resourceLangId == rgl",
           "command": "trpg-replay-generator-log.defineCharacter",
           "group": "z_commands@2"
         }
       ]
       ,"trpg-replay-generator-log.menu.check":[
         {
-          "when": "resourceLangId == rgl",
           "command": "trpg-replay-generator-log.count",
           "group": "1_modification@2"
         }
         ,{
-          "when": "resourceLangId == rgl",
           "command": "trpg-replay-generator-log.checkDialogLineLength",
           "group": "1_modification@2"
         }
         ,{
-          "when": "resourceLangId == rgl",
           "command": "trpg-replay-generator-log.correctTypos",
           "group": "1_modification@9"
         }
       ]
       ,"trpg-replay-generator-log.menu.edit": [
         {
-          "when": "resourceLangId == rgl",
+          
           "command": "trpg-replay-generator-log.convertLog",
           "group": "navigation@1"
         },
         {
-          "when": "resourceLangId == rgl",
           "command": "trpg-replay-generator-log.editContent",
           "group": "navigation@2"
         },
         {
-          "when": "resourceLangId == rgl",
           "command": "trpg-replay-generator-log.editAudioBox",
           "group": "navigation@3"
         },
         {
-          "when": "resourceLangId == rgl",
           "command": "trpg-replay-generator-log.replaceDiceMaidLine",
           "group": "1_modification@2"
         },
         {
-          "when": "resourceLangId == rgl",
           "command": "trpg-replay-generator-log.replaceAngleBrackets",
           "group": "1_modification@3"
         },
         {
-          "when": "resourceLangId == rgl",
           "command": "trpg-replay-generator-log.adjustSoundEffectsTimeInBatches",
           "group": "1_modification@4"
         },
         {
-          "when": "resourceLangId == rgl",
           "command": "trpg-replay-generator-log.importLocalSound",
           "group": "1_modification@5"
         },
         {
-          "when": "resourceLangId == rgl",
           "command": "trpg-replay-generator-log.copyLog",
           "group": "9_cutcopypaste@2"
         }
