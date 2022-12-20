@@ -31,8 +31,5 @@ export class CodeActionProvider implements vscode.CodeActionProvider<vscode.Code
         }
         return result;
     }
-    resolveCodeAction?(codeAction: vscode.CodeAction, token: vscode.CancellationToken): vscode.ProviderResult<vscode.CodeAction> {
-        throw new Error('Method not implemented.');
-    }
     
 }

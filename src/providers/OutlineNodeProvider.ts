@@ -99,11 +99,4 @@ export class OutlineNodeProvider implements vscode.TreeDataProvider<OutlineNode>
         }
         return children;
     }
-    getParent?(element: OutlineNode): vscode.ProviderResult<OutlineNode> {
-        throw new Error('Method not implemented.');
-    }
-    resolveTreeItem?(item: vscode.TreeItem, element: OutlineNode, token: vscode.CancellationToken): vscode.ProviderResult<vscode.TreeItem> {
-        throw new Error('Method not implemented.');
-    }
-
 }

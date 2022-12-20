@@ -25,7 +25,7 @@ export function editContent(){
     }
 
     let optList = [{
-        label: "# 对对话行的内容进行自定义正则替换",
+        label: "$(replace) 对对话行的内容进行自定义正则替换",
         description: '自己输入正则表达式及其替换内容',
         detail: '正则替换将会逐行作用于(且仅作用于)对话行的内容上，无视音效框、角色框等内容',
         converter:async (input:string)=>{
@@ -43,17 +43,17 @@ export function editContent(){
             }
         }
     },{
-        label: "# 注释掉场外交流行",
+        label: "$(comments-view-icon) 注释掉场外交流行",
         description: '正则替换：/^(\[.+\]:\s*[\(（].*)$/  =>  "# $1"',
         detail: '以左圆括号开头的行视作场外交流',
         converter:(input:string)=>input.replaceAll(/^(\[.+\]:\s*[\(（].*)$/mg,"# $1")
     },{
-        label: "# 注释掉指令行",
+        label: "$(symbol-number) 注释掉指令行",
         description: '正则替换：/^(\[.+\]:\s*[.。].*)$/  =>  "# $1"',
         detail: '以中文或者英文句号开头的行视作指令行',
         converter:(input:string)=>input.replaceAll(/^(\[.+\]:\s*[.。].*)$/mg,"# $1")
     },{
-        label: "+ 给场外交流行的主角色添加「场外」差分",
+        label: "$(add) 给场外交流行的主角色添加「场外」差分",
         description: '逐行解析',
         detail: '例如「[kp,pc]:（你确定吗）」变成「[kp.场外,pc]:（你确定吗）」，若主角色已有差分则不会覆盖',
         converter:(input:string)=>forEachDialogueLine(input,l=>{
@@ -63,27 +63,27 @@ export function editContent(){
             return l.toString();
         })
     },{
-        label: "- 删除注释掉的对话行",
+        label: "$(delete) 删除注释掉的对话行",
         description: '正则替换：/^#\s*\[.*\]:.*$/  =>  ""',
         detail: '',
         converter:(input:string)=>input.replaceAll(/^#\s*\[.*\]:.*$/mg,"")
     },{
-        label: "# 左右引号顺序修正",
+        label: "$(quote) 左右引号顺序修正",
         description: '逐句解析',
         detail: '英转中、调整次序(左右引号应当依次出现)',
         converter:(input:string)=>forEachDialogueLineContent(input,correctQuotesOrder)
     },{
-        label: "# 单双引号修正",
+        label: "$(quote) 单双引号修正",
         description: '逐句解析',
         detail: '让双引号内部只出现单引号。注意：需要左右引号次序正确才行',
         converter:(input:string)=>forEachDialogueLineContent(input,correctSingleQuotes)
     },{
-        label: "# 替换为直角引号",
+        label: "$(quote) 替换为直角引号",
         description: '逐句简单替换',
         detail: '“双引号”对应「单层直角引号」，‘单引号’对应『双层直角引号』',
         converter:(input:string)=>forEachDialogueLineContent(input,(content)=>content.replaceAll("“","「").replaceAll("”","」").replaceAll("‘","『").replaceAll("’","』"))
     },{
-        label: "# 为RP内容分段",
+        label: "$(list-ordered) 为RP内容分段",
         description: '逐句解析',
         detail: '将形似「“xxx”角色说，“xxx”」的内容分段',
         converter:(input:string)=>sliceRolePlay(input)

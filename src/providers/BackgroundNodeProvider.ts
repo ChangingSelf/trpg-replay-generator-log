@@ -16,7 +16,8 @@ export class BackgroundNode extends vscode.TreeItem {
         public para:string,
         public collapsibleState: vscode.TreeItemCollapsibleState = vscode.TreeItemCollapsibleState.None,
     ){
-        super(name,collapsibleState);
+        super(name, collapsibleState);
+        this.iconPath = vscode.ThemeIcon.File;
     }
 }
 /**
@@ -159,12 +160,6 @@ export class BackgroundNodeProvider implements vscode.TreeDataProvider<Backgroun
             //无子节点
         }
         return children;
-    }
-    getParent?(element: BackgroundNode): vscode.ProviderResult<BackgroundNode> {
-        throw new Error('Method not implemented.');
-    }
-    resolveTreeItem?(item: vscode.TreeItem, element: BackgroundNode, token: vscode.CancellationToken): vscode.ProviderResult<vscode.TreeItem> {
-        throw new Error('Method not implemented.');
     }
 
 }

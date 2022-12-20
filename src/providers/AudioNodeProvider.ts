@@ -15,7 +15,8 @@ export class AudioNode extends vscode.TreeItem {
         public name:string,
         public collapsibleState: vscode.TreeItemCollapsibleState = vscode.TreeItemCollapsibleState.None,
     ){
-        super(name,collapsibleState);
+        super(name, collapsibleState);
+        this.iconPath = vscode.ThemeIcon.File;
     }
 }
 /**
@@ -147,12 +148,6 @@ export class AudioNodeProvider implements vscode.TreeDataProvider<AudioNode>{
             //无子节点
         }
         return children;
-    }
-    getParent?(element: AudioNode): vscode.ProviderResult<AudioNode> {
-        throw new Error('Method not implemented.');
-    }
-    resolveTreeItem?(item: vscode.TreeItem, element: AudioNode, token: vscode.CancellationToken): vscode.ProviderResult<vscode.TreeItem> {
-        throw new Error('Method not implemented.');
     }
 
 }

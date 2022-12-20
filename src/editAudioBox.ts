@@ -30,37 +30,37 @@ export function editAudioBox(){
     // let optAdjustAsteriskAudioTime = "调整星标音频时长";
 
     let optList = [{
-        label: "+ 给全部对话行添加{*}",
+        label: "$(add) 给全部对话行添加{*}",
         description: '正则替换：/^(\[.*?\]:.*?)$/  =>  "$1{*}"',
         detail: '',
         converter:(text:string)=>text.replaceAll(/^(\[.*?\].*?)$/mg,"$1{*}")
     },{
-        label: "+ 只给没有音效框的对话行行添加{*}",
+        label: "$(add) 只给没有音效框的对话行行添加{*}",
         description: '正则替换：/^(\[.*?\][^\{\}]*?)$/  =>  "$1{*}"',
         detail: '只要存在音效框（花括号括起的内容）就不会加{*}',
         converter:(text:string)=>text.replaceAll(/^(\[.*?\][^\{\}]*?)$/mg,"$1{*}")
     },{
-        label: "+ 给指定角色添加指定音效(默认为{*})",
+        label: "$(add) 给指定角色添加指定音效(默认为{*})",
         description: '逐句解析',
         detail: '未指定角色时匹配所有角色，未指定差分时匹配该角色所有差分，下同',
         converter:addAudioBoxForPC
     },{
-        label: "- 给指定角色删除指定音效(默认为{*})",
+        label: "$(remove) 给指定角色删除指定音效(默认为{*})",
         description: '逐句解析',
         detail: '',
         converter:delAudioBoxForPC
     },{
-        label: "- 给指定角色删除文件路径音效",
+        label: "$(remove) 给指定角色删除文件路径音效",
         description: '逐句解析',
         detail: '例如语音合成后的{"F:/replay/output/auto_AU_29.wav";*3.468}可以用本选项删除重新添加{*}来合成',
         converter:async (input:string)=>forEachCharacter(input,await inputPC(),l=>l.delFileSoundEffect())
     },{
-        label: "- 给指定角色删除所有音效",
+        label: "$(remove) 给指定角色删除所有音效",
         description: '逐句解析',
         detail: '',
         converter:async (input:string)=>forEachCharacter(input,await inputPC(),l=>l.delAllSoundEffect())
     },{
-        label: "- 去掉纯标点符号行的{*}",
+        label: "$(remove) 去掉纯标点符号行的{*}",
         description: '逐句解析',
         detail: '以前用的正则替换：/^(\[.*?\](<.*>)?:\p{P}*)(<.*>)?(\{\*\})$/  =>  "$1"',
         converter:(text:string)=>forEachDialogueLine(text,l=>{

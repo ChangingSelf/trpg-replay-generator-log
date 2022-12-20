@@ -12,7 +12,11 @@ export class CharacterNode extends vscode.TreeItem {
         public isExist:boolean = false //指示是否已在log文件中出现
     ){
         let displayName = isExist ? `*${name}`:name;
-        super(displayName,collapsibleState);
+        super(displayName, collapsibleState);
+        this.iconPath = isExist ? new vscode.ThemeIcon("person-add") : new vscode.ThemeIcon("person");
+        if (collapsibleState === vscode.TreeItemCollapsibleState.None) {
+            this.iconPath = new vscode.ThemeIcon("account");
+        }
     }
 }
 /**
@@ -145,11 +149,4 @@ export class CharacterNodeProvider implements vscode.TreeDataProvider<CharacterN
         }
         return children;
     }
-    getParent?(element: CharacterNode): vscode.ProviderResult<CharacterNode> {
-        throw new Error('Method not implemented.');
-    }
-    resolveTreeItem?(item: vscode.TreeItem, element: CharacterNode, token: vscode.CancellationToken): vscode.ProviderResult<vscode.TreeItem> {
-        throw new Error('Method not implemented.');
-    }
-
 }
