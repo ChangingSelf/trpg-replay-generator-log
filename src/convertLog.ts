@@ -156,9 +156,9 @@ export function convertLogFromBoLuoJson(text:string){
 export function convertLogFromQQ(text:string){
 
     //直接复制的格式，日期和时间在昵称后面：昵称(QQ号)
-    let regexCopy = /^(\S+?)\s+(\d\d\d\d\/\d\d\/\d\d? )?\d\d?:\d\d:\d\d( #\d+)?/m;
+    let regexCopy = /^(\S+?)\s+(\d\d\d\d[\/\-]\d\d[\/\-]\d\d? )?\d\d?:\d\d:\d\d( #\d+)?/m;
     //消息管理器导出的格式
-    let regexExport = /^(\d\d\d\d-\d\d?-\d\d?.*\d\d?:\d\d:\d\d) (.+)(\([^\(\n]+\)|<[^\(\n]+>)/m;
+    let regexExport = /^(\d\d\d\d[\/\-]\d\d?[\/\-]\d\d?.*\d\d?:\d\d:\d\d) (.+)(\([^\(\n]+\)|<[^\(\n]+>)/m;
 
     let lines = text.split('\n');
     let curPC = "";
@@ -192,7 +192,7 @@ export function convertLogFromQQ(text:string){
 export function convertLogFromPainted(text:string){
     //^((\d\d\d\d\/\d\d\/\d\d? )?\d\d?:\d\d:\d\d)?\s*<(.+)>\s*(.+)$
     return text
-    .replaceAll(/^((\d\d\d\d\/\d\d\/\d\d? )?\d\d?:\d\d:\d\d)?\s*<(.+)>\s*(.+)$/gm,"[$3]:$4")
+    .replaceAll(/^((\d\d\d\d[\/\-]\d\d[\/\-]\d\d? )?\d\d?:\d\d:\d\d)?\s*<(.+)>\s*(.+)$/gm,"[$3]:$4")
     .replaceAll(/#/g,"");
 }
 
