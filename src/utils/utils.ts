@@ -270,11 +270,7 @@ export function loadCharacters(filePath:string){
         }
         else if(path.extname(filePath) === ".tsv"){
             let text = "";
-            try {
             text = fs.readFileSync(filePath,{encoding:'utf8', flag:'r'});
-            } catch (error) {
-                console.log(error);
-            }
             
             if(text === ""){
                 return pcMap;
@@ -293,7 +289,7 @@ export function loadCharacters(filePath:string){
             }
         }
     } catch (error) {
-        console.log(error);
+        // console.log(error);
     } finally{
         return pcMap;
     }
