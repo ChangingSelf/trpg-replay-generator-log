@@ -16,12 +16,13 @@ export function editContent(){
     
     let doc = editor.document;
     let text = doc.getText();
+    
     //如果选中了文本，就使用选中的内容
     let selectRange = new vscode.Range(editor.selection.start.line,0,editor.selection.end.line,Number.MAX_VALUE);
     let selectionText = editor.document.getText(selectRange);
 	if(selectionText) {
         text = selectionText;
-        vscode.window.showInformationMessage(`本操作将会作用于已选中的第${selectRange.start.line+1}至${selectRange.end.line+1}行`);
+        vscode.window.showInformationMessage(`本操作将会作用于已选中的第${selectRange.start.line+1}至${selectRange.end.line+1}行，如果不希望vscode自动选择当前行，则将光标放在空白行`);
     }
 
     let optList = [{
@@ -87,6 +88,16 @@ export function editContent(){
         description: '逐句解析',
         detail: '将形似「“xxx”角色说，“xxx”」的内容分段',
         converter:(input:string)=>sliceRolePlay(input)
+    },{
+        label: "$(ellipsis) 省略号规范化",
+        description: '逐句解析',
+        detail: '将连续出现的两个以上的中英文逗号和句号转化为中文省略号',
+        converter:(input:string)=>forEachDialogueLineContent(input,(content)=>content.replaceAll(/[,.，。]{2,}/g,"……"))
+    },{
+        label: "$(symbol-array) 空格转化为逗号",
+        description: '逐句解析',
+        detail: '将空格转化为中文逗号',
+        converter:(input:string)=>forEachDialogueLineContent(input,(content)=>content.replaceAll(/\s+/g,"，"))
     }];
 
     vscode.window.showQuickPick(optList,{

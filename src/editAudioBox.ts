@@ -23,7 +23,7 @@ export function editAudioBox(){
     let selectionText = editor.document.getText(selectRange);
 	if(selectionText) {
         text = selectionText;
-        vscode.window.showInformationMessage(`本操作将会作用于已选中的第${selectRange.start.line+1}至${selectRange.end.line+1}行`);
+        vscode.window.showInformationMessage(`本操作将会作用于已选中的第${selectRange.start.line+1}至${selectRange.end.line+1}行，如果不希望vscode自动选择当前行，则将光标放在空白行`);
     }
     
     //编辑音效框
