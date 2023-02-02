@@ -1,5 +1,6 @@
 import * as vscode from 'vscode';
-import { loadSettings } from '../utils/utils';
+import { RegexUtils } from '../utils/RegexUtils';
+import { loadMedia, loadSettings } from '../utils/utils';
 
 
 let dialogLineRegex = /^\[(([^,\.\(\)]*?)(\((\d+)\))?(\.([^,\.\(\)]*?))?)(,([^,\.\(\)]*?)(\((\d+)\))?(\.([^,\.\(\)]*?))?)?(,([^,\.\(\)]*?)(\((\d+)\))?(\.([^,\.\(\)]*?))?)?\](<.*?>)?:(.*?)(<.*?>)?(\{.*?(;(.*?))?\})?$/m;
@@ -218,7 +219,12 @@ export class HoverProvider implements vscode.HoverProvider{
 			let time = backgroundLine[5];
 			let background = backgroundLine[6];
 
-			mdStr.appendMarkdown(`以【${methodDict.background[method as keyof typeof methodDict.background]}】的方式将背景替换为【${background}】${time?"，替换时间为【"+time+"】帧":""}`);
+			let mediaObjDefine = settings.mediaObjDefine;
+			let media = loadMedia(mediaObjDefine);
+			let medium = media.find(x => x.mediaName === background);
+			let backgroundPath = RegexUtils.getFilePathInPara(medium?.mediaPara ?? "") ?? "";
+
+			mdStr.appendMarkdown(`以【${methodDict.background[method as keyof typeof methodDict.background]}】的方式将背景替换为【${background}】${time?"，替换时间为【"+time+"】帧":""}\n\n![](file:///${backgroundPath}|width=500)`);
 		}else if(settings.enableAnimationLineHover && hpLineRegex.test(line)){
 			let hpLine = line.match(hpLineRegex) as RegExpMatchArray;
 			//console.log(hpLine);

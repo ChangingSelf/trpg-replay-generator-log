@@ -11,6 +11,7 @@ let outputChannel = outputUtils.OutputUtils.getInstance();
  * 节点对象
  */
 export class BackgroundNode extends vscode.TreeItem {
+    public filepath: string;
     constructor(
         public name:string,
         public para:string,
@@ -18,6 +19,10 @@ export class BackgroundNode extends vscode.TreeItem {
     ){
         super(name, collapsibleState);
         this.iconPath = vscode.ThemeIcon.File;
+        //读取参数中的文件路径
+        this.filepath = RegexUtils.getFilePathInPara(para) ?? "";
+        // this.tooltip = new vscode.MarkdownString(`测试`);
+        this.tooltip = new vscode.MarkdownString(`${this.filepath}\n\n![${name}](file:///${this.filepath}|width=500)`);
     }
 }
 /**
@@ -32,13 +37,12 @@ export class BackgroundNodeProvider implements vscode.TreeDataProvider<Backgroun
     }
 
     previewNode(node: BackgroundNode) {
-        //读取参数中的文件路径
-        let filepath = RegexUtils.getFilePathInPara(node.para);
-        if(!filepath){
+        
+        if(!fs.existsSync(node.filepath)){
             return;
         }
 
-		vscode.commands.executeCommand('vscode.open',vscode.Uri.file(filepath)).then(success=>{},reason=>{
+		vscode.commands.executeCommand('vscode.open',vscode.Uri.file(node.filepath)).then(success=>{},reason=>{
             vscode.window.showErrorMessage(reason);
         });
 	}
