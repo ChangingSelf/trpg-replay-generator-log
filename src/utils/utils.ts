@@ -260,6 +260,11 @@ export function loadCharacters(filePath:string){
                 }
                 let name = line[0];
                 let subtype = line[1];
+                
+                if (name === '' || subtype === '') {
+                    continue;
+                }
+
                 if(pcMap.has(name)){
                     //如果已经有这个角色则将差分加入进去
                     pcMap.get(name)?.add(subtype);
@@ -276,10 +281,16 @@ export function loadCharacters(filePath:string){
                 return pcMap;
             }
             let lines = text.split("\n");
+            lines = lines.slice(1, lines.length);//去掉表头
             for(let line of lines){
                 let lineSplit = line.split("\t");
                 let name = lineSplit[0];
                 let subtype = lineSplit[1];
+
+                if (name === '' || subtype === '') {
+                    continue;
+                }
+
                 if(pcMap.has(name)){
                     //如果已经有这个角色则将差分加入进去
                     pcMap.get(name)?.add(subtype);
