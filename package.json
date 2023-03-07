@@ -2,7 +2,7 @@
   "name": "trpg-replay-generator-log",
   "displayName": "回声工坊扩展",
   "description": "文字视频（例如TRPG replay、视觉小说）制作软件「回声工坊」的辅助扩展，围绕整理剧本文件（跑团Log文件）提供了很多便利功能",
-  "version": "1.23.1",
+  "version": "1.24.0",
   "engines": {
     "vscode": "^1.74.0"
   },
@@ -29,6 +29,10 @@
       {
         "command": "trpg-replay-generator-log.testCommand",
         "title": "TRGL: Test Command # 用户可以无视的测试命令"
+      },
+      {
+        "command": "trpg-replay-generator-log.insertDialogueLine",
+        "title": "TRGL: Insert Dialogue Line # 插入和当前行同角色名的对话行"
       },
       {
         "command": "trpg-replay-generator-log.count",
@@ -805,6 +809,11 @@
         "command": "trpg-replay-generator-log.copyLog",
         "key": "Ctrl+Shift+C",
         "when": "editorFocus"
+      },
+      {
+        "command": "trpg-replay-generator-log.insertDialogueLine",
+        "key": "Ctrl+Enter",
+        "when": "editorTextFocus && !editorReadonly"
       }
     ]
   },

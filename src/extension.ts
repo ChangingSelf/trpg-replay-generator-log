@@ -85,7 +85,22 @@ export function activate(context: vscode.ExtensionContext) {
 	//编辑音效框
 	context.subscriptions.push(vscode.commands.registerCommand('trpg-replay-generator-log.editAudioBox',editAudioBox));
 	//编辑对话行文本内容
-	context.subscriptions.push(vscode.commands.registerCommand('trpg-replay-generator-log.editContent',editContent));
+	context.subscriptions.push(vscode.commands.registerCommand('trpg-replay-generator-log.editContent', editContent));
+	//插入和当前行同角色名的对话行
+	context.subscriptions.push(vscode.commands.registerCommand('trpg-replay-generator-log.insertDialogueLine', () => {
+		let editor = vscode.window.activeTextEditor;
+		let document = editor?.document;
+		if (!editor || !document) { return; }
+		
+		let range = document.lineAt(editor.selection.active.line).range;
+		editor.edit(editorEdit => {
+			let text = document?.getText(range) ?? "";
+			let nameBox = /^(\[.*\]:).*$/m.exec(text)?.[1] ?? "";
+			editorEdit.insert(editor!.selection.active, `\n${nameBox}`);
+		});
+	}));
+
+
 	//转换Log格式
 	context.subscriptions.push(vscode.commands.registerCommand('trpg-replay-generator-log.convertLog',convertLog));
 	
