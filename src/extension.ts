@@ -208,6 +208,7 @@ export function activate(context: vscode.ExtensionContext) {
 		outlineNodeProvider.refresh();
 	}));
 	context.subscriptions.push(vscode.commands.registerCommand('trpg-replay-generator-log.insertCharacter', (node:CharacterNode) =>{characterNodeProvider.insertCharacter(node);}));
+	context.subscriptions.push(vscode.commands.registerCommand('trpg-replay-generator-log.insertCharacterWithoutBox', (node:CharacterNode) =>{characterNodeProvider.insertCharacter(node,false);}));
 	context.subscriptions.push(vscode.commands.registerCommand('trpg-replay-generator-log.insertBackground', (node:BackgroundNode) =>{backgroundNodeProvider.insertBackground(node);}));
 	context.subscriptions.push(vscode.commands.registerCommand('trpg-replay-generator-log.insertAudio', (node:AudioNode) =>{audioNodeProvider.insertAudio(node);}));
 	context.subscriptions.push(vscode.commands.registerCommand('trpg-replay-generator-log.jumpToOutlineNode', (node:OutlineNode) =>{OutlineNodeProvider.jump(node);}));

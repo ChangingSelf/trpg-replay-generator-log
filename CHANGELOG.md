@@ -5,6 +5,11 @@
 格式基于[维护更新日志（Keep a Changelog）](https://keepachangelog.com/en/1.0.0/)，
 并且该项目遵循 [语义版本控制（Semantic Versioning）](https://semver.org/spec/v2.0.0.html)。
 
+## [1.24.1] - 2023-03-17
+
+- 现在插入可用角色时，直接替换选中文字，而非插入到前方
+- 新增了插入无角色框文本的按钮
+
 ## [1.24.0] - 2023-03-07
 
 现在可以使用Ctrl+Enter快捷键插入和当前行同角色名的对话行，即换行时保留当前行角色框

@@ -30,14 +30,14 @@ export class CharacterNodeProvider implements vscode.TreeDataProvider<CharacterN
         this._onDidChangeTreeData.fire();
     }
 
-    insertCharacter(node:CharacterNode) {
+    insertCharacter(node: CharacterNode, withBox: boolean = true) {
+        //withBox代表是否在插入时加上角色框
 		let editor = vscode.window.activeTextEditor;
         if(!editor) {return;}
-        let doc = editor.document;
-        let position = editor.selection.start;
-        let content = `[${node.parentName===""?node.name:(node.parentName+(node.name==="default"?"":"."+node.name))}]:`;
+        let name = node.parentName === "" ? node.name : (node.parentName + (node.name === "default" ? "" : "." + node.name));
+        let content = withBox ? `[${name}]:`: name;
         editor.edit(editorEdit => {
-            editorEdit.insert(position,content);
+            editorEdit.replace(editor!.selection, content);
         }).then(isSuccess => {
             if (isSuccess) {
                 // vscode.window.showInformationMessage("插入成功！");
