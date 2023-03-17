@@ -1,4 +1,5 @@
 import * as vscode from 'vscode';
+import { estimateDuration } from '../rglCount';
 import { RegexUtils } from '../utils/RegexUtils';
 import { loadMedia, loadSettings } from '../utils/utils';
 
@@ -252,6 +253,16 @@ export class HoverProvider implements vscode.HoverProvider{
 				
 			});
 		}
+
+		//添加时间预估
+		let text = document.getText(new vscode.Range(new vscode.Position(0, 0), new vscode.Position(position.line, Number.MAX_VALUE)));
+		let totalSeconds = estimateDuration(text, false);
+		let minute = Math.trunc(totalSeconds/60);
+		let second = Math.trunc(totalSeconds % 60);
+		let totalSeconds2 = estimateDuration(document.getText(), false);
+		let minute2 = Math.trunc(totalSeconds2/60);
+		let second2 = Math.trunc(totalSeconds2 % 60);
+		mdStr.appendText(`\n[进度条]${minute}:${second}/${minute2}:${second2}(${(totalSeconds/totalSeconds2*100).toFixed(2)}%)\n`);
 
 		return new vscode.Hover(mdStr);
 	}

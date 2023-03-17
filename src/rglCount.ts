@@ -6,8 +6,9 @@ import { RegexUtils } from './utils/RegexUtils';
 let outputChannel = outputUtils.OutputUtils.getInstance();
 
 //预估生成的视频的时长，单位：秒
-export function estimateDuration(text:string,flag:boolean=true){
-	if(!text) return 0;
+export function estimateDuration(text: string, flag: boolean = true) {
+	//flag为是否输出到输出面板
+	if(!text) {return 0;}
 	const FRAME_PER_SECOND = 30;//每秒多少帧
 	const DICE_ANIMATION_DUR = 5;//骰子动画时长，单位：秒
 	const HP_ANIMATION_DUR = 4;//HP动画时长，单位：秒
