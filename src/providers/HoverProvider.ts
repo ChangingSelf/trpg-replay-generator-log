@@ -262,7 +262,11 @@ export class HoverProvider implements vscode.HoverProvider{
 		let totalSeconds2 = estimateDuration(document.getText(), false);
 		let minute2 = Math.trunc(totalSeconds2/60);
 		let second2 = Math.trunc(totalSeconds2 % 60);
-		mdStr.appendText(`\n[进度条]${minute}:${second}/${minute2}:${second2}(${(totalSeconds/totalSeconds2*100).toFixed(2)}%)\n`);
+
+		let progress = totalSeconds / totalSeconds2;
+		let fullNumber = Math.floor(progress * 10);//填充的方块数目
+
+		mdStr.appendText(`\n[进度条]${"◼".repeat(fullNumber) + "◻".repeat(10-fullNumber)}${minute}:${second}/${minute2}:${second2}(${(progress * 100).toFixed(2)}%)\n`);
 
 		return new vscode.Hover(mdStr);
 	}
