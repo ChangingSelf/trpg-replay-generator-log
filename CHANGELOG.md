@@ -5,6 +5,10 @@
 格式基于[维护更新日志（Keep a Changelog）](https://keepachangelog.com/en/1.0.0/)，
 并且该项目遵循 [语义版本控制（Semantic Versioning）](https://semver.org/spec/v2.0.0.html)。
 
+## [1.25.2] - 2023-06-16
+
+- 修复每次开启vscode时会多出一个「回声工坊」终端的bug
+
 ## [1.25.1] - 2023-03-17
 
 - 给进度条加了个更加直观的显示方式：方块进度条

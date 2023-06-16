@@ -1,10 +1,11 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
 import * as utils from './utils/utils';
-import * as terminalUtils from './utils/TerminalUtils';
 
+function getTerminal() {
+    return vscode.window.activeTerminal ?? vscode.window.createTerminal("回声工坊");
+}
 
-let terminal = terminalUtils.TerminalUtils.getInstance();
 
 /**
  * 播放视频
@@ -21,6 +22,7 @@ export function playVideo(){
 
     cmd += synthesis;
     
+    let terminal = getTerminal();
     terminal.sendText(`cd ${rplGenCorePathDir}`);
     terminal.sendText(cmd);
     terminal.show();
@@ -43,6 +45,7 @@ export function exportVideo(){
 
     cmd += synthesis;
     
+    let terminal = getTerminal();
     terminal.sendText(`cd ${rplGenCorePathDir}`);
     terminal.sendText(cmd);
     terminal.show();
@@ -75,7 +78,7 @@ export async function synthesizedSpeech(){
         vscode.window.showInformationMessage(`输出路径已设置为${s.outputPath}`);
     }
     
-    
+    let terminal = getTerminal();
     terminal.sendText(`cd ${rplGenCorePathDir}`);
     terminal.sendText(`${s["rplGenCorePath"]} --Modules speech_synthesizer --LogFile ${s["logFile"]} --MediaObjDefine ${s["mediaObjDefine"]} --CharacterTable ${s["characterTable"]} --OutputPath ${s["outputPath"]} --AccessKey ${s["accessKey"]} --AccessKeySecret ${s["accessKeySecret"]} --Appkey ${s["appkey"]} --Azurekey ${s["azurekey"]} --ServRegion ${s["servRegion"]}`);
     terminal.show();
@@ -121,6 +124,7 @@ export async function synthesizedSpeech(){
         vscode.window.showInformationMessage(`输出路径已设置为${s.outputPath}`);
     }
     
+    let terminal = getTerminal();
     terminal.sendText(`cd ${rplGenCorePathDir}`);
     terminal.sendText(`${s["rplGenCorePath"]} --Modules export_xml --TimeLine ${s["timeLine"]} --LogFile ${s["logFile"]} --MediaObjDefine ${s["mediaObjDefine"]} --OutputPath ${s["outputPath"]} --FramePerSecond ${s["framePerSecond"]} --Width ${s["width"]} --Height ${s["height"]} --Zorder ${s["zorder"]}`);
     terminal.show();
